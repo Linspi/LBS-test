@@ -12,6 +12,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Excursions", href: "/excursions" },
   { label: "Événements", href: "/evenements" },
   { label: "Location", href: "/location" },
+  { label: "Entreprise", href: "/entreprise" },
 ];
 
 export const SERVICE_BLOCKS: ServiceBlock[] = [
