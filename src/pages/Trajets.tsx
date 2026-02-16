@@ -1,0 +1,174 @@
+import { Link } from "react-router-dom";
+import { Plane, Train, Castle, TreePine, ArrowRight } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getDestinationsByCategory } from "@/data/destinations";
+import { formatPrice } from "@/lib/pricing";
+import type { Destination, DestinationCategory } from "@/types";
+import type { LucideIcon } from "lucide-react";
+
+/** Données enrichies pour chaque catégorie — icône + texte éditorial */
+const CATEGORIES: {
+  value: DestinationCategory;
+  label: string;
+  Icon: LucideIcon;
+  headline: string;
+  editorial: string;
+}[] = [
+  {
+    value: "aeroports",
+    label: "Aéroports",
+    Icon: Plane,
+    headline: "Transferts Aéroports",
+    editorial:
+      "Préparez vos trajets aéroports avec une solution simple et confortable. Forfaits tout inclus, accueil en zone d'arrivée avec panneau nominatif et suivi de vol en temps réel. Aucune surprise, que du confort.",
+  },
+  {
+    value: "gares",
+    label: "Gares",
+    Icon: Train,
+    headline: "Navettes Gares",
+    editorial:
+      "Rejoignez les grandes gares parisiennes sans stress. Prise en charge à quai possible, aide aux bagages et ponctualité garantie. Un service pensé pour les voyageurs exigeants.",
+  },
+  {
+    value: "chateaux",
+    label: "Châteaux",
+    Icon: Castle,
+    headline: "Excursions Châteaux",
+    editorial:
+      "Découvrez les plus beaux châteaux d'Île-de-France en toute sérénité. Votre chauffeur vous accompagne et vous attend sur place le temps de votre visite. Un voyage dans le temps, en toute élégance.",
+  },
+  {
+    value: "parcs",
+    label: "Parcs",
+    Icon: TreePine,
+    headline: "Transferts Parcs",
+    editorial:
+      "Offrez à votre famille ou votre groupe un transfert sans contrainte vers les parcs de loisirs de la région. Prise en charge aller-retour, véhicule spacieux et chauffeur attentionné.",
+  },
+];
+
+export function Trajets() {
+  return (
+    <>
+      {/* Hero */}
+      <section className="relative pt-28 pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/50" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/3 rounded-full blur-3xl" />
+
+        <div className="relative container text-center">
+          <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
+            Nos <span className="text-gold">trajets</span>
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Des transferts premium vers les aéroports, gares, châteaux et parcs
+            d'Île-de-France. Prix fixes, sans surprise.
+          </p>
+        </div>
+      </section>
+
+      {/* Onglets */}
+      <section className="pb-24">
+        <div className="container max-w-6xl">
+          <Tabs defaultValue="aeroports">
+            <TabsList className="w-full justify-start gap-1 bg-secondary/50 p-1 rounded-lg flex-wrap">
+              {CATEGORIES.map((cat) => (
+                <TabsTrigger
+                  key={cat.value}
+                  value={cat.value}
+                  className="flex items-center gap-2 data-[state=active]:bg-gold data-[state=active]:text-primary-foreground"
+                >
+                  <cat.Icon className="h-4 w-4" />
+                  {cat.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            {CATEGORIES.map((cat) => {
+              const destinations = getDestinationsByCategory(cat.value);
+
+              return (
+                <TabsContent key={cat.value} value={cat.value} className="mt-10">
+                  {/* ── En-tête éditorial ─────────────────── */}
+                  <div className="flex flex-col md:flex-row items-start gap-6 mb-12">
+                    {/* Grande icône cerclée */}
+                    <div className="flex-shrink-0 h-16 w-16 rounded-full border-2 border-gold/30 bg-gold/5 flex items-center justify-center">
+                      <cat.Icon className="h-7 w-7 text-gold" />
+                    </div>
+
+                    {/* Texte éditorial */}
+                    <div>
+                      <h2 className="text-2xl font-bold text-foreground mb-2">
+                        {cat.headline}
+                      </h2>
+                      <p className="text-muted-foreground leading-relaxed max-w-2xl">
+                        {cat.editorial}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* ── Bande tarifaire ────────────────────── */}
+                  <div>
+                    <h3 className="text-xs font-semibold uppercase tracking-widest text-gold mb-6">
+                      Tarifs depuis & vers Paris
+                    </h3>
+
+                    {/* Grille horizontale avec séparateurs verticaux */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                      {destinations.map((dest, i) => (
+                        <PriceColumn
+                          key={dest.id}
+                          destination={dest}
+                          isLast={i === destinations.length - 1}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+              );
+            })}
+          </Tabs>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/** Colonne tarifaire individuelle — nom, prix d'appel géant doré, lien réserver */
+function PriceColumn({
+  destination,
+  isLast,
+}: {
+  destination: Destination;
+  isLast: boolean;
+}) {
+  return (
+    <div
+      className={`py-6 px-5 text-center ${
+        isLast ? "" : "lg:border-r lg:border-border/30"
+      }`}
+    >
+      {/* Nom de la destination */}
+      <p className="text-sm text-muted-foreground mb-3">
+        {destination.name}
+      </p>
+
+      {/* Prix d'appel — très gros, doré */}
+      <p className="text-xs text-muted-foreground/70 uppercase tracking-wider mb-1">
+        À partir de
+      </p>
+      <p className="text-4xl lg:text-5xl font-bold text-gold tabular-nums mb-4">
+        {formatPrice(destination.startingPrice)}
+      </p>
+
+      {/* Lien réserver */}
+      <Link
+        to={`/reservation?destination=${encodeURIComponent(destination.name)}&type=trajet`}
+        className="inline-flex items-center gap-1 text-sm text-foreground font-medium hover:text-gold transition-colors"
+      >
+        Réserver
+        <ArrowRight className="h-3.5 w-3.5" />
+      </Link>
+    </div>
+  );
+}

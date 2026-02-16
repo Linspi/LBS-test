@@ -1,0 +1,1 @@
+Tous les composants situés dans src/components/ui/ DOIVENT être installés exclusivement via la CLI officielle de shadcn (ex: npx shadcn@latest add [nom-du-composant]). Tu ne dois jamais créer ou coder manuellement un composant de base dans ce dossier. Tes composants personnalisés ou complexes iront dans src/components/features/.
