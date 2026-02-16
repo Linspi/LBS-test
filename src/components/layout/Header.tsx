@@ -43,21 +43,23 @@ export function Header() {
             : "bg-transparent",
         )}
       >
-        <div className="container flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-md bg-gradient-to-br from-gold to-gold-light flex items-center justify-center">
-              <span className="text-sm font-bold text-primary-foreground">
-                L
+        <div className="w-full flex h-16 items-center px-6 md:px-12 lg:px-16">
+          {/* Partie Gauche — Logo */}
+          <div className="flex-1 flex justify-start">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-md bg-gradient-to-br from-gold to-gold-light flex items-center justify-center">
+                <span className="text-sm font-bold text-primary-foreground">
+                  L
+                </span>
+              </div>
+              <span className="text-lg font-semibold tracking-tight text-foreground">
+                LBS
               </span>
-            </div>
-            <span className="text-lg font-semibold tracking-tight text-foreground">
-              LBS
-            </span>
-          </Link>
+            </Link>
+          </div>
 
-          {/* Navigation desktop */}
-          <nav className="hidden lg:flex items-center gap-6">
+          {/* Partie Centrale — Navigation desktop */}
+          <nav className="hidden lg:flex justify-center items-center gap-5 xl:gap-8">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -74,33 +76,33 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Actions desktop */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Partie Droite — Actions desktop + Hamburger mobile */}
+          <div className="flex-1 flex justify-end items-center gap-4">
             <a
               href="tel:+33123456789"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+              className="hidden xl:flex text-sm text-muted-foreground hover:text-foreground transition-colors items-center gap-1.5"
             >
               <Phone className="h-3.5 w-3.5" />
               01 23 45 67 89
             </a>
-            <Button asChild size="sm">
+            <Button asChild size="sm" className="hidden lg:inline-flex">
               <Link to="/reservation">Réserver</Link>
             </Button>
-          </div>
 
-          {/* Bouton hamburger mobile */}
-          <button
-            type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 text-foreground"
-            aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </button>
+            {/* Bouton hamburger mobile */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-2 text-foreground"
+              aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            >
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
