@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Clock, Shield, UserCheck, Route } from "lucide-react";
+import { Clock, Shield, UserCheck, Route, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const FEATURES = [
@@ -101,14 +101,25 @@ export function MiseADisposition() {
             </div>
           </div>
 
-          {/* CTA */}
-          <div className="text-center">
-            <Button asChild size="lg">
-              <Link to="/reservation?type=mise-a-disposition">
-                Réserver une mise à disposition
-              </Link>
-            </Button>
-          </div>
+        </div>
+      </section>
+
+      {/* CTA — Réserver une mise à disposition */}
+      <section className="py-24">
+        <div className="container text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            Réserver une <span className="text-gold">mise à disposition</span>
+          </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+            Renseignez vos informations pour recevoir un devis personnalisé
+            pour votre chauffeur privé.
+          </p>
+          <Button asChild size="lg" className="text-base">
+            <Link to="/reservation?type=mise-a-disposition">
+              Demander un devis
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
     </>

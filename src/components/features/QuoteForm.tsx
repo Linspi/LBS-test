@@ -10,7 +10,7 @@
  * Les champs s'adaptent dynamiquement selon le serviceType.
  */
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -216,7 +216,8 @@ export function QuoteForm({ serviceType }: QuoteFormProps) {
     handleSubmit,
     control,
     reset,
-    formState: { errors, isValid, isSubmitting },
+    watch,
+    formState: { errors, isSubmitting },
   } = useForm<QuoteFormData>({
     resolver: zodResolver(schema),
     mode: "onBlur", // Validation déclenchée au blur de chaque champ
@@ -247,6 +248,33 @@ export function QuoteForm({ serviceType }: QuoteFormProps) {
   const showAddressFields = serviceType !== "location";
   // Champs de mise à disposition affichés pour location uniquement
   const showDispositionFields = serviceType === "location";
+
+  // Observer les valeurs du formulaire pour activer/désactiver le bouton
+  const formValues = watch();
+
+  // Calculer si le formulaire peut être soumis (champs obligatoires remplis)
+  const isFormValid = useMemo(() => {
+    // Vérifier les champs communs obligatoires
+    const hasBaseFields =
+      formValues.firstName?.trim() &&
+      formValues.lastName?.trim() &&
+      formValues.email?.trim() &&
+      formValues.phone?.trim() &&
+      formValues.date &&
+      formValues.time &&
+      formValues.passengers &&
+      formValues.luggage;
+
+    if (!hasBaseFields) return false;
+
+    // Vérifier les champs spécifiques selon le serviceType
+    if (serviceType === "location") {
+      return !!(formValues.pickupLocation?.trim() && formValues.duration);
+    }
+
+    // Pour transfer et corporate : adresses requises
+    return !!(formValues.departure?.trim() && formValues.arrival?.trim());
+  }, [formValues, serviceType]);
   // Champ volume affiché pour corporate uniquement
   const showVolumeField = serviceType === "corporate";
   // Champ vol/train affiché pour transfer et corporate
@@ -834,7 +862,7 @@ export function QuoteForm({ serviceType }: QuoteFormProps) {
           <Button
             type="submit"
             size="lg"
-            disabled={!isValid || isSubmitting}
+            disabled={!isFormValid || isSubmitting}
             className="w-full text-base transition-all duration-300"
           >
             {isSubmitting ? (

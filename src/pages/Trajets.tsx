@@ -130,6 +130,7 @@ export function Trajets() {
           </Tabs>
         </div>
       </section>
+
     </>
   );
 }

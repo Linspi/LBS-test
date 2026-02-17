@@ -1,13 +1,29 @@
-import { useState, useMemo } from "react";
+/**
+ * ReservationExperience — Page de réservation d'excursions et événements.
+ *
+ * Layout unique : formulaire à gauche (3/5), récapitulatif expérience à droite (2/5).
+ * Utilise React Hook Form + Zod pour la validation (mode onBlur).
+ * Autocomplétion d'adresse via AddressInput (API BAN).
+ * Notifications via Toast Sonner (style premium).
+ */
+
+import { useMemo, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
 import {
   Clock,
-  MapPin,
   Users,
   Check,
   CalendarDays,
   Sparkles,
   Send,
+  Loader2,
+  User,
+  Mail,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,61 +43,155 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DatePicker } from "@/components/features/date-picker";
+import { AddressInput } from "@/components/features/AddressInput";
 import { experiences, getExperienceById } from "@/data/experiences";
 import { formatPrice } from "@/lib/pricing";
 import type { Experience } from "@/types";
 
-/** Créneaux horaires (30 min) de 06:00 à 22:00 */
+// ---------------------------------------------------------------------------
+// Créneaux horaires (30 min) de 06:00 à 22:00
+// ---------------------------------------------------------------------------
+
 const TIME_SLOTS = Array.from({ length: 33 }, (_, i) => {
   const hour = Math.floor(i / 2) + 6;
   const min = i % 2 === 0 ? "00" : "30";
   return `${String(hour).padStart(2, "0")}:${min}`;
 });
 
+// ---------------------------------------------------------------------------
+// Schéma de validation Zod
+// ---------------------------------------------------------------------------
+
+/** Regex pour téléphone (format international ou local) */
+const phoneRegex =
+  /^(\+?\d{1,3}[\s.-]?)?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$/;
+
+const experienceFormSchema = z.object({
+  // Informations personnelles
+  firstName: z.string().min(1, "Ce champ est obligatoire"),
+  lastName: z.string().min(1, "Ce champ est obligatoire"),
+  email: z.string().email("Format d'email invalide"),
+  phone: z.string().regex(phoneRegex, "Numéro de téléphone invalide"),
+  // Détails de la réservation
+  experience: z.string().min(1, "Veuillez sélectionner une expérience"),
+  date: z.date({ required_error: "Veuillez sélectionner une date" }),
+  time: z.string().min(1, "Veuillez sélectionner une heure"),
+  departure: z.string().min(3, "L'adresse doit contenir au moins 3 caractères"),
+  passengers: z.string().min(1, "Veuillez sélectionner le nombre de passagers"),
+  specialRequests: z.string().optional(),
+});
+
+/** Type inféré depuis le schéma Zod */
+type ExperienceFormData = z.infer<typeof experienceFormSchema>;
+
+// ---------------------------------------------------------------------------
+// Composant principal
+// ---------------------------------------------------------------------------
+
 export function ReservationExperience() {
   const [searchParams] = useSearchParams();
   const experienceIdFromUrl = searchParams.get("experience");
 
-  // ── État du formulaire ──────────────────────────────
-  const [selectedExperienceId, setSelectedExperienceId] = useState<string>(
-    experienceIdFromUrl ?? ""
-  );
-  const [date, setDate] = useState<Date | undefined>();
-  const [time, setTime] = useState("");
-  const [departure, setDeparture] = useState("");
-  const [passengers, setPassengers] = useState("2");
-  const [specialRequests, setSpecialRequests] = useState("");
+  // ── Configuration React Hook Form ─────────────────────
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ExperienceFormData>({
+    resolver: zodResolver(experienceFormSchema),
+    mode: "onBlur",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      experience: experienceIdFromUrl ?? "",
+      date: undefined,
+      time: "",
+      departure: "",
+      passengers: "2",
+      specialRequests: "",
+    },
+  });
+
+  // Surveiller les valeurs du formulaire
+  const formValues = watch();
+
+  // Surveiller l'expérience sélectionnée pour le récapitulatif
+  const selectedExperienceId = formValues.experience;
 
   // Expérience active (URL ou sélection manuelle)
   const selectedExperience: Experience | undefined = useMemo(
-    () => (selectedExperienceId ? getExperienceById(selectedExperienceId) : undefined),
+    () =>
+      selectedExperienceId
+        ? getExperienceById(selectedExperienceId)
+        : undefined,
     [selectedExperienceId]
   );
 
-  // ── Validation ──────────────────────────────────────
-  const isFormValid =
-    selectedExperienceId && date && time && departure && passengers;
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!isFormValid || !selectedExperience) return;
-
-    // TODO: Remplacer par un appel API / envoi de mail réel
-    alert(
-      [
-        `Demande de devis envoyée !`,
-        ``,
-        `Expérience : ${selectedExperience.title}`,
-        `Date : ${date?.toLocaleDateString("fr-FR")}`,
-        `Heure : ${time}`,
-        `Départ : ${departure}`,
-        `Passagers : ${passengers}`,
-        specialRequests ? `Demandes : ${specialRequests}` : "",
-      ]
-        .filter(Boolean)
-        .join("\n")
+  // Calculer si le formulaire peut être soumis (tous les champs obligatoires remplis)
+  const isFormValid = useMemo(() => {
+    return !!(
+      formValues.firstName?.trim() &&
+      formValues.lastName?.trim() &&
+      formValues.email?.trim() &&
+      formValues.phone?.trim() &&
+      formValues.experience &&
+      formValues.date &&
+      formValues.time &&
+      formValues.departure?.trim() &&
+      formValues.passengers
     );
-  }
+  }, [formValues]);
+
+  // ── Soumission du formulaire ──────────────────────────
+  const onSubmit = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (_formData: ExperienceFormData) => {
+      try {
+        // TODO: Intégrer EmailJS ici
+        // Simulation d'envoi réseau (1.5 secondes)
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // Toast succès — style premium (fond anthracite, bordure dorée)
+        toast.success("Demande envoyée avec succès", {
+          description:
+            "Nous vous contactons sous 24h. Un e-mail de confirmation vous a été envoyé.",
+          duration: 5000,
+          style: {
+            background: "#1a1a1a",
+            border: "1px solid rgba(200, 168, 78, 0.4)",
+            color: "#f5f5f5",
+          },
+        });
+
+        // Réinitialiser le formulaire après succès
+        reset();
+      } catch {
+        // Toast erreur — style premium (fond anthracite, bordure rouge)
+        toast.error("Une erreur est survenue. Veuillez réessayer.", {
+          description: "Veuillez réessayer ou nous contacter directement.",
+          duration: 5000,
+          style: {
+            background: "#1a1a1a",
+            border: "1px solid rgba(180, 40, 40, 0.5)",
+            color: "#f5f5f5",
+          },
+        });
+      }
+    },
+    [reset]
+  );
+
+  /**
+   * Classe CSS conditionnelle pour les champs en erreur.
+   * Ajoute une bordure rouge subtile.
+   */
+  const fieldErrorClass = (fieldName: keyof ExperienceFormData) =>
+    errors[fieldName] ? "border-red-500/50 focus-visible:ring-red-500/30" : "";
 
   return (
     <>
@@ -112,11 +222,101 @@ export function ReservationExperience() {
       <section className="pb-24">
         <div className="container max-w-6xl">
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start"
           >
             {/* ── Colonne gauche : Formulaire (3/5) ─── */}
             <div className="lg:col-span-3 space-y-6">
+              {/* ── Section 1 : Informations personnelles ── */}
+              <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <User className="h-5 w-5 text-gold" />
+                    Informations personnelles
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  {/* Prénom & Nom */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">Prénom *</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gold" />
+                        <Input
+                          id="firstName"
+                          placeholder="Votre prénom"
+                          {...register("firstName")}
+                          className={`pl-10 ${fieldErrorClass("firstName")}`}
+                        />
+                      </div>
+                      {errors.firstName && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.firstName.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Nom *</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gold" />
+                        <Input
+                          id="lastName"
+                          placeholder="Votre nom"
+                          {...register("lastName")}
+                          className={`pl-10 ${fieldErrorClass("lastName")}`}
+                        />
+                      </div>
+                      {errors.lastName && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.lastName.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Email & Téléphone */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email *</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gold" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="votre@email.com"
+                          {...register("email")}
+                          className={`pl-10 ${fieldErrorClass("email")}`}
+                        />
+                      </div>
+                      {errors.email && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Téléphone *</Label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gold" />
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="01 23 45 67 89"
+                          {...register("phone")}
+                          className={`pl-10 ${fieldErrorClass("phone")}`}
+                        />
+                      </div>
+                      {errors.phone && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.phone.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* ── Section 2 : Détails de la réservation ── */}
               <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -128,102 +328,189 @@ export function ReservationExperience() {
                   {/* Sélection de l'expérience (si pas de paramètre URL) */}
                   {!experienceIdFromUrl && (
                     <div className="space-y-2">
-                      <Label htmlFor="experience">Expérience souhaitée</Label>
-                      <Select
-                        value={selectedExperienceId}
-                        onValueChange={setSelectedExperienceId}
-                      >
-                        <SelectTrigger id="experience">
-                          <SelectValue placeholder="Choisissez une excursion ou un événement" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {/* Groupe Excursions */}
-                          <div className="px-2 py-1.5 text-xs font-semibold text-gold uppercase tracking-wider">
-                            Excursions
-                          </div>
-                          {experiences
-                            .filter((e) => e.category === "excursion")
-                            .map((exp) => (
-                              <SelectItem key={exp.id} value={exp.id}>
-                                {exp.title}
-                              </SelectItem>
-                            ))}
+                      <Label htmlFor="experience">Expérience souhaitée *</Label>
+                      <Controller
+                        name="experience"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger
+                              id="experience"
+                              className={
+                                errors.experience
+                                  ? "border-red-500/50 focus:ring-red-500/30"
+                                  : ""
+                              }
+                            >
+                              <SelectValue placeholder="Choisissez une excursion ou un événement" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {/* Groupe Excursions */}
+                              <div className="px-2 py-1.5 text-xs font-semibold text-gold uppercase tracking-wider">
+                                Excursions
+                              </div>
+                              {experiences
+                                .filter((e) => e.category === "excursion")
+                                .map((exp) => (
+                                  <SelectItem key={exp.id} value={exp.id}>
+                                    {exp.title}
+                                  </SelectItem>
+                                ))}
 
-                          {/* Groupe Événements */}
-                          <div className="px-2 py-1.5 mt-1 text-xs font-semibold text-gold uppercase tracking-wider">
-                            Événements
-                          </div>
-                          {experiences
-                            .filter((e) => e.category === "evenement")
-                            .map((exp) => (
-                              <SelectItem key={exp.id} value={exp.id}>
-                                {exp.title}
-                              </SelectItem>
-                            ))}
-                        </SelectContent>
-                      </Select>
+                              {/* Groupe Événements */}
+                              <div className="px-2 py-1.5 mt-1 text-xs font-semibold text-gold uppercase tracking-wider">
+                                Événements
+                              </div>
+                              {experiences
+                                .filter((e) => e.category === "evenement")
+                                .map((exp) => (
+                                  <SelectItem key={exp.id} value={exp.id}>
+                                    {exp.title}
+                                  </SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors.experience && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.experience.message}
+                        </p>
+                      )}
                     </div>
                   )}
 
                   {/* Date & Heure */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Date de prise en charge</Label>
-                      <DatePicker date={date} onDateChange={setDate} />
+                      <Label>Date de prise en charge *</Label>
+                      <Controller
+                        name="date"
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            date={field.value}
+                            onDateChange={(d) => field.onChange(d)}
+                            placeholder="Sélectionner une date"
+                          />
+                        )}
+                      />
+                      {errors.date && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.date.message}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="time">Heure de prise en charge</Label>
-                      <Select value={time} onValueChange={setTime}>
-                        <SelectTrigger id="time">
-                          <SelectValue placeholder="Heure" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {TIME_SLOTS.map((slot) => (
-                            <SelectItem key={slot} value={slot}>
-                              {slot}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="time">Heure de prise en charge *</Label>
+                      <Controller
+                        name="time"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger
+                              id="time"
+                              className={
+                                errors.time
+                                  ? "border-red-500/50 focus:ring-red-500/30"
+                                  : ""
+                              }
+                            >
+                              <SelectValue placeholder="Heure" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {TIME_SLOTS.map((slot) => (
+                                <SelectItem key={slot} value={slot}>
+                                  {slot}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors.time && (
+                        <p className="text-sm text-red-500 mt-1">
+                          {errors.time.message}
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  {/* Adresse de départ */}
+                  {/* Adresse de départ — AddressInput avec autocomplétion */}
                   <div className="space-y-2">
-                    <Label htmlFor="departure">Adresse de départ</Label>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gold" />
-                      <Input
-                        id="departure"
-                        placeholder="Hôtel, adresse parisienne..."
-                        value={departure}
-                        onChange={(e) => setDeparture(e.target.value)}
-                        className="pl-10"
-                      />
-                    </div>
+                    <Label htmlFor="departure">Adresse de départ *</Label>
+                    <Controller
+                      name="departure"
+                      control={control}
+                      render={({ field }) => (
+                        <AddressInput
+                          id="departure"
+                          placeholder="Hôtel, adresse parisienne..."
+                          value={field.value}
+                          onChange={(value) => field.onChange(value)}
+                          className={
+                            errors.departure
+                              ? "[&_input]:border-red-500/50 [&_input]:focus-visible:ring-red-500/30"
+                              : ""
+                          }
+                        />
+                      )}
+                    />
+                    {errors.departure && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.departure.message}
+                      </p>
+                    )}
                   </div>
 
                   {/* Nombre de passagers */}
                   <div className="space-y-2">
-                    <Label htmlFor="passengers">Nombre de passagers</Label>
+                    <Label htmlFor="passengers">Nombre de passagers *</Label>
                     <div className="relative">
                       <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gold" />
-                      <Select value={passengers} onValueChange={setPassengers}>
-                        <SelectTrigger id="passengers" className="pl-10">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[1, 2, 3, 4, 5, 6, 7].map((n) => (
-                            <SelectItem key={n} value={String(n)}>
-                              {n} passager{n > 1 ? "s" : ""}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Controller
+                        name="passengers"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <SelectTrigger
+                              id="passengers"
+                              className={`pl-10 ${
+                                errors.passengers
+                                  ? "border-red-500/50 focus:ring-red-500/30"
+                                  : ""
+                              }`}
+                            >
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+                                <SelectItem key={n} value={String(n)}>
+                                  {n} passager{n > 1 ? "s" : ""}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
                     </div>
+                    {errors.passengers && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.passengers.message}
+                      </p>
+                    )}
                   </div>
 
-                  {/* Demandes spécifiques */}
+                  {/* Demandes spécifiques (optionnel) */}
                   <div className="space-y-2">
                     <Label htmlFor="special-requests">
                       Demandes spécifiques{" "}
@@ -234,23 +521,31 @@ export function ReservationExperience() {
                     <Textarea
                       id="special-requests"
                       placeholder="Guide bilingue, siège enfant, champagne, itinéraire personnalisé..."
-                      value={specialRequests}
-                      onChange={(e) => setSpecialRequests(e.target.value)}
+                      {...register("specialRequests")}
                       className="min-h-28 bg-input border-border resize-none"
                     />
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Bouton de soumission */}
+              {/* Bouton de soumission — spinner + disabled si invalide */}
               <Button
                 type="submit"
                 size="lg"
-                disabled={!isFormValid}
-                className="w-full text-base"
+                disabled={!isFormValid || isSubmitting}
+                className="w-full text-base transition-all duration-300"
               >
-                <Send className="mr-2 h-4 w-4" />
-                Demander un devis personnalisé
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Envoi en cours...
+                  </>
+                ) : (
+                  <>
+                    <Send className="mr-2 h-4 w-4" />
+                    Demander un devis personnalisé
+                  </>
+                )}
               </Button>
             </div>
 
