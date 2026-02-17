@@ -74,7 +74,7 @@ const experienceFormSchema = z.object({
   phone: z.string().regex(phoneRegex, "Numéro de téléphone invalide"),
   // Détails de la réservation
   experience: z.string().min(1, "Veuillez sélectionner une expérience"),
-  date: z.date({ required_error: "Veuillez sélectionner une date" }),
+  date: z.date({ message: "Veuillez sélectionner une date" }),
   time: z.string().min(1, "Veuillez sélectionner une heure"),
   departure: z.string().min(3, "L'adresse doit contenir au moins 3 caractères"),
   passengers: z.string().min(1, "Veuillez sélectionner le nombre de passagers"),

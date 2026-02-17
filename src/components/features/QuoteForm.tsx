@@ -120,7 +120,7 @@ function createQuoteSchema(serviceType: ServiceType) {
     phone: z
       .string()
       .regex(phoneRegex, "Numéro de téléphone invalide"),
-    date: z.date({ required_error: "Veuillez sélectionner une date" }),
+    date: z.date({ message: "Veuillez sélectionner une date" }),
     time: z.string().min(1, "Veuillez sélectionner une heure"),
     passengers: z.string().min(1, "Veuillez sélectionner le nombre de passagers"),
     luggage: z.string().min(1, "Veuillez sélectionner le nombre de bagages"),
