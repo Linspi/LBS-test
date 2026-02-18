@@ -39,22 +39,20 @@ export function Header() {
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg shadow-black/10"
+            ? "bg-background/90 backdrop-blur-md border-b border-border/50 shadow-lg shadow-black/10"
             : "bg-transparent",
         )}
       >
         <div className="w-full flex h-16 items-center px-6 md:px-12 lg:px-16">
           {/* Partie Gauche — Logo */}
           <div className="flex-1 flex justify-start">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-md bg-gradient-to-br from-gold to-gold-light flex items-center justify-center">
-                <span className="text-sm font-bold text-primary-foreground">
-                  L
-                </span>
-              </div>
-              <span className="text-lg font-semibold tracking-tight text-foreground">
-                LBS
-              </span>
+            <Link to="/" className="flex items-center">
+              <img
+                src="/images/BSL_logo.jpeg"
+                alt="BLS — Bedadi Limousine Services"
+                className="h-10 w-auto mix-blend-screen"
+                style={{ filter: "invert(1) sepia(0.1) saturate(1.2)" }}
+              />
             </Link>
           </div>
 
@@ -85,7 +83,7 @@ export function Header() {
               <Phone className="h-3.5 w-3.5" />
               01 23 45 67 89
             </a>
-            <Button asChild size="sm" className="hidden lg:inline-flex">
+            <Button asChild variant="gold" size="sm" className="hidden lg:inline-flex">
               <Link to="/reservation">Réserver</Link>
             </Button>
 

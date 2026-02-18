@@ -1,6 +1,5 @@
 import { ArrowRight, MapPin, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 export function Hero() {
   return (
@@ -28,49 +27,42 @@ export function Hero() {
 
       {/* ── Content ── */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-20">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-8 glass"
+
+        {/* Badge — démarrage immédiat (CSS) */}
+        <div
+          className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-8 glass animate-hero-in"
+          style={{ animationDelay: "0.05s" }}
         >
           <div className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
           <span className="text-xs uppercase tracking-[0.25em] text-gold font-medium">
             Chauffeurs Privés Paris
           </span>
-        </motion.div>
+        </div>
 
         {/* Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-6"
+        <h1
+          className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-semibold tracking-tight leading-[1.1] mb-6 animate-hero-in"
+          style={{ animationDelay: "0.15s" }}
         >
-          <span className="text-foreground">L'excellence du</span>
+          <span className="text-foreground font-light italic">L'excellence du</span>
           <br />
           <span className="text-gradient-gold">transport privé</span>
-        </motion.h1>
+        </h1>
 
         {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed"
+        <p
+          className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed animate-hero-in"
+          style={{ animationDelay: "0.3s" }}
         >
           Découvrez un service de chauffeur privé d'exception à Paris.
           Ponctualité, discrétion et véhicules haut de gamme pour tous vos
           déplacements.
-        </motion.p>
+        </p>
 
         {/* ── Floating Trip Simulator Bar (Glassmorphism) ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-2xl mx-auto"
+        <div
+          className="max-w-2xl mx-auto animate-hero-in"
+          style={{ animationDelay: "0.45s" }}
         >
           <Link
             to="/reservation"
@@ -106,14 +98,12 @@ export function Hero() {
               </div>
             </div>
           </Link>
-        </motion.div>
+        </div>
 
         {/* ── Stats ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-24 grid grid-cols-3 gap-8 max-w-md mx-auto pb-10"
+        <div
+          className="mt-24 grid grid-cols-3 gap-8 max-w-md mx-auto pb-10 animate-hero-in"
+          style={{ animationDelay: "0.6s" }}
         >
           {[
             { value: "15K+", label: "Courses réalisées" },
@@ -129,7 +119,7 @@ export function Hero() {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

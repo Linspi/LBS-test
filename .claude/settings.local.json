@@ -9,5 +9,8 @@
       "Bash(npx shadcn@latest add:*)",
       "Bash(npx shadcn@latest init:*)"
     ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
   }
 }

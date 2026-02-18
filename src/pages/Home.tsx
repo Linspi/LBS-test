@@ -107,7 +107,7 @@ export function Home() {
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
                 Ce que nous proposons
               </p>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-5">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5">
                 Nos{" "}
                 <span className="text-gradient-gold">services</span>
               </h2>
@@ -172,8 +172,9 @@ export function Home() {
             <FadeUp>
               <div className="relative">
                 <img
-                  src="https://images.unsplash.com/photo-1449965408869-ebd3fee7bd42?w=600&q=80"
+                  src="/images/nos-engagements.jpg"
                   alt="Chauffeur privé ouvrant la porte"
+                  loading="lazy"
                   className="w-full aspect-[3/4] object-cover rounded-2xl"
                 />
                 {/* Subtle overlay to blend with dark bg */}
@@ -187,7 +188,7 @@ export function Home() {
                 <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
                   Pourquoi nous choisir
                 </p>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-10">
+                <h2 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight text-foreground mb-10">
                   Nos{" "}
                   <span className="text-gradient-gold">engagements</span>
                 </h2>
@@ -198,8 +199,8 @@ export function Home() {
                   <FadeUp key={item.title} delay={0.1 + index * 0.12}>
                     <div
                       className={`flex items-start gap-5 py-6 ${index < COMMITMENTS.length - 1
-                          ? "border-b border-white/[0.05]"
-                          : ""
+                        ? "border-b border-white/[0.05]"
+                        : ""
                         }`}
                     >
                       {/* Icon */}
@@ -235,7 +236,7 @@ export function Home() {
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
                 Ils nous font confiance
               </p>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-5">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5">
                 Ce que disent nos{" "}
                 <span className="text-gradient-gold">clients</span>
               </h2>
@@ -256,7 +257,7 @@ export function Home() {
                 {TESTIMONIALS.map((testimonial, i) => (
                   <div
                     key={i}
-                    className="flex-shrink-0 w-[340px] sm:w-[380px] snap-center rounded-2xl p-8 flex flex-col bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm hover:bg-white/[0.06] transition-all duration-500"
+                    className="flex-shrink-0 w-[340px] sm:w-[380px] snap-center rounded-2xl p-8 flex flex-col bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.06] transition-all duration-500"
                   >
                     {/* Quote icon */}
                     <Quote className="h-7 w-7 text-gold/20 mb-5" />
@@ -314,7 +315,7 @@ export function Home() {
                   Solutions Professionnelles
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-6">
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-6">
                   Service{" "}
                   <span className="text-gradient-gold">Corporate</span>
                   <br />& Partenaires

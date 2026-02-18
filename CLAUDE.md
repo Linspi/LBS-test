@@ -1,6 +1,6 @@
 # VTC Premium - Plateforme de Réservation Haut de Gamme
 
-Application de réservation de VTC (Véhicule de Tourisme avec Chauffeur) ciblant une clientèle premium parisienne. Le nom de l'entreprise et du site est "LBS"
+Application de réservation de VTC (Véhicule de Tourisme avec Chauffeur) ciblant une clientèle premium parisienne. Le nom de l'entreprise et du site est "BLS" (Bedadi Limousine Services)
 
 ## 🎨 Vision Produit & Design (Vibe)
 

@@ -19,7 +19,7 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
   {
     title: "Trajets",
     subtitle: "Aéroports, gares & destinations",
-    image: "/images/thibault-penin-a8r2KKLSntA-unsplash.jpg",
+    image: "/images/trajet_services.jpg",
     href: "/trajets",
   },
   {
