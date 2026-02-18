@@ -107,7 +107,7 @@ export function FleetCarousel() {
   }, [api, onSelect]);
 
   return (
-    <section className="py-28 overflow-hidden relative">
+    <section className="py-12 md:py-20 overflow-hidden relative">
       {/* Background spotlight */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gold/[0.03] blur-[120px] rounded-full pointer-events-none" />
 

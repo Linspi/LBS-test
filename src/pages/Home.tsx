@@ -97,7 +97,7 @@ export function Home() {
       {/* ═══════════════════════════════════════════
           Section: Bento Grid Services
           ═══════════════════════════════════════════ */}
-      <section className="py-20 relative overflow-hidden">
+      <section className="py-10 md:py-16 relative overflow-hidden">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gold/[0.03] blur-[120px] rounded-full pointer-events-none" />
 
@@ -119,10 +119,12 @@ export function Home() {
           </FadeUp>
 
           {/* Bento Grid: 1 large (2 cols) + 2 stacked */}
+          {/* Ordre mobile (order-n) différent de l'ordre HTML — annulé sur md+ */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
-            {/* Large card — first service (spans 2 rows on lg) */}
+            {/* Mise à disposition — grande carte (row-span-2 sur lg) */}
+            {/* Mobile : passe en 2e position (order-2) */}
             {SERVICE_BLOCKS[1] && (
-              <FadeUp delay={0} className="lg:row-span-2">
+              <FadeUp delay={0} className="order-2 md:order-none lg:row-span-2">
                 <BentoCard
                   block={SERVICE_BLOCKS[1]}
                   icon={SERVICE_ICONS[1]}
@@ -131,21 +133,22 @@ export function Home() {
               </FadeUp>
             )}
 
-            {/* 2 stacked cards */}
+            {/* Trajets — 1ère position sur mobile */}
             {SERVICE_BLOCKS[0] && (
-              <FadeUp delay={0.15}>
+              <FadeUp delay={0.15} className="order-1 md:order-none">
                 <BentoCard block={SERVICE_BLOCKS[0]} icon={SERVICE_ICONS[0]} />
               </FadeUp>
             )}
+            {/* Excursions */}
             {SERVICE_BLOCKS[2] && (
-              <FadeUp delay={0.25}>
+              <FadeUp delay={0.25} className="order-3 md:order-none">
                 <BentoCard block={SERVICE_BLOCKS[2]} icon={SERVICE_ICONS[2]} />
               </FadeUp>
             )}
 
-            {/* Fourth card spanning full width on md */}
+            {/* Événements — pleine largeur sur md+ */}
             {SERVICE_BLOCKS[3] && (
-              <FadeUp delay={0.35} className="md:col-span-2">
+              <FadeUp delay={0.35} className="order-4 md:order-none md:col-span-2">
                 <BentoCard block={SERVICE_BLOCKS[3]} icon={SERVICE_ICONS[3]} />
               </FadeUp>
             )}
@@ -163,7 +166,7 @@ export function Home() {
       {/* ═══════════════════════════════════════════
           Section: Engagements — Split Feature
           ═══════════════════════════════════════════ */}
-      <section className="py-28 relative overflow-hidden">
+      <section className="py-12 md:py-20 relative overflow-hidden">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gold/[0.02] blur-[100px] rounded-full pointer-events-none" />
 
         <div className="container relative">
@@ -196,7 +199,7 @@ export function Home() {
 
               <div className="space-y-0">
                 {COMMITMENTS.map((item, index) => (
-                  <FadeUp key={item.title} delay={0.1 + index * 0.12}>
+                  <FadeUp key={item.title} delay={0.05 + index * 0.07}>
                     <div
                       className={`flex items-start gap-5 py-6 ${index < COMMITMENTS.length - 1
                         ? "border-b border-white/[0.05]"
@@ -229,7 +232,7 @@ export function Home() {
       {/* ═══════════════════════════════════════════
           Section: Testimonials (Horizontal Scroll)
           ═══════════════════════════════════════════ */}
-      <section className="py-28 relative overflow-hidden">
+      <section className="py-12 md:py-20 relative overflow-hidden">
         <div className="container relative">
           <FadeUp>
             <div className="text-center mb-16">
@@ -257,7 +260,7 @@ export function Home() {
                 {TESTIMONIALS.map((testimonial, i) => (
                   <div
                     key={i}
-                    className="flex-shrink-0 w-[340px] sm:w-[380px] snap-center rounded-2xl p-8 flex flex-col bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.06] transition-all duration-500"
+                    className="flex-shrink-0 w-[340px] sm:w-[380px] snap-center rounded-2xl p-8 flex flex-col bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.06] transition-[background-color] duration-300"
                   >
                     {/* Quote icon */}
                     <Quote className="h-7 w-7 text-gold/20 mb-5" />
@@ -304,7 +307,7 @@ export function Home() {
       {/* ═══════════════════════════════════════════
           Section: Corporate & B2B (Split Screen)
           ═══════════════════════════════════════════ */}
-      <section className="py-28 relative overflow-hidden">
+      <section className="py-12 md:py-20 relative overflow-hidden">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
             {/* Left: Text content */}
@@ -375,21 +378,22 @@ function BentoCard({
   return (
     <Link
       to={block.href}
-      className={`group relative block overflow-hidden rounded-2xl border border-white/[0.08] ${large ? "h-[450px]" : "h-[215px]"
-        }`}
+      className={`group relative block overflow-hidden rounded-2xl border border-white/[0.08] ${
+        large ? "h-56 md:h-[450px]" : "h-56 md:h-[215px]"
+      }`}
     >
-      {/* Background image */}
+      {/* Background image — transition ciblée sur transform uniquement (GPU) */}
       <img
         src={block.image}
         alt={block.title}
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
 
-      {/* Gradient overlay — strong bottom for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-all duration-500 group-hover:from-black/95" />
+      {/* Gradient overlay — transition ciblée sur opacity (GPU-friendly) */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
-      {/* Hover glow */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-gold/5 via-transparent to-transparent" />
+      {/* Hover glow — opacity uniquement */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-gold/5 via-transparent to-transparent" />
 
       {/* Icon in top-right corner */}
       <div className="absolute top-4 right-4 z-10 h-10 w-10 rounded-xl glass flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity duration-300">
@@ -406,7 +410,7 @@ function BentoCard({
         </p>
 
         {/* Arrow CTA that appears on hover */}
-        <div className="flex items-center gap-2 mt-3 text-gold text-sm font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+        <div className="flex items-center gap-2 mt-3 text-gold text-sm font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,transform] duration-300">
           Découvrir
           <ArrowRight className="h-3.5 w-3.5" />
         </div>

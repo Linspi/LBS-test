@@ -135,6 +135,17 @@ body {
   animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* ── Mobile : réduit les blurs décoratifs qui tuent le framerate ── */
+@media (max-width: 767px) {
+  /* Les glows décoratifs (blur-[120px], blur-[100px]) n'apportent rien
+     sur petit écran mais coûtent ~2-3ms par frame au compositor iOS */
+  .blur-\[120px\],
+  .blur-\[100px\],
+  .blur-\[80px\] {
+    display: none !important;
+  }
+}
+
 /* ── Container ── */
 @utility container {
   margin-inline: auto;
