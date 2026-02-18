@@ -1,83 +1,135 @@
-import { ArrowDown } from "lucide-react";
+import { ArrowRight, MapPin, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export function Hero() {
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Image de fond — confinée à la section Hero uniquement */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* ── Background image ── */}
       <div className="absolute inset-0 w-full h-full">
         <img
           src="/images/Hero.jpg"
           alt="Paris la nuit"
-          className="w-full h-full object-cover"
-        />  {/* https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1920&q=80 */ }
+          className="w-full h-full object-cover scale-105"
+        />
       </div>
 
-      {/* Overlay gradient sombre pour lisibilité + fusion avec le fond noir */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/75 via-black/80 to-background" />
+      {/* ── Multi-layer overlay (richer than flat black) ── */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0c0f1a]/80 via-[#0c0f1a]/85 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0c0f1a]/40 via-transparent to-[#0c0f1a]/40" />
+      {/* Radial focus light at center */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(15,23,42,0.3)_0%,_rgba(12,15,26,0.8)_50%,_rgba(12,15,26,0.95)_100%)]" />
 
-      {/* Subtle gold radial glow par-dessus */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/4 rounded-full blur-3xl pointer-events-none" />
+      {/* ── Radial spotlight glow ── */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-gold/[0.04] blur-[120px]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-amber-glow/[0.03] blur-[80px]" />
       </div>
 
-      {/* Contenu — z-10 pour passer au-dessus de l'image et overlay */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+      {/* ── Content ── */}
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-20">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 border border-gold/20 rounded-full px-4 py-1.5 mb-8 backdrop-blur-sm bg-black/20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="inline-flex items-center gap-2 rounded-full px-5 py-2 mb-8 glass"
+        >
           <div className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
-          <span className="text-xs uppercase tracking-[0.2em] text-gold">
-            Chauffeurs privés Paris
+          <span className="text-xs uppercase tracking-[0.25em] text-gold font-medium">
+            Chauffeurs Privés Paris
           </span>
-        </div>
+        </motion.div>
 
         {/* Heading */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-6"
+        >
           <span className="text-foreground">L'excellence du</span>
           <br />
-          <span className="bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
-            transport privé
-          </span>
-        </h1>
+          <span className="text-gradient-gold">transport privé</span>
+        </motion.h1>
 
         {/* Subtitle */}
-        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed"
+        >
           Découvrez un service de chauffeur privé d'exception à Paris.
           Ponctualité, discrétion et véhicules haut de gamme pour tous vos
           déplacements.
-        </p>
+        </motion.p>
 
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button asChild size="lg">
-            <Link to="/reservation">Réserver maintenant</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link to="/trajets">Découvrir nos trajets</Link>
-          </Button>
-        </div>
+        {/* ── Floating Trip Simulator Bar (Glassmorphism) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-2xl mx-auto"
+        >
+          <Link
+            to="/reservation"
+            className="group flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 rounded-2xl sm:rounded-full glass-strong p-2 sm:p-2 shadow-gold-glow hover:shadow-[0_0_40px_rgba(212,168,67,0.2)] transition-shadow duration-500"
+          >
+            {/* Departure field */}
+            <div className="flex items-center gap-3 flex-1 px-5 py-3 sm:py-0">
+              <MapPin className="h-4 w-4 text-gold shrink-0" />
+              <div className="text-left">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Départ</p>
+                <p className="text-sm text-foreground/70">Adresse de prise en charge</p>
+              </div>
+            </div>
 
-        {/* Stats */}
-        <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
+            {/* Divider */}
+            <div className="hidden sm:block w-px bg-white/10 my-2" />
+            <div className="block sm:hidden h-px bg-white/10 mx-4" />
+
+            {/* Arrival field */}
+            <div className="flex items-center gap-3 flex-1 px-5 py-3 sm:py-0">
+              <Navigation className="h-4 w-4 text-gold shrink-0" />
+              <div className="text-left">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Arrivée</p>
+                <p className="text-sm text-foreground/70">Destination souhaitée</p>
+              </div>
+            </div>
+
+            {/* Estimate button */}
+            <div className="sm:ml-auto px-2 py-2">
+              <div className="flex items-center justify-center gap-2 bg-gradient-to-r from-amber-200 via-gold to-yellow-500 text-background font-semibold rounded-full px-6 py-3 sm:px-8 group-hover:brightness-110 transition-all duration-300 shadow-[0_4px_20px_rgba(212,168,67,0.25)]">
+                Estimer
+                <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </div>
+          </Link>
+        </motion.div>
+
+        {/* ── Stats ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mt-24 grid grid-cols-3 gap-8 max-w-md mx-auto pb-10"
+        >
           {[
             { value: "15K+", label: "Courses réalisées" },
             { value: "98%", label: "Clients satisfaits" },
             { value: "24/7", label: "Disponibilité" },
           ].map((stat) => (
             <div key={stat.label}>
-              <div className="text-2xl font-bold text-gold">{stat.value}</div>
+              <div className="text-2xl sm:text-3xl font-bold text-gradient-gold">
+                {stat.value}
+              </div>
               <div className="text-xs text-muted-foreground mt-1">
                 {stat.label}
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-muted-foreground animate-bounce">
-        <ArrowDown className="h-5 w-5" />
+        </motion.div>
       </div>
     </section>
   );

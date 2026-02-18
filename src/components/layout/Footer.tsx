@@ -2,91 +2,122 @@ import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-card/50 py-12">
+    <footer className="relative border-t border-white/[0.06] bg-[#080b14] py-16">
       <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
-          <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="h-8 w-8 rounded-md bg-gradient-to-br from-gold to-gold-light flex items-center justify-center">
-                <span className="text-sm font-bold text-primary-foreground">
-                  L
-                </span>
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link to="/" className="flex items-center gap-2.5 mb-5">
+              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-gold to-gold-champagne flex items-center justify-center">
+                <span className="text-sm font-bold text-background">L</span>
               </div>
-              <span className="text-lg font-semibold text-foreground">
+              <span className="text-lg font-semibold tracking-tight text-foreground">
                 LBS
               </span>
             </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               Service de chauffeur privé haut de gamme à Paris et en
               Île-de-France. Disponible 24h/24 et 7j/7.
             </p>
           </div>
 
-          {/* Links */}
+          {/* Services */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground mb-5">
               Services
             </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  to="/trajets"
-                  className="text-muted-foreground hover:text-gold transition-colors"
-                >
-                  Trajets & transferts
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/mise-a-disposition"
-                  className="text-muted-foreground hover:text-gold transition-colors"
-                >
-                  Mise à disposition
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/excursions"
-                  className="text-muted-foreground hover:text-gold transition-colors"
-                >
-                  Excursions
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/evenements"
-                  className="text-muted-foreground hover:text-gold transition-colors"
-                >
-                  Événements & soirées
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/location"
-                  className="text-muted-foreground hover:text-gold transition-colors"
-                >
-                  Location de véhicules
-                </Link>
-              </li>
+            <ul className="space-y-3 text-sm">
+              {[
+                { label: "Trajets & transferts", href: "/trajets" },
+                { label: "Mise à disposition", href: "/mise-a-disposition" },
+                { label: "Excursions", href: "/excursions" },
+                { label: "Événements & soirées", href: "/evenements" },
+                { label: "Location de véhicules", href: "/location" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    to={link.href}
+                    className="text-muted-foreground hover:text-gold transition-colors duration-300"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground mb-5">
               Contact
             </h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>01 23 45 67 89</li>
-              <li>contact@lbs.fr</li>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li>
+                <a
+                  href="tel:+33123456789"
+                  className="hover:text-gold transition-colors duration-300"
+                >
+                  01 23 45 67 89
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:contact@lbs.fr"
+                  className="hover:text-gold transition-colors duration-300"
+                >
+                  contact@lbs.fr
+                </a>
+              </li>
               <li>Paris, Île-de-France</li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground mb-5">
+              Légal
+            </h3>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li>
+                <Link
+                  to="/entreprise"
+                  className="hover:text-gold transition-colors duration-300"
+                >
+                  Service Corporate
+                </Link>
+              </li>
+              <li>
+                <span className="cursor-default">
+                  Mentions légales
+                </span>
+              </li>
+              <li>
+                <span className="cursor-default">
+                  Politique de confidentialité
+                </span>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-border text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} LBS. Tous droits réservés.
+        {/* Bottom bar */}
+        <div className="mt-14 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-muted-foreground">
+            &copy; {new Date().getFullYear()} LBS. Tous droits réservés.
+          </p>
+
+          {/* Social links (placeholder icons as text) */}
+          <div className="flex items-center gap-5">
+            {["Instagram", "LinkedIn", "X"].map((name) => (
+              <a
+                key={name}
+                href="#"
+                className="text-xs text-muted-foreground/60 hover:text-gold transition-colors duration-300"
+              >
+                {name}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

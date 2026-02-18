@@ -19,12 +19,15 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        gold: "bg-gradient-to-r from-amber-200 via-gold to-yellow-500 text-background font-semibold shadow-[0_4px_24px_rgba(212,168,67,0.25)] hover:shadow-[0_6px_32px_rgba(212,168,67,0.35)] hover:brightness-110",
+        "outline-gold":
+          "border border-gold/40 bg-transparent text-gold hover:bg-gold/10 hover:border-gold/60",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        lg: "h-12 rounded-lg px-8 has-[>svg]:px-5 text-base",
         icon: "size-9",
         "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
