@@ -1,7 +1,7 @@
 import type { Experience } from "@/types";
 
 /**
- * Catalogue des excursions et événements proposés par LBS.
+ * Catalogue des excursions et événements proposés par BLS.
  * Chaque entrée alimente la page /reservation-experience
  * via un paramètre URL (?experience=<id>).
  */
@@ -23,7 +23,7 @@ export const experiences: Experience[] = [
       "Wi-Fi à bord",
       "Attente sur place incluse",
     ],
-    estimatedPrice: 350,
+    estimatedPrice: null,
   },
   {
     id: "chantilly",
@@ -41,7 +41,7 @@ export const experiences: Experience[] = [
       "Wi-Fi à bord",
       "Attente sur place incluse",
     ],
-    estimatedPrice: 320,
+    estimatedPrice: null,
   },
   {
     id: "fontainebleau",
@@ -59,7 +59,7 @@ export const experiences: Experience[] = [
       "Wi-Fi à bord",
       "Attente sur place incluse",
     ],
-    estimatedPrice: 380,
+    estimatedPrice: null,
   },
   {
     id: "chambord",
@@ -78,7 +78,7 @@ export const experiences: Experience[] = [
       "Attente sur place incluse",
       "Arrêts photos en chemin",
     ],
-    estimatedPrice: 550,
+    estimatedPrice: null,
   },
   {
     id: "auvers-sur-oise",
@@ -96,7 +96,7 @@ export const experiences: Experience[] = [
       "Wi-Fi à bord",
       "Attente sur place incluse",
     ],
-    estimatedPrice: 250,
+    estimatedPrice: null,
   },
   {
     id: "vallee-chevreuse",
@@ -114,7 +114,7 @@ export const experiences: Experience[] = [
       "Wi-Fi à bord",
       "Itinéraire personnalisable",
     ],
-    estimatedPrice: 250,
+    estimatedPrice: null,
   },
 
   // ── Événements ────────────────────────────────────────

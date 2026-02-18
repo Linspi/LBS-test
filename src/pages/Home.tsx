@@ -76,7 +76,7 @@ const TESTIMONIALS = [
     color: "from-amber-400 to-orange-600",
   },
   {
-    text: "Nos invités internationaux sont toujours impressionnés par la qualité du service. LBS est devenu notre partenaire incontournable.",
+    text: "Nos invités internationaux sont toujours impressionnés par la qualité du service. BLS est devenu notre partenaire incontournable.",
     author: "Claire B.",
     role: "Directrice Hôtelière",
     initial: "C",

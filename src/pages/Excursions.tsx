@@ -138,11 +138,9 @@ function ExcursionCard({ excursion }: { excursion: Experience }) {
             <Clock className="h-3.5 w-3.5 text-gold" />
             {excursion.duration}
           </div>
-          {excursion.estimatedPrice !== null && (
-            <span className="text-sm font-semibold text-gold">
-              Dès {excursion.estimatedPrice}€
-            </span>
-          )}
+          <span className="text-xs font-medium text-gold">
+            Nous contacter
+          </span>
         </div>
       </div>
 

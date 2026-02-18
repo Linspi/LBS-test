@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/features/ScrollToTop";
+import { WhatsAppButton } from "@/components/features/WhatsAppButton";
 
 export function Layout() {
   return (
@@ -13,6 +14,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <WhatsAppButton />
 
       {/* Toast notifications — style premium aligné dark mode */}
       <Toaster

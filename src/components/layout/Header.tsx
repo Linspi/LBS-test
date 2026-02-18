@@ -77,11 +77,11 @@ export function Header() {
           {/* Partie Droite — Actions desktop + Hamburger mobile */}
           <div className="flex-1 flex justify-end items-center gap-4">
             <a
-              href="tel:+33123456789"
+              href="tel:+33652868946"
               className="hidden xl:flex text-sm text-muted-foreground hover:text-foreground transition-colors items-center gap-1.5"
             >
               <Phone className="h-3.5 w-3.5" />
-              01 23 45 67 89
+              06 52 86 89 46
             </a>
             <Button asChild variant="gold" size="sm" className="hidden lg:inline-flex">
               <Link to="/reservation">Réserver</Link>
@@ -150,11 +150,11 @@ export function Header() {
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border space-y-3">
           <a
-            href="tel:+33123456789"
+            href="tel:+33652868946"
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <Phone className="h-4 w-4" />
-            01 23 45 67 89
+            06 52 86 89 46
           </a>
           <Button asChild className="w-full">
             <Link to="/reservation">Réserver maintenant</Link>

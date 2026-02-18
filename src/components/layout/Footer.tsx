@@ -9,10 +9,10 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center gap-2.5 mb-5">
               <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-gold to-gold-champagne flex items-center justify-center">
-                <span className="text-sm font-bold text-background">L</span>
+                <span className="text-sm font-bold text-background">B</span>
               </div>
               <span className="text-lg font-semibold tracking-tight text-foreground">
-                LBS
+                BLS
               </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
@@ -54,18 +54,18 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
                 <a
-                  href="tel:+33123456789"
+                  href="tel:+33652868946"
                   className="hover:text-gold transition-colors duration-300"
                 >
-                  01 23 45 67 89
+                  06 52 86 89 46
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:contact@lbs.fr"
+                  href="mailto:bls.transport75@gmail.com"
                   className="hover:text-gold transition-colors duration-300"
                 >
-                  contact@lbs.fr
+                  bls.transport75@gmail.com
                 </a>
               </li>
               <li>Paris, Île-de-France</li>
@@ -103,7 +103,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-14 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} LBS. Tous droits réservés.
+            &copy; {new Date().getFullYear()} BLS. Tous droits réservés.
           </p>
 
           {/* Social links (placeholder icons as text) */}

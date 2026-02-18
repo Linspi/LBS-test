@@ -85,9 +85,9 @@ export function MiseADisposition() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { vehicle: "Classe E", price: "55 €/h" },
-                { vehicle: "Classe S", price: "95 €/h" },
+                { vehicle: "Classe E", price: "60 €/h" },
                 { vehicle: "Classe V", price: "75 €/h" },
+                { vehicle: "Classe S", price: "95 €/h" },
               ].map((rate) => (
                 <div key={rate.vehicle} className="p-4 rounded-lg bg-secondary">
                   <div className="text-sm text-muted-foreground">
@@ -98,6 +98,19 @@ export function MiseADisposition() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Véhicules d'exception */}
+            <div className="mt-8 p-6 rounded-xl border border-gold/10 bg-gold/[0.03]">
+              <h3 className="text-sm font-semibold text-foreground mb-2">
+                Véhicules d'exception
+              </h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                Range Rover · Maybach · Rolls Royce
+              </p>
+              <span className="text-sm font-semibold text-gold">
+                Sur devis uniquement
+              </span>
             </div>
           </div>
 

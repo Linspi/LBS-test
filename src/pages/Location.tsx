@@ -73,6 +73,28 @@ const RENTAL_VEHICLES = [
     image:
       "https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=800&q=80",
   },
+  {
+    id: "lamborghini-urus",
+    name: "Lamborghini Urus",
+    subtitle: "Super SUV",
+    passengers: 4,
+    luggage: 2,
+    description:
+      "La puissance et l'adrénaline d'un supercar dans un SUV. Une expérience de conduite hors du commun.",
+    image:
+      "https://images.unsplash.com/photo-1669726925271-b9a98aaaaef3?w=800&q=80",
+  },
+  {
+    id: "rr-cullinan",
+    name: "Rolls Royce Cullinan",
+    subtitle: "Ultra-Luxe SUV",
+    passengers: 4,
+    luggage: 4,
+    description:
+      "Le summum du luxe en format SUV. Le Cullinan offre un raffinement inégalé pour vos déplacements les plus prestigieux.",
+    image:
+      "https://images.unsplash.com/photo-1633434810437-e16edc0f0fba?w=800&q=80",
+  },
 ];
 
 export function Location() {
