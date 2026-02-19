@@ -115,11 +115,11 @@ export function Header() {
       {/* Menu mobile slide-out */}
       <div
         className={cn(
-          "fixed top-0 right-0 z-50 h-full w-72 bg-background border-l border-border transform transition-transform duration-300 lg:hidden",
+          "fixed top-0 right-0 z-50 h-[100dvh] max-h-[100dvh] w-72 bg-background border-l border-border transform transition-transform duration-300 lg:hidden flex flex-col",
           mobileOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <span className="text-lg font-semibold text-foreground">Menu</span>
           <button
             type="button"
@@ -131,7 +131,7 @@ export function Header() {
           </button>
         </div>
 
-        <nav className="flex flex-col p-4 gap-1">
+        <nav className="flex flex-col p-4 gap-1 flex-1 overflow-y-auto">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -148,7 +148,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border space-y-3">
+        <div className="flex-shrink-0 p-4 border-t border-border space-y-3">
           <a
             href="tel:+33652868946"
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"

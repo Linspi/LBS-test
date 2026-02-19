@@ -46,6 +46,9 @@ export function Reservation() {
   const rawType = searchParams.get("type");
   const serviceType: ServiceType = TYPE_MAP[rawType ?? ""] ?? "transfer";
 
+  // Récupération de la destination pour pré-remplir le champ arrivée
+  const destination = searchParams.get("destination") ?? undefined;
+
   const hero = HERO_CONFIG[serviceType];
 
   return (
@@ -63,7 +66,7 @@ export function Reservation() {
 
         {/* Formulaire de devis réutilisable */}
         <div className="max-w-3xl mx-auto">
-          <QuoteForm serviceType={serviceType} />
+          <QuoteForm serviceType={serviceType} defaultDestination={destination} />
         </div>
       </div>
     </section>

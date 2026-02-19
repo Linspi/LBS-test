@@ -325,63 +325,61 @@ export function ReservationExperience() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-5">
-                  {/* Sélection de l'expérience (si pas de paramètre URL) */}
-                  {!experienceIdFromUrl && (
-                    <div className="space-y-2">
-                      <Label htmlFor="experience">Expérience souhaitée *</Label>
-                      <Controller
-                        name="experience"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
+                  {/* Sélection de l'expérience */}
+                  <div className="space-y-2">
+                    <Label htmlFor="experience">Expérience souhaitée *</Label>
+                    <Controller
+                      name="experience"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger
+                            id="experience"
+                            className={
+                              errors.experience
+                                ? "border-red-500/50 focus:ring-red-500/30"
+                                : ""
+                            }
                           >
-                            <SelectTrigger
-                              id="experience"
-                              className={
-                                errors.experience
-                                  ? "border-red-500/50 focus:ring-red-500/30"
-                                  : ""
-                              }
-                            >
-                              <SelectValue placeholder="Choisissez une excursion ou un événement" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {/* Groupe Excursions */}
-                              <div className="px-2 py-1.5 text-xs font-semibold text-gold uppercase tracking-wider">
-                                Excursions
-                              </div>
-                              {experiences
-                                .filter((e) => e.category === "excursion")
-                                .map((exp) => (
-                                  <SelectItem key={exp.id} value={exp.id}>
-                                    {exp.title}
-                                  </SelectItem>
-                                ))}
+                            <SelectValue placeholder="Choisissez une excursion ou un événement" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {/* Groupe Excursions */}
+                            <div className="px-2 py-1.5 text-xs font-semibold text-gold uppercase tracking-wider">
+                              Excursions
+                            </div>
+                            {experiences
+                              .filter((e) => e.category === "excursion")
+                              .map((exp) => (
+                                <SelectItem key={exp.id} value={exp.id}>
+                                  {exp.title}
+                                </SelectItem>
+                              ))}
 
-                              {/* Groupe Événements */}
-                              <div className="px-2 py-1.5 mt-1 text-xs font-semibold text-gold uppercase tracking-wider">
-                                Événements
-                              </div>
-                              {experiences
-                                .filter((e) => e.category === "evenement")
-                                .map((exp) => (
-                                  <SelectItem key={exp.id} value={exp.id}>
-                                    {exp.title}
-                                  </SelectItem>
-                                ))}
-                            </SelectContent>
-                          </Select>
-                        )}
-                      />
-                      {errors.experience && (
-                        <p className="text-sm text-red-500 mt-1">
-                          {errors.experience.message}
-                        </p>
+                            {/* Groupe Événements */}
+                            <div className="px-2 py-1.5 mt-1 text-xs font-semibold text-gold uppercase tracking-wider">
+                              Événements
+                            </div>
+                            {experiences
+                              .filter((e) => e.category === "evenement")
+                              .map((exp) => (
+                                <SelectItem key={exp.id} value={exp.id}>
+                                  {exp.title}
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
                       )}
-                    </div>
-                  )}
+                    />
+                    {errors.experience && (
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.experience.message}
+                      </p>
+                    )}
+                  </div>
 
                   {/* Date & Heure */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -484,11 +482,10 @@ export function ReservationExperience() {
                           >
                             <SelectTrigger
                               id="passengers"
-                              className={`pl-10 ${
-                                errors.passengers
+                              className={`pl-10 ${errors.passengers
                                   ? "border-red-500/50 focus:ring-red-500/30"
                                   : ""
-                              }`}
+                                }`}
                             >
                               <SelectValue />
                             </SelectTrigger>

@@ -16,7 +16,7 @@ const RENTAL_VEHICLES = [
     description:
       "L'élégance discrète pour vos déplacements d'affaires et vos sorties en ville.",
     image:
-      "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&q=80",
+      "/images/classe_e_loc.jpg",
   },
   {
     id: "classe-s",
@@ -27,7 +27,7 @@ const RENTAL_VEHICLES = [
     description:
       "Le summum du raffinement automobile. Technologie de pointe et confort absolu.",
     image:
-      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80",
+      "/images/classe_s_loc.jpg",
   },
   {
     id: "classe-v",
@@ -38,7 +38,7 @@ const RENTAL_VEHICLES = [
     description:
       "Espace généreux et modularité parfaite pour vos groupes et familles.",
     image:
-      "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800&q=80",
+      "/images/classe_v_loc.jpg",
   },
   {
     id: "range-rover",
@@ -49,7 +49,7 @@ const RENTAL_VEHICLES = [
     description:
       "Puissance et prestance britannique. Le SUV de luxe par excellence pour toutes les occasions.",
     image:
-      "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&q=80",
+      "/images/range_rover_loc.jpg",
   },
   {
     id: "classe-g",
@@ -60,18 +60,18 @@ const RENTAL_VEHICLES = [
     description:
       "L'icône intemporelle de Mercedes-Benz. Un caractère affirmé, un style incomparable.",
     image:
-      "https://images.unsplash.com/photo-1520031441872-265e4ff70366?w=800&q=80",
+      "/images/classe_g_loc.jpg",
   },
   {
     id: "rolls-royce",
-    name: "Rolls Royce",
+    name: "Rolls Royce Phantom",
     subtitle: "Ultra-Luxe",
     passengers: 3,
     luggage: 3,
     description:
       "Le nec plus ultra de l'automobile. Réservé aux moments les plus exceptionnels de votre vie.",
     image:
-      "https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=800&q=80",
+      "/images/rolls_phantom_loc.jpg",
   },
   {
     id: "lamborghini-urus",
@@ -82,7 +82,7 @@ const RENTAL_VEHICLES = [
     description:
       "La puissance et l'adrénaline d'un supercar dans un SUV. Une expérience de conduite hors du commun.",
     image:
-      "https://images.unsplash.com/photo-1669726925271-b9a98aaaaef3?w=800&q=80",
+      "/images/urus_loc.jpg",
   },
   {
     id: "rr-cullinan",
@@ -93,7 +93,7 @@ const RENTAL_VEHICLES = [
     description:
       "Le summum du luxe en format SUV. Le Cullinan offre un raffinement inégalé pour vos déplacements les plus prestigieux.",
     image:
-      "https://images.unsplash.com/photo-1633434810437-e16edc0f0fba?w=800&q=80",
+      "/images/rolls_cullingam_loc.jpg",
   },
 ];
 

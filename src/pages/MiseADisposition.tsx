@@ -89,28 +89,42 @@ export function MiseADisposition() {
                 { vehicle: "Classe V", price: "75 €/h" },
                 { vehicle: "Classe S", price: "95 €/h" },
               ].map((rate) => (
-                <div key={rate.vehicle} className="p-4 rounded-lg bg-secondary">
+                <div key={rate.vehicle} className="p-4 rounded-lg bg-secondary flex flex-col items-center">
                   <div className="text-sm text-muted-foreground">
                     {rate.vehicle}
                   </div>
-                  <div className="text-xl font-bold text-gold mt-1">
+                  <div className="text-xl font-bold text-gold mt-1 mb-3">
                     {rate.price}
                   </div>
+                  <Link
+                    to="/reservation?type=mise-a-disposition"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-gold transition-colors"
+                  >
+                    Réserver
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
                 </div>
               ))}
             </div>
 
             {/* Véhicules d'exception */}
-            <div className="mt-8 p-6 rounded-xl border border-gold/10 bg-gold/[0.03]">
+            <div className="mt-8 p-6 rounded-xl border border-gold/10 bg-gold/[0.03] text-center">
               <h3 className="text-sm font-semibold text-foreground mb-2">
                 Véhicules d'exception
               </h3>
               <p className="text-sm text-muted-foreground mb-3">
                 Range Rover · Maybach · Rolls Royce
               </p>
-              <span className="text-sm font-semibold text-gold">
+              <span className="text-sm font-semibold text-gold block mb-3">
                 Sur devis uniquement
               </span>
+              <Link
+                to="/reservation?type=mise-a-disposition"
+                className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-gold transition-colors"
+              >
+                Demander un devis
+                <ArrowRight className="h-3 w-3" />
+              </Link>
             </div>
           </div>
 
