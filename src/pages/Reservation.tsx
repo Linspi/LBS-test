@@ -1,15 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { QuoteForm } from "@/components/features/QuoteForm";
+import { FadeUp } from "@/components/ui/FadeUp";
 import type { ServiceType } from "@/components/features/QuoteForm";
-
-/**
- * Page de réservation principale.
- *
- * Mappe le paramètre URL `?type=` vers le serviceType du QuoteForm :
- * - `?type=trajet`              → serviceType = "transfer"
- * - `?type=mise-a-disposition`  → serviceType = "location"
- * - Pas de param / inconnu      → serviceType = "transfer" (défaut)
- */
 
 /** Mapping URL param → serviceType QuoteForm */
 const TYPE_MAP: Record<string, ServiceType> = {
@@ -42,11 +34,9 @@ const HERO_CONFIG: Record<ServiceType, { title: string; highlight: string; descr
 export function Reservation() {
   const [searchParams] = useSearchParams();
 
-  // Récupération du type depuis l'URL, fallback sur "transfer"
   const rawType = searchParams.get("type");
   const serviceType: ServiceType = TYPE_MAP[rawType ?? ""] ?? "transfer";
-
-  // Récupération de la destination pour pré-remplir le champ arrivée
+  const departure = searchParams.get("departure") ?? undefined;
   const destination = searchParams.get("destination") ?? undefined;
 
   const hero = HERO_CONFIG[serviceType];
@@ -55,18 +45,27 @@ export function Reservation() {
     <section className="pt-28 pb-24">
       <div className="container">
         {/* Hero dynamique selon le mode */}
-        <div className="text-center mb-14">
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            {hero.title} <span className="text-gold">{hero.highlight}</span>
-          </h1>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            {hero.description}
-          </p>
-        </div>
+        <FadeUp>
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-6">
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+              <span className="text-xs uppercase tracking-[0.2em]">Réservation</span>
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+            </div>
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight text-foreground mb-4">
+              {hero.title} <span className="text-gradient-gold">{hero.highlight}</span>
+            </h1>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              {hero.description}
+            </p>
+          </div>
+        </FadeUp>
 
         {/* Formulaire de devis réutilisable */}
         <div className="max-w-3xl mx-auto">
-          <QuoteForm serviceType={serviceType} defaultDestination={destination} />
+          <FadeUp delay={0.1}>
+            <QuoteForm serviceType={serviceType} defaultDeparture={departure} defaultDestination={destination} />
+          </FadeUp>
         </div>
       </div>
     </section>

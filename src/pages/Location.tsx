@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Users, Briefcase, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FadeUp } from "@/components/ui/FadeUp";
 
 /**
  * Catalogue des véhicules disponibles à la location.
- * Images Unsplash haute qualité pour chaque modèle.
  */
 const RENTAL_VEHICLES = [
   {
@@ -15,8 +15,7 @@ const RENTAL_VEHICLES = [
     luggage: 3,
     description:
       "L'élégance discrète pour vos déplacements d'affaires et vos sorties en ville.",
-    image:
-      "/images/classe_e_loc.jpg",
+    image: "/images/classe_e_loc.jpg",
   },
   {
     id: "classe-s",
@@ -26,8 +25,7 @@ const RENTAL_VEHICLES = [
     luggage: 3,
     description:
       "Le summum du raffinement automobile. Technologie de pointe et confort absolu.",
-    image:
-      "/images/classe_s_loc.jpg",
+    image: "/images/classe_s_loc.jpg",
   },
   {
     id: "classe-v",
@@ -37,8 +35,7 @@ const RENTAL_VEHICLES = [
     luggage: 6,
     description:
       "Espace généreux et modularité parfaite pour vos groupes et familles.",
-    image:
-      "/images/classe_v_loc.jpg",
+    image: "/images/classe_v_loc.jpg",
   },
   {
     id: "range-rover",
@@ -48,8 +45,7 @@ const RENTAL_VEHICLES = [
     luggage: 4,
     description:
       "Puissance et prestance britannique. Le SUV de luxe par excellence pour toutes les occasions.",
-    image:
-      "/images/range_rover_loc.jpg",
+    image: "/images/range_rover_loc.jpg",
   },
   {
     id: "classe-g",
@@ -59,8 +55,7 @@ const RENTAL_VEHICLES = [
     luggage: 3,
     description:
       "L'icône intemporelle de Mercedes-Benz. Un caractère affirmé, un style incomparable.",
-    image:
-      "/images/classe_g_loc.jpg",
+    image: "/images/classe_g_loc.jpg",
   },
   {
     id: "rolls-royce",
@@ -70,8 +65,7 @@ const RENTAL_VEHICLES = [
     luggage: 3,
     description:
       "Le nec plus ultra de l'automobile. Réservé aux moments les plus exceptionnels de votre vie.",
-    image:
-      "/images/rolls_phantom_loc.jpg",
+    image: "/images/rolls_phantom_loc.jpg",
   },
   {
     id: "lamborghini-urus",
@@ -81,8 +75,7 @@ const RENTAL_VEHICLES = [
     luggage: 2,
     description:
       "La puissance et l'adrénaline d'un supercar dans un SUV. Une expérience de conduite hors du commun.",
-    image:
-      "/images/urus_loc.jpg",
+    image: "/images/urus_loc.jpg",
   },
   {
     id: "rr-cullinan",
@@ -92,8 +85,7 @@ const RENTAL_VEHICLES = [
     luggage: 4,
     description:
       "Le summum du luxe en format SUV. Le Cullinan offre un raffinement inégalé pour vos déplacements les plus prestigieux.",
-    image:
-      "/images/rolls_cullingam_loc.jpg",
+    image: "/images/rolls_cullingam_loc.jpg",
   },
 ];
 
@@ -108,17 +100,25 @@ export function Location() {
         </div>
 
         <div className="relative container text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/20 bg-gold/5 text-gold text-sm mb-6">
-            <Sparkles className="h-4 w-4" />
-            Nouveau service
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            <span className="text-gold">Location</span> de véhicules premium
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Des véhicules d'exception avec chauffeur, disponibles à la location
-            pour sublimer chacun de vos déplacements.
-          </p>
+          <FadeUp>
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-6">
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+              <Sparkles className="h-3.5 w-3.5" />
+              <span className="text-xs uppercase tracking-[0.2em]">Nouveau Service</span>
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+            </div>
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-foreground mb-4">
+              <span className="text-gradient-gold">Location</span> de véhicules premium
+            </h1>
+          </FadeUp>
+          <FadeUp delay={0.15}>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Des véhicules d'exception avec chauffeur, disponibles à la location
+              pour sublimer chacun de vos déplacements.
+            </p>
+          </FadeUp>
         </div>
       </section>
 
@@ -126,8 +126,10 @@ export function Location() {
       <section className="pb-24">
         <div className="container max-w-6xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {RENTAL_VEHICLES.map((vehicle) => (
-              <VehicleRentalCard key={vehicle.id} vehicle={vehicle} />
+            {RENTAL_VEHICLES.map((vehicle, i) => (
+              <FadeUp key={vehicle.id} delay={i * 0.05}>
+                <VehicleRentalCard vehicle={vehicle} />
+              </FadeUp>
             ))}
           </div>
         </div>
@@ -136,14 +138,14 @@ export function Location() {
   );
 }
 
-/** Carte véhicule de location — image, infos, bouton devis */
+/** Carte véhicule de location */
 function VehicleRentalCard({
   vehicle,
 }: {
   vehicle: (typeof RENTAL_VEHICLES)[number];
 }) {
   return (
-    <div className="group rounded-xl border border-border/50 bg-card/60 overflow-hidden transition-all duration-300 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 flex flex-col">
+    <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden hover:border-gold/[0.15] transition-colors duration-300 flex flex-col">
       {/* Image */}
       <div className="relative aspect-[16/10] overflow-hidden">
         <img
@@ -154,19 +156,16 @@ function VehicleRentalCard({
         <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
 
         {/* Badge */}
-        <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-gold/90 text-xs font-semibold text-black uppercase tracking-wider">
+        <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-gradient-to-r from-gold to-gold-light text-xs font-semibold text-background uppercase tracking-wider">
           {vehicle.subtitle}
         </div>
       </div>
 
       {/* Contenu */}
       <div className="p-5 flex flex-col flex-1">
-        {/* Titre */}
-        <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-gold transition-colors">
+        <h3 className="font-display text-lg font-semibold text-foreground mb-2 group-hover:text-gold transition-colors tracking-tight">
           {vehicle.name}
         </h3>
-
-        {/* Description */}
         <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
           {vehicle.description}
         </p>
@@ -188,10 +187,8 @@ function VehicleRentalCard({
         </div>
 
         {/* CTA */}
-        <Button asChild size="sm" className="w-full">
-          <Link
-            to={`/reservation-experience?experience=sur-mesure`}
-          >
+        <Button asChild variant="gold" size="sm" className="w-full">
+          <Link to="/reservation-experience?experience=sur-mesure">
             Demander un devis
             <ArrowRight className="ml-2 h-3.5 w-3.5" />
           </Link>

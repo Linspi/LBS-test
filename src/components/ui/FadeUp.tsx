@@ -8,12 +8,17 @@ interface FadeUpProps {
 }
 
 /**
- * Détection mobile évaluée une seule fois au chargement du module.
+ * Détection mobile + reduced-motion évaluées une seule fois au chargement du module.
  * Safe en SPA Vite (pas de SSR).
  */
 const IS_MOBILE =
     typeof window !== "undefined"
         ? window.matchMedia("(max-width: 767px)").matches
+        : false;
+
+const PREFERS_REDUCED_MOTION =
+    typeof window !== "undefined"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
         : false;
 
 /**
@@ -30,8 +35,16 @@ const IS_MOBILE =
  * Sur mobile : le margin positif (+100px) déclenche l'animation
  * AVANT que l'élément entre dans le viewport visible, éliminant
  * totalement le "pop".
+ *
+ * Si l'utilisateur a activé "Réduire les animations" dans son OS,
+ * le composant rend un div statique sans animation (zéro overhead JS).
  */
 export function FadeUp({ children, delay = 0, className }: FadeUpProps) {
+    /* Accessibilité : pas d'animation si l'utilisateur le demande */
+    if (PREFERS_REDUCED_MOTION) {
+        return <div className={className}>{children}</div>;
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: IS_MOBILE ? 14 : 22 }}

@@ -60,7 +60,9 @@ export type ServiceType = "transfer" | "location" | "corporate";
 interface QuoteFormProps {
   /** Type de service — conditionne les champs affichés et la validation */
   serviceType: ServiceType;
-  /** Destination pré-remplie (ex: depuis la page Trajets) */
+  /** Adresse de départ pré-remplie (ex: depuis le Hero) */
+  defaultDeparture?: string;
+  /** Destination pré-remplie (ex: depuis la page Trajets ou le Hero) */
   defaultDestination?: string;
 }
 
@@ -208,7 +210,7 @@ const FORM_CONFIG: Record<
 // Composant principal
 // ---------------------------------------------------------------------------
 
-export function QuoteForm({ serviceType, defaultDestination }: QuoteFormProps) {
+export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }: QuoteFormProps) {
   // Récupération du schéma Zod correspondant au serviceType
   const schema = createQuoteSchema(serviceType);
 
@@ -229,7 +231,7 @@ export function QuoteForm({ serviceType, defaultDestination }: QuoteFormProps) {
       email: "",
       phone: "",
       companyName: "",
-      departure: "",
+      departure: defaultDeparture ?? "",
       arrival: defaultDestination ?? "",
       date: undefined,
       time: "",

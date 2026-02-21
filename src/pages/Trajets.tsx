@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Plane, Train, Castle, TreePine, ArrowRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FadeUp } from "@/components/ui/FadeUp";
 import { getDestinationsByCategory } from "@/data/destinations";
 import { formatPrice } from "@/lib/pricing";
 import type { Destination, DestinationCategory } from "@/types";
@@ -57,85 +58,92 @@ export function Trajets() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/3 rounded-full blur-3xl" />
 
         <div className="relative container text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            Nos <span className="text-gold">trajets</span>
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Des transferts premium vers les aéroports, gares, châteaux et parcs
-            d'Île-de-France. Prix fixes, sans surprise.
-          </p>
+          <FadeUp>
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-6">
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+              <span className="text-xs uppercase tracking-[0.2em]">Transferts Premium</span>
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+            </div>
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-foreground mb-4">
+              Nos <span className="text-gradient-gold">trajets</span>
+            </h1>
+          </FadeUp>
+          <FadeUp delay={0.15}>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Des transferts premium vers les aéroports, gares, châteaux et parcs
+              d'Île-de-France. Prix fixes, sans surprise.
+            </p>
+          </FadeUp>
         </div>
       </section>
 
       {/* Onglets */}
       <section className="pb-24">
         <div className="container max-w-6xl">
-          <Tabs defaultValue="aeroports">
-            <TabsList className="w-full justify-start gap-1 bg-secondary/50 p-1 rounded-lg flex-wrap">
-              {CATEGORIES.map((cat) => (
-                <TabsTrigger
-                  key={cat.value}
-                  value={cat.value}
-                  className="flex items-center gap-2 data-[state=active]:bg-gold data-[state=active]:text-primary-foreground"
-                >
-                  <cat.Icon className="h-4 w-4" />
-                  {cat.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+          <FadeUp>
+            <Tabs defaultValue="aeroports">
+              <TabsList className="w-full justify-start gap-1 bg-secondary/50 p-1 rounded-lg flex-wrap">
+                {CATEGORIES.map((cat) => (
+                  <TabsTrigger
+                    key={cat.value}
+                    value={cat.value}
+                    className="flex items-center gap-2 data-[state=active]:bg-gold data-[state=active]:text-primary-foreground cursor-pointer"
+                  >
+                    <cat.Icon className="h-4 w-4" />
+                    {cat.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
 
-            {CATEGORIES.map((cat) => {
-              const destinations = getDestinationsByCategory(cat.value);
+              {CATEGORIES.map((cat) => {
+                const destinations = getDestinationsByCategory(cat.value);
 
-              return (
-                <TabsContent key={cat.value} value={cat.value} className="mt-10">
-                  {/* ── En-tête éditorial ─────────────────── */}
-                  <div className="flex flex-col md:flex-row items-start gap-6 mb-12">
-                    {/* Grande icône cerclée */}
-                    <div className="flex-shrink-0 h-16 w-16 rounded-full border-2 border-gold/30 bg-gold/5 flex items-center justify-center">
-                      <cat.Icon className="h-7 w-7 text-gold" />
+                return (
+                  <TabsContent key={cat.value} value={cat.value} className="mt-10">
+                    {/* En-tête éditorial */}
+                    <div className="flex flex-col md:flex-row items-start gap-6 mb-12">
+                      <div className="flex-shrink-0 h-16 w-16 rounded-full border border-gold/20 bg-gold/[0.06] flex items-center justify-center">
+                        <cat.Icon className="h-7 w-7 text-gold" />
+                      </div>
+                      <div>
+                        <h2 className="font-display text-2xl font-semibold text-foreground mb-2 tracking-tight">
+                          {cat.headline}
+                        </h2>
+                        <p className="text-muted-foreground leading-relaxed max-w-2xl">
+                          {cat.editorial}
+                        </p>
+                      </div>
                     </div>
 
-                    {/* Texte éditorial */}
+                    {/* Bande tarifaire */}
                     <div>
-                      <h2 className="text-2xl font-bold text-foreground mb-2">
-                        {cat.headline}
-                      </h2>
-                      <p className="text-muted-foreground leading-relaxed max-w-2xl">
-                        {cat.editorial}
-                      </p>
+                      <h3 className="text-xs font-semibold uppercase tracking-widest text-gold mb-6">
+                        Tarifs depuis & vers Paris
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                        {destinations.map((dest, i) => (
+                          <PriceColumn
+                            key={dest.id}
+                            destination={dest}
+                            isLast={i === destinations.length - 1}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-
-                  {/* ── Bande tarifaire ────────────────────── */}
-                  <div>
-                    <h3 className="text-xs font-semibold uppercase tracking-widest text-gold mb-6">
-                      Tarifs depuis & vers Paris
-                    </h3>
-
-                    {/* Grille horizontale avec séparateurs verticaux */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                      {destinations.map((dest, i) => (
-                        <PriceColumn
-                          key={dest.id}
-                          destination={dest}
-                          isLast={i === destinations.length - 1}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </TabsContent>
-              );
-            })}
-          </Tabs>
+                  </TabsContent>
+                );
+              })}
+            </Tabs>
+          </FadeUp>
         </div>
       </section>
-
     </>
   );
 }
 
-/** Colonne tarifaire individuelle — nom, prix d'appel géant doré, lien réserver */
+/** Colonne tarifaire individuelle */
 function PriceColumn({
   destination,
   isLast,
@@ -149,23 +157,18 @@ function PriceColumn({
         isLast ? "" : "lg:border-r lg:border-border/30"
       }`}
     >
-      {/* Nom de la destination */}
       <p className="text-sm text-muted-foreground mb-3">
         {destination.name}
       </p>
-
-      {/* Prix d'appel — très gros, doré */}
       <p className="text-xs text-muted-foreground/70 uppercase tracking-wider mb-1">
         À partir de
       </p>
-      <p className="text-4xl lg:text-5xl font-bold text-gold tabular-nums mb-4">
+      <p className="font-display text-4xl lg:text-5xl font-semibold text-gradient-gold tabular-nums mb-4">
         {formatPrice(destination.startingPrice)}
       </p>
-
-      {/* Lien réserver */}
       <Link
         to={`/reservation?destination=${encodeURIComponent(destination.name)}&type=trajet`}
-        className="inline-flex items-center gap-1 text-sm text-foreground font-medium hover:text-gold transition-colors"
+        className="inline-flex items-center gap-1 text-sm text-foreground font-medium hover:text-gold transition-colors cursor-pointer"
       >
         Réserver
         <ArrowRight className="h-3.5 w-3.5" />

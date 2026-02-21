@@ -2,18 +2,37 @@ import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.06] bg-[#080b14] py-16">
+    <footer className="relative border-t border-white/[0.06] bg-[#080b14] pt-16 pb-10">
+      {/* Ornement Art Déco en haut du footer */}
+      <div className="absolute -top-px left-0 right-0 flex justify-center">
+        <div className="flex items-center gap-0">
+          <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-gold/30" />
+          <div className="h-[6px] w-[6px] bg-gold/50 rotate-45 mx-3" />
+          <div className="w-16 sm:w-24 h-px bg-gradient-to-l from-transparent to-gold/30" />
+        </div>
+      </div>
+
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* Brand */}
+          {/* Brand — Monogramme BLS signature */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2.5 mb-5">
-              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-gold to-gold-champagne flex items-center justify-center">
-                <span className="text-sm font-bold text-background">B</span>
+            <Link to="/" className="inline-block mb-6 group">
+              {/* Monogramme avec cadre Art Déco */}
+              <div className="flex items-center gap-3">
+                <div className="relative h-11 w-11 rounded-lg bg-gradient-to-br from-gold via-gold-light to-gold-champagne flex items-center justify-center">
+                  {/* Cadre intérieur */}
+                  <div className="absolute inset-[3px] rounded-md border border-background/20" />
+                  <span className="text-sm font-bold text-background tracking-tight relative">B</span>
+                </div>
+                <div>
+                  <span className="block text-lg font-bold tracking-[0.15em] text-foreground leading-none">
+                    BLS
+                  </span>
+                  <span className="block text-[8px] uppercase tracking-[0.3em] text-gold/60 mt-0.5">
+                    Limousine Services
+                  </span>
+                </div>
               </div>
-              <span className="text-lg font-semibold tracking-tight text-foreground">
-                BLS
-              </span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               Service de chauffeur privé haut de gamme à Paris et en
@@ -100,23 +119,32 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-14 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} BLS. Tous droits réservés.
-          </p>
+        {/* Bottom bar avec ornement */}
+        <div className="mt-14 pt-8 border-t border-white/[0.06]">
+          {/* Ornement central */}
+          <div className="flex items-center justify-center gap-0 mb-6">
+            <div className="w-8 h-px bg-gradient-to-r from-transparent to-gold/20" />
+            <div className="h-1 w-1 bg-gold/30 rotate-45 mx-2" />
+            <div className="w-8 h-px bg-gradient-to-l from-transparent to-gold/20" />
+          </div>
 
-          {/* Social links (placeholder icons as text) */}
-          <div className="flex items-center gap-5">
-            {["Instagram", "LinkedIn", "X"].map((name) => (
-              <a
-                key={name}
-                href="#"
-                className="text-xs text-muted-foreground/60 hover:text-gold transition-colors duration-300"
-              >
-                {name}
-              </a>
-            ))}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-muted-foreground">
+              &copy; {new Date().getFullYear()} BLS — Bedadi Limousine Services. Tous droits réservés.
+            </p>
+
+            {/* Social links */}
+            <div className="flex items-center gap-5">
+              {["Instagram", "LinkedIn", "X"].map((name) => (
+                <a
+                  key={name}
+                  href="#"
+                  className="text-xs text-muted-foreground/60 hover:text-gold transition-colors duration-300 uppercase tracking-wider"
+                >
+                  {name}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>

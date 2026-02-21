@@ -11,6 +11,7 @@ import {
   Calendar,
   Compass,
   PartyPopper,
+  Quote,
 } from "lucide-react";
 import { Hero } from "@/components/features/Hero";
 import { InfiniteMarquee } from "@/components/features/InfiniteMarquee";
@@ -18,6 +19,16 @@ import { FleetCarousel } from "@/components/features/FleetCarousel";
 import { Button } from "@/components/ui/button";
 import { FadeUp } from "@/components/ui/FadeUp";
 import { SERVICE_BLOCKS } from "@/data/navigation";
+
+/* ───── Composant ornement Art Déco ───── */
+
+function ArtDecoDivider({ className = "" }: { className?: string }) {
+  return (
+    <div className={`art-deco-divider ${className}`}>
+      <div className="art-deco-diamond" />
+    </div>
+  );
+}
 
 /* ───── Data ───── */
 
@@ -71,6 +82,7 @@ const TESTIMONIALS = [
     role: "Directrice Hôtelière",
   },
 ];
+
 
 const SERVICE_ICONS = [MapPin, Calendar, Compass, PartyPopper];
 
@@ -170,12 +182,18 @@ export function Home() {
         </div>
       </section>
 
+      {/* ── Ornement Art Déco ── */}
+      <ArtDecoDivider />
+
       {/* ═══════════════════════════════════════════
           Section: Fleet Showroom
           ═══════════════════════════════════════════ */}
       <FadeUp>
         <FleetCarousel />
       </FadeUp>
+
+      {/* ── Ornement Art Déco ── */}
+      <ArtDecoDivider />
 
       {/* ═══════════════════════════════════════════
           Section: Engagements
@@ -196,6 +214,8 @@ export function Home() {
                   className="w-full aspect-[3/4] object-cover rounded-2xl"
                 />
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-background/60 via-transparent to-background/20" />
+                {/* Cadre Art Déco sur l'image */}
+                <div className="absolute inset-3 border border-gold/[0.1] rounded-xl pointer-events-none" />
               </div>
             </FadeUp>
 
@@ -247,8 +267,11 @@ export function Home() {
         </div>
       </section>
 
+      {/* ── Ornement Art Déco ── */}
+      <ArtDecoDivider />
+
       {/* ═══════════════════════════════════════════
-          Section: Témoignages
+          Section: Témoignages — style éditorial
           ═══════════════════════════════════════════ */}
       <section className="py-12 md:py-20 relative overflow-hidden">
         <div className="container relative">
@@ -337,39 +360,78 @@ export function Home() {
             </div>
           </div>
 
-          {/* ── Desktop : défilement horizontal de cards ── */}
+          {/* ── Desktop : layout éditorial magazine ── */}
           <FadeUp className="hidden md:block">
-            <div className="relative">
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-              <div
-                className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory px-4 -mx-4"
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-              >
-                {TESTIMONIALS.map((testimonial, i) => (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 w-[340px] sm:w-[380px] snap-center rounded-2xl p-8 flex flex-col bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.06] transition-[background-color] duration-300"
-                  >
-                    <div className="flex gap-0.5 mb-5">
-                      {[...Array(5)].map((_, j) => (
-                        <Star key={j} className="h-4 w-4 fill-gold text-gold" />
-                      ))}
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
-                      {testimonial.text}
-                    </p>
-                    <div>
-                      <p className="font-semibold text-foreground text-sm">{testimonial.author}</p>
-                      <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                    </div>
+            <div className="max-w-5xl mx-auto">
+              {/* Grille responsive : stack sur tablette, 2 colonnes sur desktop */}
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 items-start">
+
+                {/* Citation principale oversize */}
+                <div className="lg:col-span-2 relative pt-4 lg:pr-8">
+                  <Quote className="h-10 w-10 text-gold/20 mb-6" />
+                  <blockquote className="font-display text-2xl lg:text-3xl italic leading-snug text-foreground/90 mb-8">
+                    {TESTIMONIALS[0].text}
+                  </blockquote>
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="h-4 w-4 fill-gold text-gold" />
+                    ))}
                   </div>
-                ))}
+                  <p className="font-semibold text-foreground">
+                    {TESTIMONIALS[0].author}
+                  </p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-gold/70 mt-1">
+                    {TESTIMONIALS[0].role}
+                  </p>
+                  {/* Ligne décorative — verticale sur desktop, horizontale sur tablette */}
+                  <div className="hidden lg:block absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-gold/15 to-transparent" />
+                  <div className="lg:hidden h-px w-full mt-8 bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+                </div>
+
+                {/* Cards compactes empilées */}
+                <div className="lg:col-span-3 space-y-4">
+                  {TESTIMONIALS.slice(1).map((testimonial, i) => (
+                    <div
+                      key={i}
+                      className="group rounded-xl p-5 lg:p-6 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-gold/[0.1] transition-colors duration-300 cursor-default"
+                    >
+                      <div className="flex items-start gap-4">
+                        {/* Numéro décoratif */}
+                        <span className="text-[10px] text-gold/40 font-light tracking-widest mt-1 shrink-0">
+                          {String(i + 2).padStart(2, "0")}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-muted-foreground leading-relaxed mb-3 group-hover:text-foreground/80 transition-colors duration-300">
+                            "{testimonial.text}"
+                          </p>
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="min-w-0">
+                              <span className="text-sm font-medium text-foreground">
+                                {testimonial.author}
+                              </span>
+                              <span className="text-xs text-muted-foreground/60 ml-2">
+                                {testimonial.role}
+                              </span>
+                            </div>
+                            <div className="flex gap-0.5 shrink-0">
+                              {[...Array(5)].map((_, j) => (
+                                <Star key={j} className="h-3 w-3 fill-gold/60 text-gold/60" />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </FadeUp>
         </div>
       </section>
+
+      {/* ── Ornement Art Déco ── */}
+      <ArtDecoDivider />
 
       {/* ═══════════════════════════════════════════
           Section: Corporate & B2B
@@ -379,13 +441,15 @@ export function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
             <FadeUp>
               <div>
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-gold text-sm mb-8">
-                  <Shield className="h-4 w-4" />
-                  Solutions Professionnelles
+                <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-8">
+                  <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+                  <span className="text-xs uppercase tracking-[0.2em]">Solutions Professionnelles</span>
+                  <div className="h-1.5 w-1.5 bg-gold rotate-45" />
                 </div>
-                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-6">
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5">
                   Service <span className="text-gradient-gold">Corporate</span>
-                  <br />& Partenaires
+                  <br className="hidden sm:block" />
+                  <span className="font-light italic"> & Partenaires</span>
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-10">
                   Facturation mensuelle simplifiée, chauffeurs dédiés et accueil
@@ -436,7 +500,7 @@ function BentoCard({
   return (
     <Link
       to={block.href}
-      className={`group relative block overflow-hidden rounded-2xl border border-white/[0.08] ${
+      className={`group relative block overflow-hidden rounded-2xl border border-white/[0.08] hover:border-gold/[0.12] transition-[border-color] duration-500 ${
         large ? "h-[450px]" : "h-[215px]"
       }`}
     >
@@ -453,6 +517,7 @@ function BentoCard({
       </div>
 
       <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 sm:p-8">
+        {/* Numéro décoratif Art Déco */}
         <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wider text-white mb-1 transition-transform duration-300 group-hover:-translate-y-1">
           {block.title}
         </h3>

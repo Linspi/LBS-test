@@ -25,6 +25,7 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
+import { FadeUp } from "@/components/ui/FadeUp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -203,18 +204,26 @@ export function ReservationExperience() {
         </div>
 
         <div className="relative container text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/20 bg-gold/5 text-gold text-sm mb-6">
-            <Sparkles className="h-4 w-4" />
-            Réservation premium
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
-            Planifiez votre{" "}
-            <span className="text-gold">expérience</span>
-          </h1>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Excursion ou événement, nous créons un service sur mesure pour
-            chaque occasion.
-          </p>
+          <FadeUp>
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-6">
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+              <Sparkles className="h-3.5 w-3.5" />
+              <span className="text-xs uppercase tracking-[0.2em]">Réservation Premium</span>
+              <div className="h-1.5 w-1.5 bg-gold rotate-45" />
+            </div>
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight text-foreground mb-3">
+              Planifiez votre{" "}
+              <span className="text-gradient-gold">expérience</span>
+            </h1>
+          </FadeUp>
+          <FadeUp delay={0.15}>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Excursion ou événement, nous créons un service sur mesure pour
+              chaque occasion.
+            </p>
+          </FadeUp>
         </div>
       </section>
 
