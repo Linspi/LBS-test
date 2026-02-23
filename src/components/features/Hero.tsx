@@ -236,18 +236,29 @@ function HeroAddressField({
   }, [onChange]);
 
   /**
-   * Aligne la largeur (et le bord gauche) du .pac-container sur le wrapper
-   * complet du champ. requestAnimationFrame garantit que Google a déjà
-   * inséré / mis à jour le dropdown avant notre lecture.
+   * Aligne la largeur du dropdown sur le wrapper complet du champ.
+   *
+   * Google crée un .pac-container par instance <Autocomplete>.
+   * On cible uniquement celui qui est VISIBLE au moment de l'appel
+   * (un seul champ est actif à la fois) pour éviter de toucher au
+   * dropdown de l'autre champ.
    */
   const syncPacWidth = useCallback(() => {
     if (!wrapperRef.current) return;
     requestAnimationFrame(() => {
-      const pac = document.querySelector(".pac-container") as HTMLElement | null;
-      if (pac && wrapperRef.current) {
+      if (!wrapperRef.current) return;
+
+      // Trouver le dropdown actuellement visible parmi tous les pac-containers
+      const activePac = Array.from(
+        document.querySelectorAll<HTMLElement>(".pac-container")
+      ).find(
+        (el) => el.offsetParent !== null && getComputedStyle(el).display !== "none"
+      );
+
+      if (activePac) {
         const { width, left } = wrapperRef.current.getBoundingClientRect();
-        pac.style.width = `${Math.round(width)}px`;
-        pac.style.left = `${Math.round(left + window.scrollX)}px`;
+        activePac.style.width = `${Math.round(width)}px`;
+        activePac.style.left = `${Math.round(left + window.scrollX)}px`;
       }
     });
   }, []);
