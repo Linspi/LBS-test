@@ -265,3 +265,84 @@ body::after {
     0 8px 40px rgba(212, 170, 64, 0.08),
     0 0 80px rgba(212, 170, 64, 0.04);
 }
+
+/* ==========================================================================
+   SURCHARGE GOOGLE MAPS AUTOCOMPLETE — Design BLS Premium
+   Utilise les variables CSS du thème pour rester cohérent.
+   Note : z-index 10000 pour passer au-dessus du grain (body::after à 9999).
+   ========================================================================== */
+
+/* ── Boîte principale ── */
+.pac-container {
+  background-color: var(--color-card) !important;          /* #111827 — fond carte site */
+  border: 1px solid rgba(212, 170, 64, 0.18) !important;   /* Bordure dorée subtile BLS */
+  border-top: 2px solid rgba(212, 170, 64, 0.35) !important; /* Accent doré en haut */
+  border-radius: var(--radius-lg) !important;               /* 0.75rem — cohérent avec les cards */
+  box-shadow:
+    0 24px 48px -8px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(212, 170, 64, 0.06),
+    0 0 40px rgba(212, 170, 64, 0.04) !important;           /* Glow doré très subtil */
+  font-family: var(--font-sans) !important;                 /* Montserrat */
+  z-index: 10000 !important;                                /* Au-dessus du grain body::after */
+  margin-top: 6px !important;
+  overflow: hidden !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* ── Chaque ligne d'adresse ── */
+.pac-item {
+  padding: 11px 16px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.04) !important; /* Séparateur très discret */
+  color: var(--color-muted-foreground) !important;           /* #8892a8 — texte secondaire */
+  cursor: pointer !important;
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
+}
+
+.pac-item:first-child {
+  border-top: none !important;
+}
+
+/* ── Survol souris ── */
+.pac-item:hover,
+.pac-item-selected {
+  background-color: rgba(212, 170, 64, 0.07) !important;   /* Fond or très transparent */
+  color: var(--color-foreground) !important;                 /* Texte plus clair */
+}
+
+/* ── Texte principal de l'adresse (rue, lieu) ── */
+.pac-item-query {
+  color: var(--color-gold) !important;                       /* #d4aa40 — or BLS */
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  padding-right: 6px !important;
+}
+
+/* ── Partie qui correspond à la frappe (match) ── */
+.pac-matched {
+  font-weight: 700 !important;
+  color: var(--color-gold-light) !important;                 /* #e8c56d — or clair */
+}
+
+/* ── Icône de localisation — colorée en doré via filtre CSS ── */
+.pac-icon {
+  filter:
+    invert(72%)
+    sepia(40%)
+    saturate(800%)
+    hue-rotate(5deg)
+    brightness(105%)
+    contrast(95%) !important;
+  margin-top: 2px !important;
+}
+
+/* ── Footer "Powered by Google" ── */
+.pac-logo::after {
+  background-color: var(--color-card) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+  padding: 6px 16px !important;
+  opacity: 0.5 !important;
+  filter: grayscale(1) brightness(1.5) !important;          /* Logo Google discret */
+}
