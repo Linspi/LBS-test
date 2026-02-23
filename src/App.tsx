@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
+import { GoogleMapsProvider } from "@/providers/GoogleMapsProvider";
 import { Home } from "@/pages/Home";
 import { Trajets } from "@/pages/Trajets";
 import { MiseADisposition } from "@/pages/MiseADisposition";
@@ -13,6 +14,7 @@ import { ReservationExperience } from "@/pages/ReservationExperience";
 function App() {
   return (
     <BrowserRouter>
+      <GoogleMapsProvider>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -26,6 +28,7 @@ function App() {
           <Route path="/reservation-experience" element={<ReservationExperience />} />
         </Route>
       </Routes>
+      </GoogleMapsProvider>
     </BrowserRouter>
   );
 }

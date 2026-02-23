@@ -12,7 +12,7 @@
  * - "corporate" : Service entreprise (transfert + volume mensuel estimé)
  */
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -32,7 +32,11 @@ import {
   MapPin,
   CheckCircle2,
   Home,
+  Route,
+  Loader2,
 } from "lucide-react";
+import { useGoogleMaps } from "@/providers/GoogleMapsProvider";
+import { calculatePriceFromDistance, formatPrice } from "@/lib/pricing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -279,6 +283,100 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
 
   const stepper = useFormStepper<QuoteFormData>({ steps, trigger });
 
+  // ── Google Maps Distance Matrix ──
+  const { isLoaded: isGoogleLoaded } = useGoogleMaps();
+
+  /** Infos de trajet renvoyées par Distance Matrix */
+  interface RouteInfo {
+    distanceKm: number;
+    durationMin: number;
+    estimatedPrice: number;
+    isAirportTransfer: boolean;
+    airportName?: string;
+  }
+
+  const [routeInfo, setRouteInfo] = useState<RouteInfo | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
+
+  /**
+   * Adresses formellement VALIDÉES par Google Autocomplete.
+   * Ces states ne se mettent à jour QUE quand l'utilisateur clique une suggestion
+   * dans la dropdown — jamais sur une simple frappe clavier.
+   */
+  const [selectedDeparture, setSelectedDeparture] = useState<string | null>(
+    defaultDeparture ?? null,
+  );
+  const [selectedArrival, setSelectedArrival] = useState<string | null>(
+    defaultDestination ?? null,
+  );
+
+  /**
+   * Appelle Google Distance Matrix uniquement quand les DEUX adresses
+   * ont été formellement sélectionnées via Google Autocomplete.
+   */
+  useEffect(() => {
+    // Guard clause 1 : uniquement pour les services avec trajet
+    if (serviceType === "location") return;
+    // Guard clause 2 : Google Maps doit être chargé
+    if (!isGoogleLoaded) return;
+    // Guard clause 3 : les deux adresses doivent être validées par Google
+    if (!selectedDeparture || !selectedArrival) {
+      setRouteInfo(null);
+      return;
+    }
+
+    setIsCalculating(true);
+
+    const service = new window.google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+      {
+        origins: [selectedDeparture],
+        destinations: [selectedArrival],
+        travelMode: window.google.maps.TravelMode.DRIVING,
+        unitSystem: window.google.maps.UnitSystem.METRIC,
+      },
+      (response, status) => {
+        setIsCalculating(false);
+
+        if (
+          status !== "OK" ||
+          !response?.rows?.[0]?.elements?.[0] ||
+          response.rows[0].elements[0].status !== "OK"
+        ) {
+          toast.error("Itinéraire impossible par la route", {
+            description: "Veuillez vérifier les adresses saisies.",
+            duration: 5000,
+            style: {
+              background: "#1a1a1a",
+              border: "1px solid rgba(180, 40, 40, 0.5)",
+              color: "#f5f5f5",
+            },
+          });
+          setRouteInfo(null);
+          return;
+        }
+
+        const element = response.rows[0].elements[0];
+        const distanceKm = Math.round(element.distance.value / 1000);
+        const durationMin = Math.round(element.duration.value / 60);
+
+        const priceResult = calculatePriceFromDistance(
+          selectedDeparture,
+          selectedArrival,
+          distanceKm,
+        );
+
+        setRouteInfo({
+          distanceKm,
+          durationMin,
+          estimatedPrice: priceResult.total,
+          isAirportTransfer: priceResult.isAirportTransfer,
+          airportName: priceResult.airportName,
+        });
+      },
+    );
+  }, [selectedDeparture, selectedArrival, isGoogleLoaded, serviceType]);
+
   const onSubmit = useCallback(
     async (formData: QuoteFormData) => {
       try {
@@ -290,6 +388,11 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
 
         // Agréger les infos complémentaires dans message
         const extraParts: string[] = [];
+        if (routeInfo) {
+          extraParts.push(`Distance : ${routeInfo.distanceKm} km`);
+          extraParts.push(`Durée estimée : ${routeInfo.durationMin} min`);
+          extraParts.push(`Prix estimé : ${formatPrice(routeInfo.estimatedPrice)}`);
+        }
         if (formData.duration) extraParts.push(`Durée : ${formData.duration}`);
         if (formData.volume) extraParts.push(`Volume mensuel : ${formData.volume}`);
         const userMessage = formData.message || "";
@@ -347,7 +450,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
         });
       }
     },
-    [serviceType]
+    [serviceType, routeInfo]
   );
 
   const fieldErrorClass = (fieldName: keyof QuoteFormData) =>
@@ -422,6 +525,9 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
               setIsSubmitted(false);
               stepper.resetStepper();
               reset();
+              setRouteInfo(null);
+              setSelectedDeparture(null);
+              setSelectedArrival(null);
             }}
           >
             Nouvelle demande
@@ -589,7 +695,13 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
                             id="departure"
                             placeholder="Ex : 1 Avenue des Champs-Élysées, Paris"
                             value={field.value ?? ""}
-                            onChange={(value) => field.onChange(value)}
+                            onChange={(value) => {
+                              field.onChange(value);
+                              // L'utilisateur tape manuellement → invalider la sélection Google
+                              setSelectedDeparture(null);
+                              setRouteInfo(null);
+                            }}
+                            onPlaceSelected={(addr) => setSelectedDeparture(addr)}
                             className={
                               errors.departure
                                 ? "[&_input]:border-red-500/50 [&_input]:focus-visible:ring-red-500/30"
@@ -613,7 +725,13 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
                             id="arrival"
                             placeholder="Ex : Aéroport CDG Terminal 2"
                             value={field.value ?? ""}
-                            onChange={(value) => field.onChange(value)}
+                            onChange={(value) => {
+                              field.onChange(value);
+                              // L'utilisateur tape manuellement → invalider la sélection Google
+                              setSelectedArrival(null);
+                              setRouteInfo(null);
+                            }}
+                            onPlaceSelected={(addr) => setSelectedArrival(addr)}
                             className={
                               errors.arrival
                                 ? "[&_input]:border-red-500/50 [&_input]:focus-visible:ring-red-500/30"
@@ -626,6 +744,60 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
                         <p className="text-sm text-red-500 mt-1">{errors.arrival.message}</p>
                       )}
                     </div>
+
+                    {/* ── Encart estimation trajet (Distance Matrix) ── */}
+                    {isCalculating && (
+                      <div className="flex items-center gap-3 rounded-xl border border-gold/10 bg-gold/[0.03] p-4">
+                        <Loader2 className="h-5 w-5 text-gold animate-spin" />
+                        <span className="text-sm text-muted-foreground">Calcul de l'itinéraire en cours…</span>
+                      </div>
+                    )}
+
+                    {routeInfo && !isCalculating && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="rounded-xl border border-gold/20 bg-gold/[0.04] p-5 space-y-3"
+                      >
+                        <div className="flex items-center gap-2 text-sm font-medium text-gold">
+                          <Route className="h-4 w-4" />
+                          Estimation de votre trajet
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-3">
+                          {/* Distance */}
+                          <div className="text-center space-y-1">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider">Distance</p>
+                            <p className="text-lg font-semibold text-foreground">{routeInfo.distanceKm} km</p>
+                          </div>
+                          {/* Durée */}
+                          <div className="text-center space-y-1">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider">Durée</p>
+                            <p className="text-lg font-semibold text-foreground">
+                              {routeInfo.durationMin >= 60
+                                ? `${Math.floor(routeInfo.durationMin / 60)}h${String(routeInfo.durationMin % 60).padStart(2, "0")}`
+                                : `${routeInfo.durationMin} min`}
+                            </p>
+                          </div>
+                          {/* Prix estimé */}
+                          <div className="text-center space-y-1">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider">À partir de</p>
+                            <p className="text-lg font-semibold text-gold">{formatPrice(routeInfo.estimatedPrice)}</p>
+                          </div>
+                        </div>
+
+                        {routeInfo.isAirportTransfer && routeInfo.airportName && (
+                          <p className="text-xs text-center text-muted-foreground">
+                            Forfait {routeInfo.airportName} appliqué
+                          </p>
+                        )}
+
+                        <p className="text-[11px] text-center text-muted-foreground/60">
+                          Tarif indicatif Classe E — le devis final sera confirmé par notre équipe
+                        </p>
+                      </motion.div>
+                    )}
                   </>
                 )}
 

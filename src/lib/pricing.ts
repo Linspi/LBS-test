@@ -107,6 +107,63 @@ export function calculateEstimate(booking: BookingFormData): PriceEstimate {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Tarifs par km (exportés pour le calcul avec vraie distance Google Maps)
+// ---------------------------------------------------------------------------
+
+const PER_KM_RATES: Record<VehicleClass, number> = {
+  "classe-e": 2.5,
+  "classe-s": 4.0,
+  "classe-v": 3.5,
+};
+
+/**
+ * Calcule un prix VTC à partir d'une vraie distance (Google Distance Matrix).
+ *
+ * Prend en compte les forfaits aéroport si détectés dans les adresses.
+ * Sinon, applique : prix de base + distance * tarif/km.
+ *
+ * @param departure  Adresse de départ (texte Google)
+ * @param arrival    Adresse d'arrivée (texte Google)
+ * @param distanceKm Distance réelle en kilomètres
+ * @param vehicleClass Classe de véhicule choisie
+ */
+export function calculatePriceFromDistance(
+  departure: string,
+  arrival: string,
+  distanceKm: number,
+  vehicleClass: VehicleClass = "classe-e",
+): PriceEstimate & { distanceKm: number } {
+  // Vérifier si c'est un transfert aéroport (forfait fixe)
+  const airport = detectAirport(departure, arrival);
+
+  if (airport) {
+    const forfaitPrice = airport.prices[vehicleClass];
+    return {
+      basePrice: forfaitPrice,
+      vehicleSupplement: 0,
+      total: forfaitPrice,
+      currency: "EUR",
+      isAirportTransfer: true,
+      airportName: airport.name,
+      distanceKm,
+    };
+  }
+
+  const base = BASE_PRICES[vehicleClass];
+  const distanceCost = distanceKm * PER_KM_RATES[vehicleClass];
+  const total = Math.round(base + distanceCost);
+
+  return {
+    basePrice: base,
+    vehicleSupplement: distanceCost,
+    total,
+    currency: "EUR",
+    isAirportTransfer: false,
+    distanceKm,
+  };
+}
+
 export function formatPrice(amount: number): string {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
