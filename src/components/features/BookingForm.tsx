@@ -11,8 +11,8 @@ import type { BookingFormData, BookingMode, VehicleClass } from "@/types";
 import { vehicles } from "@/data/vehicles";
 import { calculateEstimate, formatPrice } from "@/lib/pricing";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AddressInput } from "@/components/features/AddressInput";
 import {
   Select,
   SelectContent,
@@ -178,12 +178,12 @@ export function BookingForm({
               <MapPin className="inline h-3.5 w-3.5 mr-1 text-gold" />
               Adresse de départ
             </Label>
-            <Input
+            <AddressInput
               id="departure"
               placeholder="Ex : 1 Avenue des Champs-Élysées, Paris"
               value={state.departure}
-              onChange={(e) =>
-                dispatch({ type: "SET_DEPARTURE", payload: e.target.value })
+              onChange={(value) =>
+                dispatch({ type: "SET_DEPARTURE", payload: value })
               }
             />
           </div>
@@ -195,12 +195,12 @@ export function BookingForm({
                 <MapPin className="inline h-3.5 w-3.5 mr-1 text-gold" />
                 Adresse d'arrivée
               </Label>
-              <Input
+              <AddressInput
                 id="arrival"
                 placeholder="Ex : Aéroport CDG Terminal 2"
                 value={state.arrival}
-                onChange={(e) =>
-                  dispatch({ type: "SET_ARRIVAL", payload: e.target.value })
+                onChange={(value) =>
+                  dispatch({ type: "SET_ARRIVAL", payload: value })
                 }
               />
             </div>

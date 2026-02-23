@@ -1,10 +1,15 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { ArrowRight, MapPin, Navigation, Loader2 } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
+import { ArrowRight, MapPin, Navigation } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  useAddressAutocomplete,
-  type AddressSuggestion,
-} from "@/hooks/useAddressAutocomplete";
+import { Autocomplete } from "@react-google-maps/api";
+import { useGoogleMaps } from "@/providers/GoogleMapsProvider";
+
+/** Options partagées pour les deux champs du Hero */
+const AUTOCOMPLETE_OPTIONS: google.maps.places.AutocompleteOptions = {
+  componentRestrictions: { country: "fr" },
+  fields: ["formatted_address"],
+  types: ["geocode", "establishment"],
+};
 
 export function Hero() {
   const navigate = useNavigate();
@@ -186,7 +191,7 @@ export function Hero() {
 }
 
 // ---------------------------------------------------------------------------
-// Sous-composant : champ d'adresse inline pour le Hero
+// Sous-composant : champ d'adresse Hero avec Google Places Autocomplete
 // ---------------------------------------------------------------------------
 
 interface HeroAddressFieldProps {
@@ -199,10 +204,11 @@ interface HeroAddressFieldProps {
 }
 
 /**
- * Champ d'adresse inline avec autocomplétion, stylisé pour le Hero.
+ * Champ d'adresse inline pour le Hero, branché sur Google Places Autocomplete.
  *
- * Le dropdown est en position absolute (accroché au champ) et frère du
- * fond glassmorphism (pas enfant), donc il n'hérite pas de sa transparence.
+ * Le dropdown natif de Google (.pac-container) est stylisé via index.css.
+ * Quand Google Maps n'est pas encore chargé, le champ reste fonctionnel
+ * en mode texte libre.
  */
 function HeroAddressField({
   icon,
@@ -212,180 +218,55 @@ function HeroAddressField({
   onChange,
   inputId,
 }: HeroAddressFieldProps) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const { isLoaded } = useGoogleMaps();
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
-
-  const { suggestions, isLoading, clearSuggestions } =
-    useAddressAutocomplete(value);
-
-  const isOpen = isFocused && suggestions.length > 0 && !isDismissed;
-
-  // Fermer au clic extérieur
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
-        setIsFocused(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+  const handleLoad = useCallback((ac: google.maps.places.Autocomplete) => {
+    autocompleteRef.current = ac;
   }, []);
 
-  const handleSelect = useCallback(
-    (suggestion: AddressSuggestion) => {
-      onChange(suggestion.label);
-      setIsDismissed(true);
-      clearSuggestions();
-    },
-    [onChange, clearSuggestions]
-  );
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (!isOpen || suggestions.length === 0) return;
-
-      switch (e.key) {
-        case "ArrowDown":
-          e.preventDefault();
-          setHighlightedIndex((prev) =>
-            prev < suggestions.length - 1 ? prev + 1 : 0
-          );
-          break;
-        case "ArrowUp":
-          e.preventDefault();
-          setHighlightedIndex((prev) =>
-            prev > 0 ? prev - 1 : suggestions.length - 1
-          );
-          break;
-        case "Enter":
-          e.preventDefault();
-          if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
-            handleSelect(suggestions[highlightedIndex]);
-          }
-          break;
-        case "Escape":
-          setIsDismissed(true);
-          break;
-      }
-    },
-    [isOpen, suggestions, highlightedIndex, handleSelect]
-  );
-
-  // Scroll vers l'élément surligné
-  useEffect(() => {
-    if (highlightedIndex >= 0 && listRef.current) {
-      const item = listRef.current.children[highlightedIndex] as HTMLElement;
-      item?.scrollIntoView({ block: "nearest" });
+  /** Déclenché quand l'utilisateur clique une suggestion Google */
+  const handlePlaceChanged = useCallback(() => {
+    const place = autocompleteRef.current?.getPlace();
+    if (place?.formatted_address) {
+      onChange(place.formatted_address);
     }
-  }, [highlightedIndex]);
+  }, [onChange]);
+
+  /** Input avec le style Hero (transparent, sans bordure) */
+  const inputEl = (
+    <input
+      id={inputId}
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      autoComplete="off"
+      className="w-full bg-transparent border-none outline-none text-sm text-foreground/90 placeholder:text-foreground/40 focus:text-foreground"
+    />
+  );
 
   return (
-    <div ref={wrapperRef} className="relative flex-1 flex">
+    <div className="relative flex-1 flex">
       <div className="flex items-center gap-3 px-5 py-3 flex-1">
-        {isLoading ? (
-          <Loader2 className="h-4 w-4 text-gold shrink-0 animate-spin" />
-        ) : (
-          icon
-        )}
+        {icon}
         <div className="text-left flex-1 min-w-0">
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground leading-none mb-1">
             {label}
           </p>
-          <input
-            id={inputId}
-            type="text"
-            value={value}
-            onChange={(e) => {
-              onChange(e.target.value);
-              setIsDismissed(false);
-              setHighlightedIndex(-1);
-            }}
-            onKeyDown={handleKeyDown}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-            placeholder={placeholder}
-            autoComplete="off"
-            role="combobox"
-            aria-expanded={isOpen}
-            aria-autocomplete="list"
-            aria-controls={`${inputId}-suggestions`}
-            aria-activedescendant={
-              highlightedIndex >= 0
-                ? `${inputId}-suggestion-${highlightedIndex}`
-                : undefined
-            }
-            className="w-full bg-transparent border-none outline-none text-sm text-foreground/90 placeholder:text-foreground/40 focus:text-foreground"
-          />
+          {isLoaded ? (
+            <Autocomplete
+              onLoad={handleLoad}
+              onPlaceChanged={handlePlaceChanged}
+              options={AUTOCOMPLETE_OPTIONS}
+            >
+              {inputEl}
+            </Autocomplete>
+          ) : (
+            inputEl
+          )}
         </div>
       </div>
-
-      {/* Dropdown accroché au champ — fond opaque forcé via inline styles */}
-      {isOpen && (
-        <ul
-          ref={listRef}
-          id={`${inputId}-suggestions`}
-          role="listbox"
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            marginTop: 8,
-            width: "100%",
-            minWidth: window.innerWidth >= 640 ? 420 : undefined,
-            zIndex: 9999,
-            maxHeight: "18rem",
-            overflowY: "auto",
-            borderRadius: "0.75rem",
-            border: "1px solid rgba(212, 168, 67, 0.2)",
-            backgroundColor: "#0d1020",
-            boxShadow: "0 25px 50px rgba(0,0,0,0.9)",
-            isolation: "isolate",
-          }}
-        >
-          {suggestions.map((suggestion, index) => (
-            <li
-              key={suggestion.id}
-              id={`${inputId}-suggestion-${index}`}
-              role="option"
-              aria-selected={index === highlightedIndex}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                handleSelect(suggestion);
-              }}
-              onMouseEnter={() => setHighlightedIndex(index)}
-              style={{
-                backgroundColor: index === highlightedIndex ? "#1a1608" : "#0d1020",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                padding: "0.75rem 1rem",
-                cursor: "pointer",
-                fontSize: "0.875rem",
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
-                color: index === highlightedIndex ? "#d4a843" : "rgba(255,255,255,0.8)",
-                transition: "background-color 0.15s, color 0.15s",
-              }}
-            >
-              <MapPin className="h-3.5 w-3.5 shrink-0 text-gold/60" />
-              <div className="flex flex-col min-w-0">
-                <span className="truncate font-medium">
-                  {suggestion.name}
-                </span>
-                <span className="text-xs text-white/45 truncate">
-                  {suggestion.postcode} {suggestion.city}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }
