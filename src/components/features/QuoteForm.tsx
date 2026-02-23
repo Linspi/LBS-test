@@ -73,6 +73,8 @@ interface QuoteFormProps {
   serviceType: ServiceType;
   defaultDeparture?: string;
   defaultDestination?: string;
+  /** Véhicule pré-sélectionné depuis la page MAD (modifiable par l'utilisateur) */
+  defaultVehicleType?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -267,7 +269,7 @@ function getSlideVariants(direction: 1 | -1) {
 // Composant principal
 // ---------------------------------------------------------------------------
 
-export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }: QuoteFormProps) {
+export function QuoteForm({ serviceType, defaultDeparture, defaultDestination, defaultVehicleType }: QuoteFormProps) {
   const schema = createQuoteSchema(serviceType);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -295,7 +297,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
       luggage: "",
       flightOrTrainNumber: "",
       pickupLocation: "",
-      vehicleType: "",
+      vehicleType: defaultVehicleType ?? "",
       duration: "",
       volume: "",
       message: "",
@@ -418,7 +420,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
 
   /** States locaux : valeurs sélectionnées dans les Selects (déclenche le calcul MAD) */
   const [selectedDuration, setSelectedDuration] = useState("");
-  const [selectedVehicleType, setSelectedVehicleType] = useState("");
+  const [selectedVehicleType, setSelectedVehicleType] = useState(defaultVehicleType ?? "");
 
   /**
    * Recalcule le prix MAD dès que la durée ET le type de véhicule sont choisis.

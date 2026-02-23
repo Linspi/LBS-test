@@ -56,6 +56,7 @@ export function Reservation() {
   const serviceType: ServiceType = TYPE_MAP[rawType ?? ""] ?? "transfer";
   const departure = searchParams.get("departure") ?? undefined;
   const destination = searchParams.get("destination") ?? undefined;
+  const vehicle = searchParams.get("vehicle") ?? undefined;
 
   const hero = HERO_CONFIG[serviceType];
 
@@ -103,6 +104,7 @@ export function Reservation() {
                   serviceType={serviceType}
                   defaultDeparture={departure}
                   defaultDestination={destination}
+                  defaultVehicleType={vehicle}
                 />
               </FadeUp>
             </div>

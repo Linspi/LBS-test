@@ -120,7 +120,7 @@ export function MiseADisposition() {
                       {rate.price}
                     </div>
                     <Link
-                      to="/reservation?type=mise-a-disposition"
+                      to={`/reservation?type=mise-a-disposition&vehicle=${encodeURIComponent(rate.vehicle)}`}
                       className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-gold transition-colors cursor-pointer"
                     >
                       Réserver
