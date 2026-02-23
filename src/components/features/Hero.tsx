@@ -207,8 +207,9 @@ interface HeroAddressFieldProps {
  * Champ d'adresse inline pour le Hero, branché sur Google Places Autocomplete.
  *
  * Le dropdown natif de Google (.pac-container) est stylisé via index.css.
- * Quand Google Maps n'est pas encore chargé, le champ reste fonctionnel
- * en mode texte libre.
+ * syncPacWidth() force la largeur du dropdown à correspondre exactement
+ * à celle du champ complet (icône incluse), car Google la calcule
+ * en se basant uniquement sur la largeur de l'<input> brut.
  */
 function HeroAddressField({
   icon,
@@ -220,6 +221,7 @@ function HeroAddressField({
 }: HeroAddressFieldProps) {
   const { isLoaded } = useGoogleMaps();
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const handleLoad = useCallback((ac: google.maps.places.Autocomplete) => {
     autocompleteRef.current = ac;
@@ -233,13 +235,31 @@ function HeroAddressField({
     }
   }, [onChange]);
 
+  /**
+   * Aligne la largeur (et le bord gauche) du .pac-container sur le wrapper
+   * complet du champ. requestAnimationFrame garantit que Google a déjà
+   * inséré / mis à jour le dropdown avant notre lecture.
+   */
+  const syncPacWidth = useCallback(() => {
+    if (!wrapperRef.current) return;
+    requestAnimationFrame(() => {
+      const pac = document.querySelector(".pac-container") as HTMLElement | null;
+      if (pac && wrapperRef.current) {
+        const { width, left } = wrapperRef.current.getBoundingClientRect();
+        pac.style.width = `${Math.round(width)}px`;
+        pac.style.left = `${Math.round(left + window.scrollX)}px`;
+      }
+    });
+  }, []);
+
   /** Input avec le style Hero (transparent, sans bordure) */
   const inputEl = (
     <input
       id={inputId}
       type="text"
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => { onChange(e.target.value); syncPacWidth(); }}
+      onFocus={syncPacWidth}
       placeholder={placeholder}
       autoComplete="off"
       className="w-full bg-transparent border-none outline-none text-sm text-foreground/90 placeholder:text-foreground/40 focus:text-foreground"
@@ -247,7 +267,7 @@ function HeroAddressField({
   );
 
   return (
-    <div className="relative flex-1 flex">
+    <div ref={wrapperRef} className="relative flex-1 flex">
       <div className="flex items-center gap-3 px-5 py-3 flex-1">
         {icon}
         <div className="text-left flex-1 min-w-0">
