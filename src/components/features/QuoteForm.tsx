@@ -34,6 +34,7 @@ import {
   Home,
   Route,
   Loader2,
+  Car,
 } from "lucide-react";
 import { useGoogleMaps } from "@/providers/GoogleMapsProvider";
 import { calculatePriceFromDistance, formatPrice } from "@/lib/pricing";
@@ -97,6 +98,29 @@ const VOLUME_OPTIONS = [
   { value: "50+", label: "Plus de 50 courses" },
 ] as const;
 
+/**
+ * Tarifs horaires MAD — cohérents avec les prix affichés sur la page Mise à Disposition.
+ * Clés = valeurs du Select vehicleType.
+ */
+const MAD_HOURLY_RATES: Record<string, number> = {
+  "Classe E": 60,
+  "Classe V": 75,
+  "Classe S": 95,
+};
+
+const MAD_VEHICLE_OPTIONS = [
+  { value: "Classe E", label: "Mercedes Classe E — Berline" },
+  { value: "Classe V", label: "Mercedes Classe V — Van / Famille" },
+  { value: "Classe S", label: "Mercedes Classe S — Prestige" },
+] as const;
+
+/** Convertit "4h" / "8h" / "12h" en nombre d'heures. Retourne null pour "multi-jours". */
+function parseDurationHours(duration: string): number | null {
+  if (duration === "multi-jours") return null;
+  const h = parseInt(duration, 10);
+  return isNaN(h) ? null : h;
+}
+
 // ---------------------------------------------------------------------------
 // Schéma Zod dynamique
 // ---------------------------------------------------------------------------
@@ -122,6 +146,7 @@ function createQuoteSchema(serviceType: ServiceType) {
     return z.object({
       ...baseFields,
       pickupLocation: z.string().min(1, "Ce champ est obligatoire"),
+      vehicleType: z.string().min(1, "Veuillez sélectionner un véhicule"),
       duration: z.string().min(1, "Veuillez sélectionner une durée"),
       departure: z.string().optional(),
       arrival: z.string().optional(),
@@ -137,6 +162,7 @@ function createQuoteSchema(serviceType: ServiceType) {
       arrival: z.string().min(1, "Ce champ est obligatoire"),
       flightOrTrainNumber: z.string().optional(),
       volume: z.string().optional(),
+      vehicleType: z.string().optional(),
       pickupLocation: z.string().optional(),
       duration: z.string().optional(),
     });
@@ -147,6 +173,7 @@ function createQuoteSchema(serviceType: ServiceType) {
     departure: z.string().min(1, "Ce champ est obligatoire"),
     arrival: z.string().min(1, "Ce champ est obligatoire"),
     flightOrTrainNumber: z.string().optional(),
+    vehicleType: z.string().optional(),
     pickupLocation: z.string().optional(),
     duration: z.string().optional(),
     volume: z.string().optional(),
@@ -194,7 +221,7 @@ function getStepsConfig(serviceType: ServiceType): StepConfig<QuoteFormData>[] {
   const step2Location: StepConfig<QuoteFormData> = {
     label: "Mise à disposition",
     icon: Briefcase,
-    fields: ["pickupLocation", "duration", "date", "time", "passengers", "luggage"],
+    fields: ["pickupLocation", "vehicleType", "duration", "date", "time", "passengers", "luggage"],
   };
 
   // Étape 3 — Finalisation (tous les champs optionnels)
@@ -268,6 +295,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
       luggage: "",
       flightOrTrainNumber: "",
       pickupLocation: "",
+      vehicleType: "",
       duration: "",
       volume: "",
       message: "",
@@ -377,6 +405,46 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
     );
   }, [selectedDeparture, selectedArrival, isGoogleLoaded, serviceType]);
 
+  // ── Mise à disposition — calcul de prix instantané ──
+
+  interface MadPriceInfo {
+    vehicleType: string;
+    durationLabel: string;
+    /** Prix calculé en €. null = tarif multi-jours (sur devis). */
+    price: number | null;
+  }
+
+  const [madPriceInfo, setMadPriceInfo] = useState<MadPriceInfo | null>(null);
+
+  /** States locaux : valeurs sélectionnées dans les Selects (déclenche le calcul MAD) */
+  const [selectedDuration, setSelectedDuration] = useState("");
+  const [selectedVehicleType, setSelectedVehicleType] = useState("");
+
+  /**
+   * Recalcule le prix MAD dès que la durée ET le type de véhicule sont choisis.
+   * Cas particulier "multi-jours" : affiche "Sur devis" (price = null).
+   */
+  useEffect(() => {
+    if (serviceType !== "location") return;
+    if (!selectedDuration || !selectedVehicleType) {
+      setMadPriceInfo(null);
+      return;
+    }
+
+    const durationOpt = DURATION_OPTIONS.find((o) => o.value === selectedDuration);
+    const durationLabel = durationOpt?.label ?? selectedDuration;
+    const hours = parseDurationHours(selectedDuration);
+
+    if (hours === null) {
+      // "Plusieurs jours" → prix sur devis
+      setMadPriceInfo({ vehicleType: selectedVehicleType, durationLabel, price: null });
+      return;
+    }
+
+    const rate = MAD_HOURLY_RATES[selectedVehicleType] ?? 0;
+    setMadPriceInfo({ vehicleType: selectedVehicleType, durationLabel, price: hours * rate });
+  }, [selectedDuration, selectedVehicleType, serviceType]);
+
   const onSubmit = useCallback(
     async (formData: QuoteFormData) => {
       try {
@@ -393,7 +461,16 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
           extraParts.push(`Durée estimée : ${routeInfo.durationMin} min`);
           extraParts.push(`Prix estimé : ${formatPrice(routeInfo.estimatedPrice)}`);
         }
-        if (formData.duration) extraParts.push(`Durée : ${formData.duration}`);
+        if (madPriceInfo) {
+          extraParts.push(`Véhicule : ${madPriceInfo.vehicleType}`);
+          extraParts.push(`Durée : ${madPriceInfo.durationLabel}`);
+          extraParts.push(
+            madPriceInfo.price !== null
+              ? `Prix estimé : ${formatPrice(madPriceInfo.price)}`
+              : "Prix : Sur devis (multi-jours)"
+          );
+        }
+        if (formData.duration && serviceType !== "location") extraParts.push(`Durée : ${formData.duration}`);
         if (formData.volume) extraParts.push(`Volume mensuel : ${formData.volume}`);
         const userMessage = formData.message || "";
         const message = extraParts.length > 0
@@ -420,6 +497,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
           pickup: formData.departure || formData.pickupLocation || "—",
           dropoff: formData.arrival || "—",
           flight_number: formData.flightOrTrainNumber || "—",
+          vehicle_type: formData.vehicleType || "Non spécifié",
           message,
         };
 
@@ -450,7 +528,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
         });
       }
     },
-    [serviceType, routeInfo]
+    [serviceType, routeInfo, madPriceInfo]
   );
 
   const fieldErrorClass = (fieldName: keyof QuoteFormData) =>
@@ -528,6 +606,9 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
               setRouteInfo(null);
               setSelectedDeparture(null);
               setSelectedArrival(null);
+              setMadPriceInfo(null);
+              setSelectedDuration("");
+              setSelectedVehicleType("");
             }}
           >
             Nouvelle demande
@@ -801,7 +882,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
                   </>
                 )}
 
-                {/* Champs LOCATION : lieu + durée */}
+                {/* Champs LOCATION : lieu + véhicule + durée + encart prix */}
                 {showDispositionFields && (
                   <>
                     <div className="space-y-2">
@@ -828,6 +909,45 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
                       )}
                     </div>
 
+                    {/* Véhicule */}
+                    <div className="space-y-2">
+                      <Label htmlFor="vehicleType">
+                        <Car className="inline h-3.5 w-3.5 mr-1 text-gold" />
+                        Véhicule souhaité *
+                      </Label>
+                      <Controller
+                        name="vehicleType"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            value={field.value ?? ""}
+                            onValueChange={(val) => {
+                              field.onChange(val);
+                              setSelectedVehicleType(val);
+                            }}
+                          >
+                            <SelectTrigger
+                              id="vehicleType"
+                              className={errors.vehicleType ? "border-red-500/50 focus:ring-red-500/30" : ""}
+                            >
+                              <SelectValue placeholder="Sélectionner un véhicule" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {MAD_VEHICLE_OPTIONS.map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                      {errors.vehicleType && (
+                        <p className="text-sm text-red-500 mt-1">{errors.vehicleType.message}</p>
+                      )}
+                    </div>
+
+                    {/* Durée */}
                     <div className="space-y-2">
                       <Label htmlFor="duration">
                         <Clock className="inline h-3.5 w-3.5 mr-1 text-gold" />
@@ -837,8 +957,17 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
                         name="duration"
                         control={control}
                         render={({ field }) => (
-                          <Select value={field.value ?? ""} onValueChange={field.onChange}>
-                            <SelectTrigger id="duration" className={errors.duration ? "border-red-500/50 focus:ring-red-500/30" : ""}>
+                          <Select
+                            value={field.value ?? ""}
+                            onValueChange={(val) => {
+                              field.onChange(val);
+                              setSelectedDuration(val);
+                            }}
+                          >
+                            <SelectTrigger
+                              id="duration"
+                              className={errors.duration ? "border-red-500/50 focus:ring-red-500/30" : ""}
+                            >
                               <SelectValue placeholder="Sélectionner la durée" />
                             </SelectTrigger>
                             <SelectContent>
@@ -853,6 +982,42 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
                         <p className="text-sm text-red-500 mt-1">{errors.duration.message}</p>
                       )}
                     </div>
+
+                    {/* ── Encart estimation prix MAD ── */}
+                    {madPriceInfo && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="rounded-xl border border-gold/20 bg-gold/[0.04] p-5 space-y-3"
+                      >
+                        <div className="flex items-center gap-2 text-sm font-medium text-gold">
+                          <Car className="h-4 w-4" />
+                          Estimation mise à disposition
+                        </div>
+
+                        <div className={`grid gap-3 ${madPriceInfo.price !== null ? "grid-cols-2" : "grid-cols-1"}`}>
+                          {/* Durée sélectionnée */}
+                          <div className="text-center space-y-1">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider">Durée</p>
+                            <p className="text-lg font-semibold text-foreground">{madPriceInfo.durationLabel}</p>
+                          </div>
+                          {/* Prix ou "Sur devis" */}
+                          <div className="text-center space-y-1">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider">Estimation</p>
+                            {madPriceInfo.price !== null ? (
+                              <p className="text-lg font-semibold text-gold">{formatPrice(madPriceInfo.price)}</p>
+                            ) : (
+                              <p className="text-lg font-semibold text-gold">Sur devis</p>
+                            )}
+                          </div>
+                        </div>
+
+                        <p className="text-[11px] text-center text-muted-foreground/60">
+                          Véhicule : {madPriceInfo.vehicleType} — le devis final sera confirmé par notre équipe
+                        </p>
+                      </motion.div>
+                    )}
                   </>
                 )}
 
