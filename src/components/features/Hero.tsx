@@ -236,30 +236,16 @@ function HeroAddressField({
   }, [onChange]);
 
   /**
-   * Aligne la largeur du dropdown sur le wrapper complet du champ.
-   *
-   * Google crée un .pac-container par instance <Autocomplete>.
-   * On applique les dimensions à TOUS les dropdowns non masqués pour éviter
-   * les conflits entre les deux instances du Hero (Départ / Arrivée).
-   * setTimeout(10ms) laisse à Google le temps de finir d'injecter le DOM.
+   * Injecte les dimensions du wrapper dans deux variables CSS globales.
+   * Le CSS natif (.pac-container { width: var(--pac-width) !important })
+   * prend le dessus sur tout style inline positionné par Google,
+   * même lors de ses redessins asynchrones — zéro race condition.
    */
   const syncPacWidth = useCallback(() => {
-    // Un léger setTimeout permet à l'API Google de finir d'injecter/afficher le DOM
-    setTimeout(() => {
-      if (!wrapperRef.current) return;
-
-      const { width, left } = wrapperRef.current.getBoundingClientRect();
-      const pacContainers = document.querySelectorAll(".pac-container");
-      // On applique les dimensions à TOUS les dropdowns qui ne sont pas explicitement cachés.
-      // Cela évite les conflits entre les instances de l'Autocomplete.
-      pacContainers.forEach((pac) => {
-        const el = pac as HTMLElement;
-        if (el.style.display !== "none") {
-          el.style.width = `${Math.round(width)}px`;
-          el.style.left = `${Math.round(left + window.scrollX)}px`;
-        }
-      });
-    }, 10);
+    if (!wrapperRef.current) return;
+    const { width, left } = wrapperRef.current.getBoundingClientRect();
+    document.documentElement.style.setProperty("--pac-width", `${Math.round(width)}px`);
+    document.documentElement.style.setProperty("--pac-left", `${Math.round(left + window.scrollX)}px`);
   }, []);
 
   /** Input avec le style Hero (transparent, sans bordure) */

@@ -274,6 +274,12 @@ body::after {
 
 /* ── Boîte principale ── */
 .pac-container {
+  /* Variables CSS injectées depuis JS (setProperty sur :root).
+     Le !important garantit la victoire sur les styles inline de Google,
+     même lors de ses redessins asynchrones. */
+  width: var(--pac-width, auto) !important;
+  left: var(--pac-left, auto) !important;
+
   background-color: var(--color-card) !important;          /* #111827 — fond carte site */
   border: 1px solid rgba(212, 170, 64, 0.18) !important;   /* Bordure dorée subtile BLS */
   border-top: 2px solid rgba(212, 170, 64, 0.35) !important; /* Accent doré en haut */
