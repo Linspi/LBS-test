@@ -53,9 +53,17 @@ export function Trajets() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-28 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-card/50" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/3 rounded-full blur-3xl" />
+      <section className="relative min-h-[60vh] pt-28 pb-16 overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="/images/trajet.jpg"
+            alt="Transfert premium Paris"
+            className="h-full w-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background" />
+        </div>
 
         <div className="relative container text-center">
           <FadeUp>

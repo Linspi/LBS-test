@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { GoogleMapsProvider } from "@/providers/GoogleMapsProvider";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { Home } from "@/pages/Home";
 import { Trajets } from "@/pages/Trajets";
 import { MiseADisposition } from "@/pages/MiseADisposition";
@@ -14,6 +15,7 @@ import { ReservationExperience } from "@/pages/ReservationExperience";
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <GoogleMapsProvider>
       <Routes>
         <Route element={<Layout />}>

@@ -51,10 +51,13 @@ export function FadeUp({ children, delay = 0, className }: FadeUpProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{
                 once: true,
-                // Mobile : +100px déclenche l'animation bien AVANT que
-                // l'élément soit visible → iOS a le temps de préparer le calque
-                // Desktop : -60px attend que l'élément soit bien dans le viewport
-                margin: IS_MOBILE ? "0px 0px 100px 0px" : "0px 0px -60px 0px",
+                // amount: 0.1 = seulement 10% de l'élément doit être visible
+                // pour déclencher l'animation (très tolérant).
+                // margin top +100px = l'élément est considéré "vu" même s'il
+                // est encore 100px au-dessus du viewport — corrige le bug où
+                // les éléments juste sous le Hero ne se déclenchent pas.
+                amount: 0.1,
+                margin: IS_MOBILE ? "100px 0px 100px 0px" : "100px 0px -60px 0px",
             }}
             transition={{
                 duration: IS_MOBILE ? 0.35 : 0.5,
