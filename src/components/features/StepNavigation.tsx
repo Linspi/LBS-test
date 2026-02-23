@@ -3,6 +3,10 @@
  *
  * Affiche "Précédent" (outline-gold) + "Suivant" ou "Soumettre" (gold).
  * Le bouton Soumettre apparaît uniquement à la dernière étape.
+ *
+ * Le bouton de soumission utilise `type="button"` + `onClick` au lieu de
+ * `type="submit"` pour éviter toute soumission implicite du formulaire
+ * (Enter, focus résiduel lors de la transition d'étape, etc.).
  */
 
 import { ChevronLeft, ChevronRight, Send, Loader2 } from "lucide-react";
@@ -15,6 +19,8 @@ interface StepNavigationProps {
   submitLabel: string;
   onPrev: () => void;
   onNext: () => Promise<boolean>;
+  /** Callback appelé au clic sur le bouton de soumission (dernière étape) */
+  onSubmit?: () => void;
 }
 
 export function StepNavigation({
@@ -24,6 +30,7 @@ export function StepNavigation({
   submitLabel,
   onPrev,
   onNext,
+  onSubmit,
 }: StepNavigationProps) {
   return (
     <div className="flex gap-3 pt-2">
@@ -44,10 +51,11 @@ export function StepNavigation({
       {/* Bouton Suivant ou Soumettre */}
       {isLastStep ? (
         <Button
-          type="submit"
+          type="button"
           variant="gold"
           size="lg"
           disabled={isSubmitting}
+          onClick={onSubmit}
           className="flex-1 text-base"
         >
           {isSubmitting ? (

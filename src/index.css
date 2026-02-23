@@ -148,7 +148,7 @@ body::after {
 }
 
 @utility animate-hero-in {
-  animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* ── Mobile : réduit les blurs décoratifs qui tuent le framerate ── */

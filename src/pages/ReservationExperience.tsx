@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import {
   Clock,
   Users,
@@ -178,10 +179,47 @@ export function ReservationExperience() {
   );
 
   const onSubmit = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (_formData: ExperienceFormData) => {
+    async (formData: ExperienceFormData) => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        const experienceName = selectedExperience?.title ?? formData.experience;
+
+        // Intégrer le nom de l'expérience en tête du message
+        const userMessage = formData.specialRequests || "";
+        const message = `Expérience : ${experienceName}\n\n${userMessage}`.trim();
+
+        const templateParams = {
+          service_type: "Expérience / Excursion",
+          user_name: `${formData.firstName} ${formData.lastName}`,
+          user_email: formData.email,
+          user_phone: formData.phone,
+          date: formData.date
+            ? formData.date.toLocaleDateString("fr-FR", {
+                weekday: "long", day: "numeric", month: "long", year: "numeric",
+              })
+            : "—",
+          time: formData.time,
+          passengers: formData.passengers,
+          luggage: "—",
+          pickup: formData.departure,
+          dropoff: "—",
+          flight_number: "—",
+          message,
+        };
+
+        // Guard clause : bloquer l'envoi si l'email est vide (évite erreur 422 EmailJS)
+        if (!templateParams.user_email) {
+          console.error("Erreur critique: l'adresse e-mail du client est vide. Données reçues :", formData);
+          toast.error("Veuillez renseigner une adresse e-mail valide.");
+          return;
+        }
+
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          templateParams,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        );
+
         setIsSubmitted(true);
       } catch {
         toast.error("Une erreur est survenue. Veuillez réessayer.", {
@@ -195,7 +233,7 @@ export function ReservationExperience() {
         });
       }
     },
-    []
+    [selectedExperience]
   );
 
   const fieldErrorClass = (fieldName: keyof ExperienceFormData) =>
@@ -316,7 +354,7 @@ export function ReservationExperience() {
             </motion.div>
           ) : (
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={(e) => e.preventDefault()}
               className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start"
             >
               {/* ── Colonne gauche : Formulaire (3/5) ─── */}
@@ -606,6 +644,7 @@ export function ReservationExperience() {
                   submitLabel="Demander un devis personnalisé"
                   onPrev={stepper.goToPrev}
                   onNext={stepper.goToNext}
+                  onSubmit={handleSubmit(onSubmit)}
                 />
               </div>
 

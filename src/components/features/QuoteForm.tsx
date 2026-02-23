@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import {
   User,
   Mail,
@@ -279,10 +280,60 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
   const stepper = useFormStepper<QuoteFormData>({ steps, trigger });
 
   const onSubmit = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (_formData: QuoteFormData) => {
+    async (formData: QuoteFormData) => {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        // Construire user_name avec entreprise si renseignée
+        const fullName = `${formData.firstName} ${formData.lastName}`;
+        const userName = formData.companyName
+          ? `${fullName} (${formData.companyName})`
+          : fullName;
+
+        // Agréger les infos complémentaires dans message
+        const extraParts: string[] = [];
+        if (formData.duration) extraParts.push(`Durée : ${formData.duration}`);
+        if (formData.volume) extraParts.push(`Volume mensuel : ${formData.volume}`);
+        const userMessage = formData.message || "";
+        const message = extraParts.length > 0
+          ? `${extraParts.join(" | ")}\n\n${userMessage}`.trim()
+          : userMessage || "—";
+
+        const templateParams = {
+          service_type: serviceType === "transfer"
+            ? "Transfert"
+            : serviceType === "location"
+              ? "Mise à disposition"
+              : "Corporate",
+          user_name: userName,
+          user_email: formData.email,
+          user_phone: formData.phone,
+          date: formData.date
+            ? formData.date.toLocaleDateString("fr-FR", {
+                weekday: "long", day: "numeric", month: "long", year: "numeric",
+              })
+            : "—",
+          time: formData.time || "—",
+          passengers: formData.passengers || "—",
+          luggage: formData.luggage || "—",
+          pickup: formData.departure || formData.pickupLocation || "—",
+          dropoff: formData.arrival || "—",
+          flight_number: formData.flightOrTrainNumber || "—",
+          message,
+        };
+
+        // Guard clause : bloquer l'envoi si l'email est vide (évite erreur 422 EmailJS)
+        if (!templateParams.user_email) {
+          console.error("Erreur critique: l'adresse e-mail du client est vide. Données reçues :", formData);
+          toast.error("Veuillez renseigner une adresse e-mail valide.");
+          return;
+        }
+
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          templateParams,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        );
+
         setIsSubmitted(true);
       } catch {
         toast.error("Une erreur est survenue lors de l'envoi", {
@@ -296,7 +347,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
         });
       }
     },
-    []
+    [serviceType]
   );
 
   const fieldErrorClass = (fieldName: keyof QuoteFormData) =>
@@ -383,7 +434,10 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
   const variants = getSlideVariants(stepper.direction);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="space-y-6"
+    >
 
       {/* ── Barre de navigation stepper ── */}
       <FormStepper
@@ -832,6 +886,7 @@ export function QuoteForm({ serviceType, defaultDeparture, defaultDestination }:
         submitLabel={SUBMIT_LABELS[serviceType]}
         onPrev={stepper.goToPrev}
         onNext={stepper.goToNext}
+        onSubmit={handleSubmit(onSubmit)}
       />
     </form>
   );

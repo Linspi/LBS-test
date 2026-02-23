@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { createPortal } from "react-dom";
 import { ArrowRight, MapPin, Navigation, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -101,49 +100,59 @@ export function Hero() {
           Ponctualité, discrétion et élégance à Paris.
         </p>
 
-        {/* Barre de réservation fonctionnelle */}
+        {/* Barre de réservation fonctionnelle
+            IMPORTANT : animate-hero-in est sur un wrapper SÉPARÉ qui ne contient
+            PAS le dropdown. L'animation CSS avec fill-mode:both crée un stacking
+            context GPU qui force la transparence sur tous les enfants. */}
         <div
-          className="w-full md:max-w-3xl md:mx-auto animate-hero-in mb-5 md:mb-0"
+          className="relative z-50 w-full md:max-w-3xl md:mx-auto animate-hero-in mb-5 md:mb-0"
           style={{ animationDelay: "0.3s" }}
         >
-          <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 rounded-2xl sm:rounded-full glass-strong p-2 shadow-gold-glow">
-            {/* Départ */}
-            <HeroAddressField
-              icon={<MapPin className="h-4 w-4 text-gold shrink-0" />}
-              label="Départ"
-              placeholder="Adresse de prise en charge"
-              value={departure}
-              onChange={setDeparture}
-              inputId="hero-departure"
-            />
-            <div className="hidden sm:block w-px bg-white/10 my-2" />
-            <div className="block sm:hidden h-px bg-white/10 mx-4" />
-            {/* Arrivée */}
-            <HeroAddressField
-              icon={<Navigation className="h-4 w-4 text-gold shrink-0" />}
-              label="Arrivée"
-              placeholder="Destination souhaitée"
-              value={arrival}
-              onChange={setArrival}
-              inputId="hero-arrival"
-            />
-            {/* Bouton Estimer */}
-            <div className="sm:ml-auto flex items-center px-2 py-2">
-              <button
-                type="button"
-                onClick={handleEstimate}
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-gold to-gold-light text-background font-semibold rounded-full px-6 py-3 sm:px-8 hover:brightness-110 transition-[filter] duration-300 shadow-[0_4px_20px_rgba(212,168,67,0.25)] cursor-pointer w-full sm:w-auto whitespace-nowrap"
-              >
-                Estimer
-                <ArrowRight className="h-4 w-4" />
-              </button>
+          <div className="relative">
+
+            {/* 2. Fond Glassmorphism indépendant — ne crée PAS de stacking context sur les enfants */}
+            <div className="absolute inset-0 rounded-2xl sm:rounded-full bg-[rgba(14,16,28,0.82)] border border-white/[0.12] shadow-gold-glow pointer-events-none" />
+
+            {/* 3. Zone interactive — relative, passe par-dessus le fond */}
+            <div className="relative flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 p-2">
+              {/* Départ */}
+              <HeroAddressField
+                icon={<MapPin className="h-4 w-4 text-gold shrink-0" />}
+                label="Départ"
+                placeholder="Adresse de prise en charge"
+                value={departure}
+                onChange={setDeparture}
+                inputId="hero-departure"
+              />
+              <div className="hidden sm:block w-px bg-white/10 my-2" />
+              <div className="block sm:hidden h-px bg-white/10 mx-4" />
+              {/* Arrivée */}
+              <HeroAddressField
+                icon={<Navigation className="h-4 w-4 text-gold shrink-0" />}
+                label="Arrivée"
+                placeholder="Destination souhaitée"
+                value={arrival}
+                onChange={setArrival}
+                inputId="hero-arrival"
+              />
+              {/* Bouton Estimer */}
+              <div className="sm:ml-auto flex items-center px-2 py-2">
+                <button
+                  type="button"
+                  onClick={handleEstimate}
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-gold to-gold-light text-background font-semibold rounded-full px-6 py-3 sm:px-8 hover:brightness-110 transition-[filter] duration-300 shadow-[0_4px_20px_rgba(212,168,67,0.25)] cursor-pointer w-full sm:w-auto whitespace-nowrap"
+                >
+                  Estimer
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Stats — strip horizontal */}
+        {/* Stats — z-10 pour rester derrière le wrapper barre (z-50) */}
         <div
-          className="grid grid-cols-3 mt-0 md:mt-24 md:gap-8 md:max-w-md md:mx-auto pb-0 md:pb-10 animate-hero-in border-t border-white/[0.07] md:border-none pt-4 md:pt-0"
+          className="relative z-10 grid grid-cols-3 mt-0 md:mt-24 md:gap-8 md:max-w-md md:mx-auto pb-0 md:pb-10 animate-hero-in border-t border-white/[0.07] md:border-none pt-4 md:pt-0"
           style={{ animationDelay: "0.45s" }}
         >
           {[
@@ -190,9 +199,10 @@ interface HeroAddressFieldProps {
 }
 
 /**
- * Champ d'adresse inline avec autocomplétion, stylisé pour le Hero glass.
- * Utilise le même hook useAddressAutocomplete que AddressInput,
- * mais avec un design transparent qui s'intègre au conteneur glass-strong.
+ * Champ d'adresse inline avec autocomplétion, stylisé pour le Hero.
+ *
+ * Le dropdown est en position absolute (accroché au champ) et frère du
+ * fond glassmorphism (pas enfant), donc il n'hérite pas de sa transparence.
  */
 function HeroAddressField({
   icon,
@@ -205,8 +215,6 @@ function HeroAddressField({
   const [isFocused, setIsFocused] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  // Position calculée du dropdown (coordonnées viewport pour position: fixed)
-  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -215,51 +223,6 @@ function HeroAddressField({
     useAddressAutocomplete(value);
 
   const isOpen = isFocused && suggestions.length > 0 && !isDismissed;
-
-  /**
-   * Calcule et applique la position du dropdown en fixed/viewport.
-   * Appelé à l'ouverture puis à chaque scroll/resize pour que le dropdown
-   * suive l'input. Si l'input sort du viewport, on ferme le dropdown.
-   */
-  const updateDropdownPosition = useCallback(() => {
-    if (!wrapperRef.current) return;
-    const rect = wrapperRef.current.getBoundingClientRect();
-    // L'input est sorti de l'écran → fermer
-    if (rect.bottom < 0 || rect.top > window.innerHeight) {
-      setIsFocused(false);
-      return;
-    }
-    const isDesktop = window.innerWidth >= 640;
-    setDropdownStyle({
-      position: "fixed",
-      top: rect.bottom + 8,
-      left: rect.left,
-      minWidth: isDesktop ? Math.max(rect.width, 420) : rect.width,
-      zIndex: 9999,
-      backgroundColor: "#0d1020",
-      maxHeight: "18rem",
-      overflowY: "auto",
-      borderRadius: "0.75rem",
-      border: "1px solid rgba(212, 168, 67, 0.2)",
-      boxShadow: "0 25px 50px rgba(0,0,0,0.8)",
-    });
-  }, []);
-
-  // Calculer la position à l'ouverture du dropdown
-  useEffect(() => {
-    if (isOpen) updateDropdownPosition();
-  }, [isOpen, updateDropdownPosition]);
-
-  // Suivre le scroll et le resize pour que le dropdown reste ancré à l'input
-  useEffect(() => {
-    if (!isOpen) return;
-    window.addEventListener("scroll", updateDropdownPosition, { passive: true });
-    window.addEventListener("resize", updateDropdownPosition, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", updateDropdownPosition);
-      window.removeEventListener("resize", updateDropdownPosition);
-    };
-  }, [isOpen, updateDropdownPosition]);
 
   // Fermer au clic extérieur
   useEffect(() => {
@@ -363,62 +326,66 @@ function HeroAddressField({
         </div>
       </div>
 
-      {/* Dropdown via Portal — rendu dans document.body pour sortir de tout
-          contexte de stacking (backdrop-filter, glass, overlays Hero). */}
-      {isOpen &&
-        createPortal(
-          <ul
-            ref={listRef}
-            id={`${inputId}-suggestions`}
-            role="listbox"
-            style={dropdownStyle}
-          >
-            {suggestions.map((suggestion, index) => (
-              <li
-                key={suggestion.id}
-                id={`${inputId}-suggestion-${index}`}
-                role="option"
-                aria-selected={index === highlightedIndex}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  handleSelect(suggestion);
-                }}
-                onMouseEnter={() => setHighlightedIndex(index)}
-                style={{
-                  backgroundColor:
-                    index === highlightedIndex ? "#1a1608" : undefined,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  padding: "0.75rem 1rem",
-                  cursor: "pointer",
-                  fontSize: "0.875rem",
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
-                  color: index === highlightedIndex ? "#d4a843" : "rgba(255,255,255,0.8)",
-                  transition: "background-color 0.15s",
-                }}
-                onMouseLeave={(e) => {
-                  if (index !== highlightedIndex) {
-                    (e.currentTarget as HTMLLIElement).style.backgroundColor = "";
-                  }
-                }}
-              >
-                <MapPin
-                  style={{ width: 14, height: 14, flexShrink: 0, color: "rgba(212,168,67,0.6)" }}
-                />
-                <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-                  <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 500 }}>
-                    {suggestion.name}
-                  </span>
-                  <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.45)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {suggestion.postcode} {suggestion.city}
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>,
-          document.body
-        )}
+      {/* Dropdown accroché au champ — fond opaque forcé via inline styles */}
+      {isOpen && (
+        <ul
+          ref={listRef}
+          id={`${inputId}-suggestions`}
+          role="listbox"
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            marginTop: 8,
+            width: "100%",
+            minWidth: window.innerWidth >= 640 ? 420 : undefined,
+            zIndex: 9999,
+            maxHeight: "18rem",
+            overflowY: "auto",
+            borderRadius: "0.75rem",
+            border: "1px solid rgba(212, 168, 67, 0.2)",
+            backgroundColor: "#0d1020",
+            boxShadow: "0 25px 50px rgba(0,0,0,0.9)",
+            isolation: "isolate",
+          }}
+        >
+          {suggestions.map((suggestion, index) => (
+            <li
+              key={suggestion.id}
+              id={`${inputId}-suggestion-${index}`}
+              role="option"
+              aria-selected={index === highlightedIndex}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handleSelect(suggestion);
+              }}
+              onMouseEnter={() => setHighlightedIndex(index)}
+              style={{
+                backgroundColor: index === highlightedIndex ? "#1a1608" : "#0d1020",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                padding: "0.75rem 1rem",
+                cursor: "pointer",
+                fontSize: "0.875rem",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                color: index === highlightedIndex ? "#d4a843" : "rgba(255,255,255,0.8)",
+                transition: "background-color 0.15s, color 0.15s",
+              }}
+            >
+              <MapPin className="h-3.5 w-3.5 shrink-0 text-gold/60" />
+              <div className="flex flex-col min-w-0">
+                <span className="truncate font-medium">
+                  {suggestion.name}
+                </span>
+                <span className="text-xs text-white/45 truncate">
+                  {suggestion.postcode} {suggestion.city}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
