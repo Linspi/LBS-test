@@ -162,6 +162,7 @@ export function FleetCarousel() {
                         src={vehicle.image}
                         alt={vehicle.name}
                         className="relative w-full aspect-[16/9] object-contain drop-shadow-[0_20px_50px_rgba(212,170,64,0.18)]"
+                        loading="lazy"
                       />
 
                       {/* Ground shadow beneath the vehicle */}

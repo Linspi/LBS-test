@@ -38,12 +38,14 @@ export function Evenements() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-28 pb-20 overflow-hidden">
+      <section className="relative min-h-[60vh] pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80"
             alt="Événement"
             className="h-full w-full object-cover"
+            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background" />
         </div>

@@ -137,6 +137,7 @@ export function Home() {
                     src={block.image}
                     alt={block.title}
                     className="w-11 h-11 rounded-lg object-cover shrink-0"
+                    loading="lazy"
                   />
 
                   {/* Texte */}
@@ -229,6 +230,7 @@ export function Home() {
                     src="/images/nos-engagements.jpg"
                     alt="Chauffeur privé"
                     className="lg:hidden w-16 h-20 object-cover rounded-xl shrink-0 mt-1"
+                    loading="lazy"
                   />
                   <div>
                     <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
@@ -476,6 +478,7 @@ export function Home() {
                   src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
                   alt="Business district"
                   className="relative w-full aspect-[4/3] object-cover rounded-3xl shadow-2xl"
+                  loading="lazy"
                 />
               </div>
             </FadeUp>
@@ -508,6 +511,7 @@ function BentoCard({
         src={block.image}
         alt={block.title}
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        loading="lazy"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-gold/5 via-transparent to-transparent" />

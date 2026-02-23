@@ -34,6 +34,8 @@ export function Hero() {
           src="/images/Hero.jpg"
           alt="Paris la nuit"
           className="w-full h-full object-cover scale-105"
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
 
