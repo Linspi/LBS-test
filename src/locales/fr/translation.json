@@ -634,6 +634,97 @@
     "submit": "Demander un devis",
     "reset": "Réinitialiser"
   },
+  "seo": {
+    "home": {
+      "title": "VTC Premium Paris & Île-de-France | BLS — Chauffeur Privé",
+      "description": "Service de chauffeur privé haut de gamme à Paris et en Île-de-France. Transferts aéroports, mise à disposition, événements. Réservez votre VTC premium 24h/24."
+    },
+    "corporate": {
+      "title": "Service Corporate & Entreprise | BLS — VTC Premium Paris",
+      "description": "Solutions de transport sur mesure pour les entreprises exigeantes. Facturation simplifiée, chauffeurs dédiés et accueil VIP. Découvrez l'offre corporate BLS."
+    },
+    "trips": {
+      "title": "Transferts Aéroports & Gares Paris | BLS — VTC Premium",
+      "description": "Transferts premium vers CDG, Orly, gares parisiennes et châteaux d'Île-de-France. Prix fixes, accueil personnalisé et suivi de vol en temps réel avec BLS."
+    },
+    "chauffeur": {
+      "title": "Mise à Disposition Chauffeur Privé Paris | BLS Premium",
+      "description": "Chauffeur privé à votre disposition à Paris et en Île-de-France. Flexibilité totale, discrétion assurée, multi-arrêts. Réservez votre chauffeur dédié BLS."
+    },
+    "events": {
+      "title": "Transport Événements & Mariages Paris | BLS — VTC Premium",
+      "description": "Service de transport d'exception pour vos galas, mariages et événements d'entreprise à Paris. Flotte premium, coordination logistique et service sur mesure."
+    }
+  },
+  "destinations": {
+    "pricingTitle": "Tarifs fixes",
+    "pricingHighlight": "tout compris",
+    "pricingSubtitle": "Prix garantis sans surprise. Péages et temps d'attente inclus.",
+    "startingFrom": "À partir de",
+    "bookVehicle": "Réserver",
+    "featuresLabel": "Nos garanties",
+    "featuresTitle": "Pourquoi choisir",
+    "featuresTitleHighlight": "BLS",
+    "backToTrips": "Voir tous nos trajets",
+    "ctaLabel": "Réservation",
+    "cdg": {
+      "seoTitle": "VTC Aéroport Roissy CDG — Chauffeur Privé Paris | BLS",
+      "seoDescription": "Réservez votre VTC pour l'aéroport Roissy-CDG depuis Paris. Accueil personnalisé, suivi de vol en temps réel, prix fixe garanti. Service premium 24h/24.",
+      "badge": "Transfert Aéroport",
+      "heroTitle": "Votre chauffeur privé vers",
+      "heroHighlight": "Roissy-CDG",
+      "description": "Un transfert premium entre Paris et l'aéroport Charles de Gaulle. Accueil en zone d'arrivée avec pancarte nominative sur tablette iPad, suivi de votre vol en temps réel et ponctualité garantie. Nos chauffeurs connaissent parfaitement chaque terminal pour un service sans faille.",
+      "ctaTitle": "Réservez votre transfert",
+      "ctaHighlight": "Roissy-CDG",
+      "ctaDescription": "Renseignez vos informations pour obtenir un devis instantané pour votre transfert vers l'aéroport Charles de Gaulle.",
+      "features": {
+        "0": { "title": "Suivi de vol en temps réel", "description": "Nous ajustons l'heure de prise en charge automatiquement en cas de retard ou d'avance de votre vol." },
+        "1": { "title": "Accueil en zone d'arrivée", "description": "Votre chauffeur vous attend avec une pancarte nominative dès la sortie du terminal." },
+        "2": { "title": "Prix fixe garanti", "description": "Tarif forfaitaire tout compris, sans surprise. Péages, attente et bagages inclus dans le prix." },
+        "3": { "title": "Disponible 24h/24", "description": "Service opérationnel à toute heure, même pour les vols de nuit ou les départs matinaux." }
+      }
+    },
+    "orly": {
+      "seoTitle": "VTC Aéroport Orly — Chauffeur Privé Paris | BLS",
+      "seoDescription": "Votre chauffeur privé pour l'aéroport d'Orly depuis Paris. Prise en charge à domicile, suivi de vol, forfait tout compris. Réservez votre VTC premium BLS.",
+      "badge": "Transfert Aéroport",
+      "heroTitle": "Votre chauffeur privé vers",
+      "heroHighlight": "Orly",
+      "description": "Profitez d'un transfert confortable et ponctuel entre Paris et l'aéroport d'Orly. Nos chauffeurs assurent un service porte-à-porte, avec prise en charge à votre domicile ou hôtel et dépose directement au terminal de votre choix (Orly 1, 2, 3 ou 4).",
+      "ctaTitle": "Réservez votre transfert",
+      "ctaHighlight": "Orly",
+      "ctaDescription": "Renseignez vos informations pour obtenir un devis instantané pour votre transfert vers l'aéroport d'Orly.",
+      "features": {
+        "0": { "title": "Suivi de vol en temps réel", "description": "Ajustement automatique de l'heure de prise en charge selon l'état de votre vol." },
+        "1": { "title": "Tous terminaux desservis", "description": "Orly 1, 2, 3 et 4 — votre chauffeur vous dépose ou vous accueille au plus près de votre porte." },
+        "2": { "title": "Forfait tout compris", "description": "Prix fixe garanti incluant péages, stationnement, temps d'attente et assistance bagages." },
+        "3": { "title": "Prise en charge à domicile", "description": "Votre chauffeur vient vous chercher à l'adresse de votre choix, partout à Paris et en Île-de-France." }
+      }
+    },
+    "disneyland": {
+      "seoTitle": "VTC Disneyland Paris — Transfert Premium Famille | BLS",
+      "seoDescription": "Transfert VTC premium vers Disneyland Paris depuis Paris ou les aéroports. Véhicules spacieux, sièges enfants, prix fixe. Réservez votre chauffeur privé BLS.",
+      "badge": "Transfert Parc",
+      "heroTitle": "Votre transfert vers",
+      "heroHighlight": "Disneyland Paris",
+      "description": "Offrez à votre famille un transfert confortable et sans stress vers Disneyland Paris. Nos véhicules spacieux accueillent petits et grands, avec sièges enfants disponibles sur demande et espace généreux pour les poussettes et bagages.",
+      "ctaTitle": "Réservez votre transfert",
+      "ctaHighlight": "Disneyland Paris",
+      "ctaDescription": "Renseignez vos informations pour obtenir un devis instantané pour votre transfert vers Disneyland Paris.",
+      "features": {
+        "0": { "title": "Véhicules spacieux", "description": "Mercedes Classe V et berlines premium pour transporter confortablement toute la famille et vos bagages." },
+        "1": { "title": "Sièges enfants disponibles", "description": "Sièges bébé et rehausseurs fournis gratuitement sur demande lors de la réservation." },
+        "2": { "title": "Transferts aéroport directs", "description": "Service direct depuis CDG, Orly ou votre hôtel parisien. Idéal dès votre arrivée en France." },
+        "3": { "title": "Prix fixe famille", "description": "Tarif forfaitaire sans surprise, plus avantageux qu'un taxi pour les groupes et les familles." }
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "backHome": "Retour à l'accueil",
+    "backTrips": "Voir nos trajets"
+  },
   "marquee": {
     "0": "15 000+ courses réalisées",
     "1": "Chauffeurs certifiés & formés",

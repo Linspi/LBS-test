@@ -14,6 +14,7 @@ import {
   PartyPopper,
   Quote,
 } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 import { Hero } from "@/components/features/Hero";
 import { InfiniteMarquee } from "@/components/features/InfiniteMarquee";
 import { FleetCarousel } from "@/components/features/FleetCarousel";
@@ -52,6 +53,10 @@ export function Home() {
 
   return (
     <>
+      <SEO
+        title={t("seo.home.title")}
+        description={t("seo.home.description")}
+      />
       <Hero />
       <InfiniteMarquee />
 

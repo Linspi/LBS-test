@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { PartyPopper, Users, GlassWater, Calendar, ArrowRight } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 import { Button } from "@/components/ui/button";
 import { FadeUp } from "@/components/ui/FadeUp";
 import { getExperiencesByCategory } from "@/data/experiences";
@@ -20,6 +21,10 @@ export function Evenements() {
 
   return (
     <>
+      <SEO
+        title={t("seo.events.title")}
+        description={t("seo.events.description")}
+      />
       {/* Hero */}
       <section className="relative min-h-[60vh] pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0">

@@ -634,6 +634,97 @@
     "submit": "Request a quote",
     "reset": "Reset"
   },
+  "seo": {
+    "home": {
+      "title": "Premium Chauffeur Service Paris & Île-de-France | BLS",
+      "description": "Premium private chauffeur service in Paris and Île-de-France. Airport transfers, hourly hire, events. Book your luxury VTC 24/7 with BLS Limousine Services."
+    },
+    "corporate": {
+      "title": "Corporate Transport Solutions Paris | BLS — Premium VTC",
+      "description": "Bespoke transport solutions for demanding businesses. Simplified billing, dedicated chauffeurs and VIP reception. Discover the BLS corporate offer today."
+    },
+    "trips": {
+      "title": "Airport & Station Transfers Paris | BLS — Premium VTC",
+      "description": "Premium transfers to CDG, Orly, Paris stations and Île-de-France castles. Fixed prices, personalised meet & greet and real-time flight tracking with BLS."
+    },
+    "chauffeur": {
+      "title": "Hourly Chauffeur Hire Paris | BLS — Premium Service",
+      "description": "Private chauffeur at your disposal in Paris and Île-de-France. Total flexibility, guaranteed discretion, multi-stop journeys. Book your dedicated BLS driver."
+    },
+    "events": {
+      "title": "Event & Wedding Transport Paris | BLS — Premium VTC",
+      "description": "Exceptional transport for your galas, weddings and corporate events in Paris. Premium fleet, logistics coordination and bespoke service by BLS Limousine."
+    }
+  },
+  "destinations": {
+    "pricingTitle": "Fixed",
+    "pricingHighlight": "all-inclusive rates",
+    "pricingSubtitle": "Guaranteed prices with no surprises. Tolls and waiting time included.",
+    "startingFrom": "Starting from",
+    "bookVehicle": "Book",
+    "featuresLabel": "Our guarantees",
+    "featuresTitle": "Why choose",
+    "featuresTitleHighlight": "BLS",
+    "backToTrips": "View all our trips",
+    "ctaLabel": "Booking",
+    "cdg": {
+      "seoTitle": "VTC Paris CDG Airport — Private Chauffeur Service | BLS",
+      "seoDescription": "Book your private chauffeur to Paris CDG Airport. Personalised meet & greet, real-time flight tracking, fixed price guaranteed. Premium 24/7 service by BLS.",
+      "badge": "Airport Transfer",
+      "heroTitle": "Your private chauffeur to",
+      "heroHighlight": "Paris CDG",
+      "description": "A premium transfer between Paris and Charles de Gaulle Airport. Meet and greet in the arrivals hall with a personalised name board on iPad, real-time flight tracking and guaranteed punctuality. Our chauffeurs know every terminal perfectly for a seamless service.",
+      "ctaTitle": "Book your transfer to",
+      "ctaHighlight": "Paris CDG",
+      "ctaDescription": "Enter your details for an instant quote for your transfer to Charles de Gaulle Airport.",
+      "features": {
+        "0": { "title": "Real-time flight tracking", "description": "We automatically adjust the pick-up time in case your flight is delayed or arrives early." },
+        "1": { "title": "Arrivals hall meet & greet", "description": "Your chauffeur awaits you with a personalised name board as soon as you exit the terminal." },
+        "2": { "title": "Guaranteed fixed price", "description": "All-inclusive flat rate with no surprises. Tolls, waiting time and luggage assistance included." },
+        "3": { "title": "Available 24/7", "description": "Service operational at all hours, including for late-night flights and early morning departures." }
+      }
+    },
+    "orly": {
+      "seoTitle": "VTC Paris Orly Airport — Private Chauffeur Service | BLS",
+      "seoDescription": "Your private chauffeur to Orly Airport from Paris. Door-to-door service, flight tracking, all-inclusive fixed rate. Book your premium VTC with BLS today.",
+      "badge": "Airport Transfer",
+      "heroTitle": "Your private chauffeur to",
+      "heroHighlight": "Paris Orly",
+      "description": "Enjoy a comfortable and punctual transfer between Paris and Orly Airport. Our chauffeurs provide a door-to-door service, picking you up at home or hotel and dropping you off directly at your terminal of choice (Orly 1, 2, 3 or 4).",
+      "ctaTitle": "Book your transfer to",
+      "ctaHighlight": "Paris Orly",
+      "ctaDescription": "Enter your details for an instant quote for your transfer to Orly Airport.",
+      "features": {
+        "0": { "title": "Real-time flight tracking", "description": "Automatic pick-up time adjustment based on your flight status." },
+        "1": { "title": "All terminals served", "description": "Orly 1, 2, 3 and 4 — your chauffeur drops you off or meets you as close as possible to your gate." },
+        "2": { "title": "All-inclusive flat rate", "description": "Guaranteed fixed price including tolls, parking, waiting time and luggage assistance." },
+        "3": { "title": "Home pick-up", "description": "Your chauffeur picks you up from the address of your choice, anywhere in Paris and Île-de-France." }
+      }
+    },
+    "disneyland": {
+      "seoTitle": "VTC Disneyland Paris — Premium Family Transfer | BLS",
+      "seoDescription": "Premium VTC transfer to Disneyland Paris from Paris or airports. Spacious vehicles, child seats, fixed price. Book your BLS chauffeur for a magical start.",
+      "badge": "Park Transfer",
+      "heroTitle": "Your transfer to",
+      "heroHighlight": "Disneyland Paris",
+      "description": "Treat your family to a comfortable, stress-free transfer to Disneyland Paris. Our spacious vehicles welcome guests of all ages, with child seats available on request and generous space for pushchairs and luggage.",
+      "ctaTitle": "Book your transfer to",
+      "ctaHighlight": "Disneyland Paris",
+      "ctaDescription": "Enter your details for an instant quote for your transfer to Disneyland Paris.",
+      "features": {
+        "0": { "title": "Spacious vehicles", "description": "Mercedes V-Class and premium sedans to comfortably transport the whole family and your luggage." },
+        "1": { "title": "Child seats available", "description": "Baby seats and booster seats provided free of charge on request when booking." },
+        "2": { "title": "Direct airport transfers", "description": "Direct service from CDG, Orly or your Paris hotel. Perfect for tourists from arrival." },
+        "3": { "title": "Family fixed price", "description": "No-surprise flat rate, more affordable than a taxi for groups and families." }
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "backHome": "Back to home",
+    "backTrips": "View our trips"
+  },
   "marquee": {
     "0": "15,000+ rides completed",
     "1": "Certified & trained chauffeurs",

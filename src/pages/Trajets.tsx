@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Plane, Train, Castle, TreePine, ArrowRight } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FadeUp } from "@/components/ui/FadeUp";
 import { getDestinationsByCategory } from "@/data/destinations";
@@ -25,6 +26,10 @@ export function Trajets() {
 
   return (
     <>
+      <SEO
+        title={t("seo.trips.title")}
+        description={t("seo.trips.description")}
+      />
       {/* Hero */}
       <section className="relative min-h-[60vh] pt-28 pb-16 overflow-hidden">
         <div className="absolute inset-0">

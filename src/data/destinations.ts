@@ -4,6 +4,7 @@ export const destinations: Destination[] = [
   // --- Aéroports ---
   {
     id: "cdg",
+    slug: "aeroport-cdg",
     name: "Aéroport Charles de Gaulle",
     category: "aeroports",
     image: "https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=800&q=80",
@@ -12,6 +13,7 @@ export const destinations: Destination[] = [
   },
   {
     id: "orly",
+    slug: "aeroport-orly",
     name: "Aéroport d'Orly",
     category: "aeroports",
     image: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=800&q=80",
@@ -114,6 +116,7 @@ export const destinations: Destination[] = [
   // --- Parcs ---
   {
     id: "disneyland",
+    slug: "disneyland-paris",
     name: "Disneyland Paris",
     category: "parcs",
     image: "https://images.unsplash.com/photo-1597466599360-3b9775841aec?w=800&q=80",
@@ -142,4 +145,9 @@ export function getDestinationsByCategory(
   category: DestinationCategory,
 ): Destination[] {
   return destinations.filter((d) => d.category === category);
+}
+
+/** Recherche une destination par son slug URL (landing pages SEO) */
+export function getDestinationBySlug(slug: string): Destination | undefined {
+  return destinations.find((d) => d.slug === slug);
 }

@@ -6,6 +6,7 @@ import {
   CalendarCheck,
   Building,
 } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 import { QuoteForm } from "@/components/features/QuoteForm";
 import { FadeUp } from "@/components/ui/FadeUp";
 
@@ -21,6 +22,10 @@ export function Entreprise() {
 
   return (
     <>
+      <SEO
+        title={t("seo.corporate.title")}
+        description={t("seo.corporate.description")}
+      />
       {/* Hero */}
       <section className="relative min-h-[60vh] pt-28 pb-20 overflow-hidden">
         <div className="absolute inset-0">

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: Remplacer par le vrai nom de domaine avant la mise en production
+Sitemap: https://www.VOTRE-DOMAINE-ICI.com/sitemap.xml

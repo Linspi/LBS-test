@@ -11,6 +11,8 @@ import { Location } from "@/pages/Location";
 import { Entreprise } from "@/pages/Entreprise";
 import { Reservation } from "@/pages/Reservation";
 import { ReservationExperience } from "@/pages/ReservationExperience";
+import { DestinationTemplate } from "@/pages/DestinationTemplate";
+import { NotFound } from "@/pages/NotFound";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/entreprise" element={<Entreprise />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/reservation-experience" element={<ReservationExperience />} />
+          <Route path="/trajets/:slug" element={<DestinationTemplate />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
       </GoogleMapsProvider>

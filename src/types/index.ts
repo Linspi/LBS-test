@@ -42,6 +42,8 @@ export type DestinationCategory = "aeroports" | "gares" | "chateaux" | "parcs";
 
 export interface Destination {
   id: string;
+  /** Slug URL pour les landing pages SEO (ex: "aeroport-cdg") */
+  slug?: string;
   name: string;
   category: DestinationCategory;
   image: string;
