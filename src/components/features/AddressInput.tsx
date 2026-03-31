@@ -8,7 +8,7 @@
  * Design conservé : icône MapPin dorée, style glassmorphism/Tailwind premium.
  */
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import { MapPin, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -52,6 +52,25 @@ export function AddressInput({
 
   // Ref vers l'instance Autocomplete Google — permet d'appeler getPlace()
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  // Ref vers le wrapper pour synchroniser la position du dropdown
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * Synchronise les variables CSS --pac-width et --pac-left avec les
+   * dimensions du wrapper, pour que le dropdown Google s'aligne parfaitement.
+   */
+  const syncPacWidth = useCallback(() => {
+    if (!wrapperRef.current) return;
+    const { width, left } = wrapperRef.current.getBoundingClientRect();
+    document.documentElement.style.setProperty("--pac-width", `${Math.round(width)}px`);
+    document.documentElement.style.setProperty("--pac-left", `${Math.round(left + window.scrollX)}px`);
+  }, []);
+
+  // Re-sync au resize de la fenêtre
+  useEffect(() => {
+    window.addEventListener("resize", syncPacWidth);
+    return () => window.removeEventListener("resize", syncPacWidth);
+  }, [syncPacWidth]);
 
   /** Appelé quand le composant Autocomplete est monté et prêt */
   const handleLoad = useCallback((autocomplete: google.maps.places.Autocomplete) => {
@@ -90,7 +109,7 @@ export function AddressInput({
   }
 
   return (
-    <div className={cn("relative", className)}>
+    <div ref={wrapperRef} className={cn("relative", className)}>
       {/* Icône de localisation dorée */}
       <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 pointer-events-none">
         <MapPin className="h-4 w-4 text-gold" />
@@ -106,7 +125,8 @@ export function AddressInput({
           type="text"
           placeholder={placeholder}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => { onChange(e.target.value); syncPacWidth(); }}
+          onFocus={syncPacWidth}
           className="pl-10"
           autoComplete="off"
         />

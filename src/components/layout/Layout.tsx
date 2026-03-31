@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import { Header } from "@/components/layout/Header";
@@ -6,15 +7,17 @@ import { ScrollToTop } from "@/components/features/ScrollToTop";
 import { WhatsAppButton } from "@/components/features/WhatsAppButton";
 
 export function Layout() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
-      <Header />
+      <Header onMobileMenuChange={setMobileMenuOpen} />
       <main className="flex-1">
         <Outlet />
       </main>
       <Footer />
-      <WhatsAppButton />
+      {!mobileMenuOpen && <WhatsAppButton />}
 
       {/* Toast notifications — style premium aligné dark mode */}
       <Toaster

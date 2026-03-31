@@ -5,38 +5,40 @@ export interface NavLink {
   href: string;
 }
 
+/** Les labels sont des clés i18n (ex: "nav.home") résolues via t() dans le composant */
 export const NAV_LINKS: NavLink[] = [
-  { label: "Accueil", href: "/" },
-  { label: "Trajets", href: "/trajets" },
-  { label: "Mise à disposition", href: "/mise-a-disposition" },
-  { label: "Excursions", href: "/excursions" },
-  { label: "Événements", href: "/evenements" },
-  { label: "Location", href: "/location" },
-  { label: "Entreprise", href: "/entreprise" },
+  { label: "nav.home", href: "/" },
+  { label: "nav.trips", href: "/trajets" },
+  { label: "nav.chauffeur", href: "/mise-a-disposition" },
+  { label: "nav.excursions", href: "/excursions" },
+  { label: "nav.events", href: "/evenements" },
+  { label: "nav.rental", href: "/location" },
+  { label: "nav.corporate", href: "/entreprise" },
 ];
 
+/** Les labels sont des clés i18n résolues via t() dans le composant */
 export const SERVICE_BLOCKS: ServiceBlock[] = [
   {
-    title: "Trajets",
-    subtitle: "Aéroports, gares & destinations",
+    titleKey: "home.serviceBlocks.trips.title",
+    subtitleKey: "home.serviceBlocks.trips.subtitle",
     image: "/images/trajet_services.jpg",
     href: "/trajets",
   },
   {
-    title: "Mise à disposition",
-    subtitle: "Votre chauffeur dédié à l'heure",
+    titleKey: "home.serviceBlocks.chauffeur.title",
+    subtitleKey: "home.serviceBlocks.chauffeur.subtitle",
     image: "/images/unnamed.jpg",
     href: "/mise-a-disposition",
   },
   {
-    title: "Excursions",
-    subtitle: "Découvrez l'Île-de-France",
+    titleKey: "home.serviceBlocks.excursions.title",
+    subtitleKey: "home.serviceBlocks.excursions.subtitle",
     image: "/images/Image_excursion.jpg",
     href: "/excursions",
   },
   {
-    title: "Événements",
-    subtitle: "Soirées, galas & occasions spéciales",
+    titleKey: "home.serviceBlocks.events.title",
+    subtitleKey: "home.serviceBlocks.events.subtitle",
     image: "/images/rolls_royce_event.jpg",
     href: "/evenements",
   },

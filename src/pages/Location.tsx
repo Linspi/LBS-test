@@ -1,95 +1,28 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Users, Briefcase, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FadeUp } from "@/components/ui/FadeUp";
 
 /**
  * Catalogue des véhicules disponibles à la location.
+ * Les textes traduits (subtitle, description) sont dans les dictionnaires i18n
+ * sous la clé rental.vehicles.<id>.
  */
 const RENTAL_VEHICLES = [
-  {
-    id: "classe-e",
-    name: "Mercedes Classe E",
-    subtitle: "Berline Business",
-    passengers: 3,
-    luggage: 3,
-    description:
-      "L'élégance discrète pour vos déplacements d'affaires et vos sorties en ville.",
-    image: "/images/classe_e_loc.jpg",
-  },
-  {
-    id: "classe-s",
-    name: "Mercedes Classe S",
-    subtitle: "Berline de Luxe",
-    passengers: 3,
-    luggage: 3,
-    description:
-      "Le summum du raffinement automobile. Technologie de pointe et confort absolu.",
-    image: "/images/classe_s_loc.jpg",
-  },
-  {
-    id: "classe-v",
-    name: "Mercedes Classe V",
-    subtitle: "Van Premium",
-    passengers: 7,
-    luggage: 6,
-    description:
-      "Espace généreux et modularité parfaite pour vos groupes et familles.",
-    image: "/images/classe_v_loc.jpg",
-  },
-  {
-    id: "range-rover",
-    name: "Range Rover Vogue",
-    subtitle: "SUV Prestige",
-    passengers: 4,
-    luggage: 4,
-    description:
-      "Puissance et prestance britannique. Le SUV de luxe par excellence pour toutes les occasions.",
-    image: "/images/range_rover_loc.jpg",
-  },
-  {
-    id: "classe-g",
-    name: "Mercedes Classe G",
-    subtitle: "SUV Iconique",
-    passengers: 4,
-    luggage: 3,
-    description:
-      "L'icône intemporelle de Mercedes-Benz. Un caractère affirmé, un style incomparable.",
-    image: "/images/classe_g_loc.jpg",
-  },
-  {
-    id: "rolls-royce",
-    name: "Rolls Royce Phantom",
-    subtitle: "Ultra-Luxe",
-    passengers: 3,
-    luggage: 3,
-    description:
-      "Le nec plus ultra de l'automobile. Réservé aux moments les plus exceptionnels de votre vie.",
-    image: "/images/rolls_phantom_loc.jpg",
-  },
-  {
-    id: "lamborghini-urus",
-    name: "Lamborghini Urus",
-    subtitle: "Super SUV",
-    passengers: 4,
-    luggage: 2,
-    description:
-      "La puissance et l'adrénaline d'un supercar dans un SUV. Une expérience de conduite hors du commun.",
-    image: "/images/urus_loc.jpg",
-  },
-  {
-    id: "rr-cullinan",
-    name: "Rolls Royce Cullinan",
-    subtitle: "Ultra-Luxe SUV",
-    passengers: 4,
-    luggage: 4,
-    description:
-      "Le summum du luxe en format SUV. Le Cullinan offre un raffinement inégalé pour vos déplacements les plus prestigieux.",
-    image: "/images/rolls_cullingam_loc.jpg",
-  },
+  { id: "classe-e", name: "Mercedes Classe E", passengers: 3, luggage: 3, image: "/images/classe_e_loc.jpg" },
+  { id: "classe-s", name: "Mercedes Classe S", passengers: 3, luggage: 3, image: "/images/classe_s_loc.jpg" },
+  { id: "classe-v", name: "Mercedes Classe V", passengers: 7, luggage: 6, image: "/images/classe_v_loc.jpg" },
+  { id: "range-rover", name: "Range Rover Vogue", passengers: 4, luggage: 4, image: "/images/range_rover_loc.jpg" },
+  { id: "classe-g", name: "Mercedes Classe G", passengers: 4, luggage: 3, image: "/images/classe_g_loc.jpg" },
+  { id: "rolls-royce", name: "Rolls Royce Phantom", passengers: 3, luggage: 3, image: "/images/rolls_phantom_loc.jpg" },
+  { id: "lamborghini-urus", name: "Lamborghini Urus", passengers: 4, luggage: 2, image: "/images/urus_loc.jpg" },
+  { id: "rr-cullinan", name: "Rolls Royce Cullinan", passengers: 4, luggage: 4, image: "/images/rolls_cullingam_loc.jpg" },
 ];
 
 export function Location() {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* Hero */}
@@ -104,19 +37,18 @@ export function Location() {
             <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-6">
               <div className="h-1.5 w-1.5 bg-gold rotate-45" />
               <Sparkles className="h-3.5 w-3.5" />
-              <span className="text-xs uppercase tracking-[0.2em]">Nouveau Service</span>
+              <span className="text-xs uppercase tracking-[0.2em]">{t("rental.badge")}</span>
               <div className="h-1.5 w-1.5 bg-gold rotate-45" />
             </div>
           </FadeUp>
           <FadeUp delay={0.1}>
             <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-foreground mb-4">
-              <span className="text-gradient-gold">Location</span> de véhicules premium
+              <span className="text-gradient-gold">{t("rental.titleHighlight")}</span> {t("rental.titleSuffix")}
             </h1>
           </FadeUp>
           <FadeUp delay={0.15}>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Des véhicules d'exception avec chauffeur, disponibles à la location
-              pour sublimer chacun de vos déplacements.
+              {t("rental.subtitle")}
             </p>
           </FadeUp>
         </div>
@@ -144,6 +76,8 @@ function VehicleRentalCard({
 }: {
   vehicle: (typeof RENTAL_VEHICLES)[number];
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden hover:border-gold/[0.15] transition-colors duration-300 flex flex-col">
       {/* Image */}
@@ -157,7 +91,7 @@ function VehicleRentalCard({
 
         {/* Badge */}
         <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-gradient-to-r from-gold to-gold-light text-xs font-semibold text-background uppercase tracking-wider">
-          {vehicle.subtitle}
+          {t(`rental.vehicles.${vehicle.id}.subtitle`)}
         </div>
       </div>
 
@@ -167,7 +101,7 @@ function VehicleRentalCard({
           {vehicle.name}
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
-          {vehicle.description}
+          {t(`rental.vehicles.${vehicle.id}.description`)}
         </p>
 
         {/* Specs */}
@@ -175,13 +109,13 @@ function VehicleRentalCard({
           <div className="flex items-center gap-1.5">
             <Users className="h-4 w-4 text-gold" />
             <span className="text-sm text-foreground">
-              {vehicle.passengers} passagers
+              {t("rental.passengers", { count: vehicle.passengers })}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
             <Briefcase className="h-4 w-4 text-gold" />
             <span className="text-sm text-foreground">
-              {vehicle.luggage} valises
+              {t("rental.suitcases", { count: vehicle.luggage })}
             </span>
           </div>
         </div>
@@ -189,7 +123,7 @@ function VehicleRentalCard({
         {/* CTA */}
         <Button asChild variant="gold" size="sm" className="w-full">
           <Link to="/reservation-experience?experience=sur-mesure">
-            Demander un devis
+            {t("rental.requestQuote")}
             <ArrowRight className="ml-2 h-3.5 w-3.5" />
           </Link>
         </Button>

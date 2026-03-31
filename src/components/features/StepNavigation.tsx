@@ -9,6 +9,7 @@
  * (Enter, focus résiduel lors de la transition d'étape, etc.).
  */
 
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -32,6 +33,7 @@ export function StepNavigation({
   onNext,
   onSubmit,
 }: StepNavigationProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex gap-3 pt-2">
       {/* Bouton Précédent */}
@@ -44,7 +46,7 @@ export function StepNavigation({
           className="flex-1 sm:flex-none"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
-          Précédent
+          {t("form.submit.previous")}
         </Button>
       )}
 
@@ -61,7 +63,7 @@ export function StepNavigation({
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Envoi en cours...
+              {t("form.submit.sending")}
             </>
           ) : (
             <>
@@ -78,7 +80,7 @@ export function StepNavigation({
           onClick={onNext}
           className="flex-1 text-base"
         >
-          Suivant
+          {t("form.submit.next")}
           <ChevronRight className="ml-1 h-4 w-4" />
         </Button>
       )}

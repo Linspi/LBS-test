@@ -1,0 +1,645 @@
+{
+  "nav": {
+    "home": "Home",
+    "trips": "Trips",
+    "chauffeur": "Chauffeur Service",
+    "excursions": "Excursions",
+    "events": "Events",
+    "rental": "Rental",
+    "corporate": "Corporate",
+    "book": "Book",
+    "bookNow": "Book now",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "badge": "Exceptional Private Chauffeurs",
+    "titleLine1": "The art of",
+    "titleLine2": "private transport",
+    "subtitle": "Where every ride becomes an experience.<br/>Punctuality, discretion and elegance in Paris.",
+    "departure": "Pick-up",
+    "departurePlaceholder": "Pick-up address",
+    "arrival": "Drop-off",
+    "arrivalPlaceholder": "Desired destination",
+    "estimate": "Estimate",
+    "tagline": "Paris · Since 2018",
+    "taglineMobile": "Paris · Île-de-France · 24/7",
+    "altImage": "Paris by night",
+    "stats": {
+      "rides": "Rides",
+      "satisfaction": "Satisfaction",
+      "available": "Available"
+    }
+  },
+  "form": {
+    "steps": {
+      "coordinates": "Your details",
+      "trip": "Your trip",
+      "chauffeur": "Chauffeur service",
+      "finalization": "Review & send",
+      "stepAriaLabel": "Step {{index}} : {{label}}"
+    },
+    "labels": {
+      "company": "Company name",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "emailCorporate": "Professional email",
+      "email": "Email",
+      "phone": "Phone",
+      "departure": "Pick-up address",
+      "arrival": "Drop-off address",
+      "pickupLocation": "Pick-up location",
+      "vehicleWanted": "Desired vehicle",
+      "chooseVehicle": "Choose your vehicle",
+      "duration": "Chauffeur service duration",
+      "date": "Pick-up date",
+      "time": "Time",
+      "passengers": "Number of passengers",
+      "luggage": "Number of bags",
+      "flightTrain": "Flight or train number",
+      "volume": "Estimated monthly rides",
+      "message": "Special requirements",
+      "optional": "(optional)",
+      "required": "*"
+    },
+    "placeholders": {
+      "company": "Your company",
+      "firstName": "Your first name",
+      "lastName": "Your last name",
+      "emailCorporate": "contact@company.com",
+      "email": "your@email.com",
+      "phone": "+33 1 23 45 67 89",
+      "departure": "e.g. 1 Avenue des Champs-Élysées, Paris",
+      "arrival": "e.g. CDG Airport Terminal 2",
+      "pickupLocation": "e.g. Hôtel Le Bristol, Paris",
+      "selectVehicle": "Select a vehicle",
+      "selectDuration": "Select duration",
+      "selectDate": "Select a date",
+      "selectTime": "Select time",
+      "passengers": "Passengers",
+      "luggage": "Bags",
+      "flightTrain": "e.g. AF1234 or TGV 6231",
+      "selectVolume": "Select an estimate",
+      "messageCorporate": "Describe your needs: recurring events, dedicated drivers, specific areas...",
+      "message": "Additional information, special requests..."
+    },
+    "options": {
+      "passenger_one": "{{count}} passenger",
+      "passenger_other": "{{count}} passengers",
+      "luggage_one": "{{count}} bag",
+      "luggage_other": "{{count}} bags",
+      "duration4h": "4 hours",
+      "duration8h": "8 hours",
+      "duration12h": "12 hours",
+      "durationMulti": "Multiple days",
+      "volume1_10": "1 to 10 rides",
+      "volume11_50": "11 to 50 rides",
+      "volume50plus": "More than 50 rides",
+      "vehicleClasseE": "Mercedes E-Class — Sedan",
+      "vehicleClasseV": "Mercedes V-Class — Van / Family",
+      "vehicleClasseS": "Mercedes S-Class — Prestige"
+    },
+    "vehicles": {
+      "sedan": "Sedan",
+      "prestige": "Prestige",
+      "van": "Van",
+      "capacityExceeded": "Capacity exceeded for this vehicle"
+    },
+    "estimate": {
+      "tripTitle": "Trip estimate",
+      "madTitle": "Chauffeur service estimate",
+      "calculating": "Calculating route…",
+      "distance": "Distance",
+      "duration": "Duration",
+      "estimatedPrice": "Estimated price",
+      "startingFrom": "Starting from",
+      "estimation": "Estimate",
+      "onQuote": "Custom quote",
+      "airportForfait": "{{airport}} flat rate applied",
+      "vehicleTariff": "{{vehicle}} rate",
+      "defaultTariff": "Indicative E-Class rate — select a vehicle for an accurate price",
+      "quoteDisclaimer": "the final quote will be confirmed by our team",
+      "vehicleLabel": "Vehicle: {{vehicle}}"
+    },
+    "helpers": {
+      "flightTracking": "We will track your flight/train in real time and adjust the pick-up time in case of delay."
+    },
+    "validation": {
+      "required": "This field is required",
+      "emailInvalid": "Invalid email format",
+      "phoneInvalid": "Invalid phone number",
+      "selectDate": "Please select a date",
+      "selectTime": "Please select a time",
+      "selectPassengers": "Please select the number of passengers",
+      "selectLuggage": "Please select the number of bags",
+      "selectVehicle": "Please select a vehicle",
+      "selectDuration": "Please select a duration",
+      "emailEmpty": "Please provide a valid email address."
+    },
+    "submit": {
+      "transfer": "Request a transfer quote",
+      "location": "Request a chauffeur service quote",
+      "corporate": "Send my quote request",
+      "sending": "Sending...",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "success": {
+      "title": "Request sent successfully",
+      "description": "Our team will get back to you within 24 hours. A confirmation email has been sent.",
+      "reference": "Reference",
+      "backHome": "Back to home",
+      "newRequest": "New request"
+    },
+    "toast": {
+      "routeError": "Route not possible by road",
+      "routeErrorDesc": "Please check the addresses entered.",
+      "sendError": "An error occurred while sending",
+      "sendErrorDesc": "Please try again or contact us directly."
+    },
+    "stepTitle": {
+      "coordinates": "Your details",
+      "tripDetails": "Trip details",
+      "madDetails": "Chauffeur service details",
+      "finalization": "Review & send"
+    }
+  },
+  "events": {
+    "badge": "Special Occasions",
+    "titleHighlight": "Events",
+    "titleSuffix": "& special occasions",
+    "heroAlt": "Event",
+    "subtitle": "An exceptional transport service for your parties, galas, weddings and corporate events.",
+    "prestationsLabel": "Our services",
+    "prestationsTitle": "Our event",
+    "prestationsTitleHighlight": "services",
+    "ctaButton": "Request an event quote",
+    "requestQuote": "Request a quote",
+    "features": {
+      "galas": {
+        "title": "Galas & parties",
+        "description": "Arrive in style at your most prestigious events. Round-trip shuttle service."
+      },
+      "corporate": {
+        "title": "Corporate events",
+        "description": "Fleet management for your seminars, team buildings and conferences."
+      },
+      "weddings": {
+        "title": "Weddings",
+        "description": "Impeccable service for the most beautiful day of your life. Decorated vehicles on request."
+      },
+      "bespoke": {
+        "title": "Bespoke",
+        "description": "Every event is unique. Contact us for a customized quote tailored to your needs."
+      }
+    }
+  },
+  "excursions": {
+    "badge": "Discoveries",
+    "titleHighlight": "Excursions",
+    "titleSuffix": "in Île-de-France",
+    "heroAlt": "Excursion in Île-de-France",
+    "subtitle": "Discover the treasures of the Paris region with a private chauffeur. Castles, charming villages and historic sites at your fingertips.",
+    "destinationsLabel": "Our destinations",
+    "destinationsTitle": "Our",
+    "destinationsTitleHighlight": "excursions",
+    "ctaButton": "Plan an excursion",
+    "contactUs": "Contact us",
+    "features": {
+      "itineraries": {
+        "title": "Custom itineraries",
+        "description": "Create your ideal route through the most beautiful sites of Île-de-France."
+      },
+      "photos": {
+        "title": "Photo stops",
+        "description": "Your driver knows the best viewpoints to capture your day."
+      },
+      "fullDay": {
+        "title": "Full day",
+        "description": "Enjoy your excursion without worrying about time. Our packages are full-day."
+      },
+      "premium": {
+        "title": "Premium experience",
+        "description": "Water, chargers and Wi-Fi on board. Your comfort is our priority."
+      }
+    }
+  },
+  "rental": {
+    "badge": "New Service",
+    "titleHighlight": "Rental",
+    "titleSuffix": "of premium vehicles",
+    "subtitle": "Exceptional vehicles with chauffeur, available for rental to elevate each of your journeys.",
+    "passengers": "{{count}} passengers",
+    "suitcases": "{{count}} suitcases",
+    "requestQuote": "Request a quote",
+    "vehicles": {
+      "classe-e": {
+        "subtitle": "Business Sedan",
+        "description": "Discreet elegance for your business trips and city outings."
+      },
+      "classe-s": {
+        "subtitle": "Luxury Sedan",
+        "description": "The pinnacle of automotive refinement. Cutting-edge technology and absolute comfort."
+      },
+      "classe-v": {
+        "subtitle": "Premium Van",
+        "description": "Generous space and perfect modularity for your groups and families."
+      },
+      "range-rover": {
+        "subtitle": "Prestige SUV",
+        "description": "British power and prestige. The ultimate luxury SUV for all occasions."
+      },
+      "classe-g": {
+        "subtitle": "Iconic SUV",
+        "description": "The timeless Mercedes-Benz icon. Bold character, incomparable style."
+      },
+      "rolls-royce": {
+        "subtitle": "Ultra-Luxury",
+        "description": "The ultimate in automobiles. Reserved for the most exceptional moments of your life."
+      },
+      "lamborghini-urus": {
+        "subtitle": "Super SUV",
+        "description": "The power and adrenaline of a supercar in an SUV. An extraordinary driving experience."
+      },
+      "rr-cullinan": {
+        "subtitle": "Ultra-Luxury SUV",
+        "description": "The ultimate in luxury in SUV format. Unmatched refinement for your most prestigious journeys."
+      }
+    }
+  },
+  "experienceForm": {
+    "badge": "Premium Booking",
+    "title": "Plan your",
+    "titleHighlight": "experience",
+    "subtitle": "Excursion or event, we create a bespoke service for every occasion.",
+    "steps": {
+      "coordinates": "Your details",
+      "booking": "Your booking"
+    },
+    "labels": {
+      "experience": "Desired experience",
+      "date": "Pick-up date",
+      "time": "Pick-up time",
+      "departure": "Pick-up address",
+      "passengers": "Number of passengers",
+      "specialRequests": "Special requests"
+    },
+    "placeholders": {
+      "experience": "Choose an excursion or event",
+      "date": "Select a date",
+      "time": "Time",
+      "departure": "Hotel, Paris address...",
+      "specialRequests": "Bilingual guide, child seat, champagne, custom itinerary..."
+    },
+    "validation": {
+      "selectExperience": "Please select an experience",
+      "departureMin": "The address must contain at least 3 characters"
+    },
+    "categories": {
+      "excursions": "Excursions",
+      "events": "Events"
+    },
+    "submitLabel": "Request a custom quote",
+    "summary": {
+      "title": "Your summary",
+      "emptyDescription": "Select an excursion or event in the form to see the service details here.",
+      "included": "Included in the service",
+      "estimateLabel": "Price estimate",
+      "priceLabel": "Price",
+      "startingFrom": "Starting from {{price}}",
+      "onQuote": "Quote on request",
+      "excursion": "Excursion",
+      "event": "Event"
+    }
+  },
+  "experienceData": {
+    "versailles": {
+      "title": "Palace of Versailles & Gardens",
+      "subtitle": "A royal day at the gates of Paris",
+      "description": "Discover the world's most famous palace and its French-style gardens. Your chauffeur waits on-site throughout your visit.",
+      "duration": "Full day (~8h)",
+      "inclusions": {
+        "0": "Chauffeur at your disposal",
+        "1": "Water & refreshments",
+        "2": "On-board Wi-Fi",
+        "3": "On-site waiting included"
+      }
+    },
+    "chantilly": {
+      "title": "Château de Chantilly",
+      "subtitle": "Art, history and nature north of Paris",
+      "description": "Visit the Chantilly estate, its Condé Museum and majestic stables. A hidden gem of the Île-de-France region.",
+      "duration": "Full day (~7h)",
+      "inclusions": {
+        "0": "Chauffeur at your disposal",
+        "1": "Water & refreshments",
+        "2": "On-board Wi-Fi",
+        "3": "On-site waiting included"
+      }
+    },
+    "fontainebleau": {
+      "title": "Château de Fontainebleau",
+      "subtitle": "Residence of the Kings of France",
+      "description": "Explore eight centuries of history in this UNESCO World Heritage palace, surrounded by a magnificent forest.",
+      "duration": "Full day (~7h)",
+      "inclusions": {
+        "0": "Chauffeur at your disposal",
+        "1": "Water & refreshments",
+        "2": "On-board Wi-Fi",
+        "3": "On-site waiting included"
+      }
+    },
+    "chambord": {
+      "title": "Château de Chambord",
+      "subtitle": "A Renaissance masterpiece in the Loire Valley",
+      "description": "Discover the largest castle in the Loire Valley and its double-helix staircase designed by Leonardo da Vinci.",
+      "duration": "Full day (~10h)",
+      "inclusions": {
+        "0": "Chauffeur at your disposal",
+        "1": "Water & champagne",
+        "2": "On-board Wi-Fi",
+        "3": "On-site waiting included",
+        "4": "Photo stops along the way"
+      }
+    },
+    "auvers-sur-oise": {
+      "title": "Auvers-sur-Oise — In the footsteps of Van Gogh",
+      "subtitle": "An artistic stroll along the riverbank",
+      "description": "Walk in the footsteps of the famous painter: the Church of Auvers, Doctor Gachet's house and the Wheatfield with Crows.",
+      "duration": "Half day (~5h)",
+      "inclusions": {
+        "0": "Chauffeur at your disposal",
+        "1": "Water & refreshments",
+        "2": "On-board Wi-Fi",
+        "3": "On-site waiting included"
+      }
+    },
+    "vallee-chevreuse": {
+      "title": "Chevreuse Valley",
+      "subtitle": "A nature escape at the gates of Paris",
+      "description": "Discover picturesque villages, abbeys and castles in this green valley just 30 km from Paris.",
+      "duration": "Half day (~5h)",
+      "inclusions": {
+        "0": "Chauffeur at your disposal",
+        "1": "Water & refreshments",
+        "2": "On-board Wi-Fi",
+        "3": "Customizable itinerary"
+      }
+    },
+    "mariage": {
+      "title": "Wedding",
+      "subtitle": "Impeccable service for the most beautiful day",
+      "description": "Transport for the couple and guests with decorated vehicles on request. Round-trip shuttle service included.",
+      "duration": "Bespoke",
+      "inclusions": {
+        "0": "Decorated vehicle",
+        "1": "Champagne on board",
+        "2": "Chauffeur in formal attire",
+        "3": "Guest shuttle available"
+      }
+    },
+    "gala": {
+      "title": "Galas & Parties",
+      "subtitle": "Arrive in style at your events",
+      "description": "Round-trip transport service for your most prestigious evenings. Punctuality and discretion guaranteed.",
+      "duration": "Evening (~4-6h)",
+      "inclusions": {
+        "0": "Chauffeur at your disposal",
+        "1": "Champagne on board",
+        "2": "On-site waiting",
+        "3": "Return trip guaranteed"
+      }
+    },
+    "entreprise": {
+      "title": "Corporate Events",
+      "subtitle": "Fleet management for your seminars",
+      "description": "Coordinated transport for seminars, team buildings and conferences. Multi-vehicle fleet management on request.",
+      "duration": "Bespoke",
+      "inclusions": {
+        "0": "Dedicated fleet",
+        "1": "Logistics coordination",
+        "2": "On-board Wi-Fi",
+        "3": "Corporate billing"
+      }
+    },
+    "sur-mesure": {
+      "title": "Bespoke Event",
+      "subtitle": "Every occasion is unique",
+      "description": "Have a specific need? Contact us for a customized quote tailored to your event.",
+      "duration": "Bespoke",
+      "inclusions": {
+        "0": "Customized quote",
+        "1": "Dedicated chauffeur",
+        "2": "Vehicle of your choice",
+        "3": "Adaptable service"
+      }
+    }
+  },
+  "footer": {
+    "description": "Premium private chauffeur service in Paris and Île-de-France. Available 24/7.",
+    "servicesTitle": "Services",
+    "services": {
+      "trips": "Trips & transfers",
+      "chauffeur": "Chauffeur service",
+      "excursions": "Excursions",
+      "events": "Events & parties",
+      "rental": "Vehicle rental"
+    },
+    "contactTitle": "Contact",
+    "location": "Paris, Île-de-France",
+    "legalTitle": "Legal",
+    "corporate": "Corporate Service",
+    "legalNotices": "Legal notices",
+    "privacyPolicy": "Privacy policy",
+    "copyright": "BLS — Bedadi Limousine Services. All rights reserved."
+  },
+  "home": {
+    "services": {
+      "label": "What we offer",
+      "title": "Our",
+      "titleHighlight": "services",
+      "subtitle": "A comprehensive range of services to meet all your premium transportation needs.",
+      "discover": "Discover"
+    },
+    "serviceBlocks": {
+      "trips": { "title": "Trips", "subtitle": "Airports, stations & destinations" },
+      "chauffeur": { "title": "Chauffeur Service", "subtitle": "Your dedicated driver by the hour" },
+      "excursions": { "title": "Excursions", "subtitle": "Discover Île-de-France" },
+      "events": { "title": "Events", "subtitle": "Parties, galas & special occasions" }
+    },
+    "commitments": {
+      "label": "Why choose us",
+      "title": "Our",
+      "titleHighlight": "commitments",
+      "altDesktop": "Private chauffeur opening the door",
+      "altMobile": "Private chauffeur",
+      "bilingual": { "title": "Bilingual Chauffeurs", "description": "Fluent in French & English for a seamless international service." },
+      "punctuality": { "title": "Guaranteed Punctuality", "description": "Real-time flight tracking and anticipation of Parisian traffic." },
+      "discretion": { "title": "Absolute Discretion", "description": "Confidentiality and professionalism for all your journeys." },
+      "comfort": { "title": "VIP Comfort", "description": "Wi-Fi, international press and refreshments on board." }
+    },
+    "testimonials": {
+      "label": "They trust us",
+      "title": "What our",
+      "titleHighlight": "clients say",
+      "subtitle": "Our clients' trust is our greatest reward.",
+      "swipe": "Swipe",
+      "testimonialAriaLabel": "Testimonial {{index}}",
+      "0": { "text": "Impeccable service, chauffeurs of exceptional courtesy. Highly recommended for your business trips.", "author": "Marie L.", "role": "CEO" },
+      "1": { "text": "Perfect punctuality, spotless vehicles. The service I was looking for my VIP clients. A reference in Paris.", "author": "Thomas D.", "role": "Palace Concierge" },
+      "2": { "text": "Discretion, elegance and professionalism. Exactly what we needed for our corporate events.", "author": "Sophie M.", "role": "Events Manager" },
+      "3": { "text": "The best VTC service in Paris, without hesitation. Every ride is a unique and pleasant travel experience.", "author": "Pierre R.", "role": "Entrepreneur" },
+      "4": { "text": "Our international guests are always impressed by the quality of service. BLS has become our go-to partner.", "author": "Claire B.", "role": "Hotel Director" }
+    },
+    "corporate": {
+      "badge": "Professional Solutions",
+      "title": "Service",
+      "titleHighlight": "Corporate",
+      "titleSuffix": "& Partners",
+      "description": "Simplified monthly billing, dedicated chauffeurs and VIP reception for your colleagues and distinguished guests. A bespoke solution for demanding businesses.",
+      "cta": "Discover the offer",
+      "ctaSecondary": "Contact our sales team",
+      "altImage": "Business district"
+    }
+  },
+  "corporate": {
+    "badge": "Corporate Service",
+    "titlePrefix": "Solutions for",
+    "titleHighlight": "Professionals",
+    "heroAlt": "Business",
+    "subtitle": "A premium transport service tailored to the needs of demanding businesses. Simplified billing, priority service and VIP reception.",
+    "advantagesLabel": "Exclusive advantages",
+    "advantagesTitle": "Why choose",
+    "advantagesTitleHighlight": "us",
+    "advantagesSubtitle": "Benefits designed for professionals and businesses.",
+    "advantages": {
+      "billing": { "title": "Simplified Billing", "description": "A single monthly statement covering all your rides. No upfront costs for your employees, payment at 30 days." },
+      "vip": { "title": "VIP Reception", "description": "Personalised name board on iPad at airports and stations. A professional welcome that elevates your brand image." },
+      "priority": { "title": "Priority Booking", "description": "Guaranteed availability even during peak demand — Fashion Week, trade shows and corporate events." },
+      "fleet": { "title": "Events & Fleet Management", "description": "Full fleet deployment for your seminars, conventions, Fashion Weeks and corporate events." }
+    }
+  },
+  "trips": {
+    "badge": "Premium Transfers",
+    "title": "Our",
+    "titleHighlight": "trips",
+    "heroAlt": "Premium transfer Paris",
+    "subtitle": "Premium transfers to airports, stations, castles and parks in Île-de-France. Fixed prices, no surprises.",
+    "pricesLabel": "Rates from & to Paris",
+    "startingFrom": "Starting from",
+    "book": "Book",
+    "categories": {
+      "aeroports": { "label": "Airports", "headline": "Airport Transfers", "editorial": "Plan your airport trips with a simple and comfortable solution. All-inclusive packages, meet & greet in the arrivals area with name board and real-time flight tracking. No surprises, just comfort." },
+      "gares": { "label": "Stations", "headline": "Station Shuttles", "editorial": "Reach Paris's major train stations stress-free. Platform pick-up available, luggage assistance and guaranteed punctuality. A service designed for discerning travellers." },
+      "chateaux": { "label": "Castles", "headline": "Castle Excursions", "editorial": "Discover the most beautiful castles of Île-de-France in complete serenity. Your chauffeur accompanies you and waits on site during your visit. A journey through time, in complete elegance." },
+      "parcs": { "label": "Parks", "headline": "Park Transfers", "editorial": "Treat your family or group to a hassle-free transfer to the region's theme parks. Round-trip pick-up, spacious vehicle and attentive chauffeur." }
+    }
+  },
+  "chauffeur": {
+    "badge": "Personalised Service",
+    "title": "Chauffeur",
+    "titleHighlight": "service",
+    "heroAlt": "Private chauffeur",
+    "subtitle": "A private chauffeur at your service, for as long as you need. The elegance and freedom of bespoke transport.",
+    "features": {
+      "flexibility": { "title": "Total Flexibility", "description": "Your chauffeur remains at your disposal for the entire desired duration, with no route constraints." },
+      "discretion": { "title": "Guaranteed Discretion", "description": "Our chauffeurs are trained to the highest standards of confidentiality." },
+      "dedicated": { "title": "Dedicated Chauffeur", "description": "A single point of contact for the entire duration of your chauffeur service." },
+      "multiStop": { "title": "Multi-stop", "description": "Business meetings, shopping, visits — organise your day as you see fit." }
+    },
+    "pricing": {
+      "label": "Our packages",
+      "title": "Indicative",
+      "titleHighlight": "rates",
+      "minimumHours": "From a minimum of 3 hours",
+      "book": "Book",
+      "exceptionalVehicles": "Exceptional vehicles",
+      "exceptionalList": "Range Rover · Maybach · Rolls Royce",
+      "quoteOnly": "Quote only",
+      "requestQuote": "Request a quote"
+    },
+    "cta": {
+      "title": "Book a",
+      "titleHighlight": "chauffeur service",
+      "subtitle": "Enter your details to receive a personalised quote for your private chauffeur.",
+      "button": "Request a quote"
+    }
+  },
+  "reservation": {
+    "badge": "Booking",
+    "transfer": { "title": "Book your", "highlight": "transfer", "description": "Get an instant estimate and book your vehicle in just a few clicks. CDG and Orly airport packages available." },
+    "location": { "title": "Book your", "highlight": "chauffeur service", "description": "Vehicle with chauffeur at your disposal for the desired duration. Total freedom, bespoke service." },
+    "corporate": { "title": "Request your", "highlight": "corporate quote", "description": "A service dedicated to businesses. Complete the form and our sales team will get back to you within 24 hours." },
+    "reassurance": {
+      "title": "Secure booking",
+      "subtitle": "Premium service guaranteed",
+      "confirmation": "Confirmation within 24h",
+      "payment": "Pay on board, no advance",
+      "cancellation": "Flexible cancellation",
+      "concierge": "24/7 concierge",
+      "needHelp": "Need assistance?",
+      "whatsapp": "Contact via WhatsApp"
+    },
+    "testimonial": {
+      "text": "Impeccable punctuality, spotless vehicle and chauffeur of great courtesy. I recommend without hesitation.",
+      "author": "Philippe D.",
+      "role": "Regular client"
+    }
+  },
+  "fleet": {
+    "label": "Showroom",
+    "title": "Our",
+    "titleHighlight": "fleet",
+    "subtitle": "Premium vehicles meticulously maintained for absolute comfort on every journey.",
+    "passengers": "Passengers",
+    "suitcases": "Suitcases",
+    "prevAriaLabel": "Previous vehicle",
+    "nextAriaLabel": "Next vehicle",
+    "goToVehicle": "Go to vehicle {{index}}",
+    "vehicles": {
+      "classe-e": { "name": "Mercedes E-Class", "label": "Business Sedan", "description": "Elegance for your business trips. Comfort and discretion guaranteed in an exceptional sedan." },
+      "classe-s": { "name": "Mercedes S-Class", "label": "Luxury Sedan", "description": "The pinnacle of refinement. An incomparable travel experience for your most prestigious occasions." },
+      "classe-v": { "name": "Mercedes V-Class", "label": "Premium Van", "description": "Space and comfort for your groups. Ideal for family transfers or corporate events." }
+    },
+    "services": {
+      "wifiOnboard": "On-board Wi-Fi",
+      "wifiHighSpeed": "High-speed Wi-Fi",
+      "water": "Complimentary mineral water",
+      "chargers": "Universal chargers",
+      "press": "Daily press",
+      "champagne": "Champagne available",
+      "massageSeats": "Massage seats",
+      "ambiance": "Personalised ambiance",
+      "spacious": "Generous space",
+      "usbPorts": "Individual USB ports"
+    }
+  },
+  "booking": {
+    "title": "Book your chauffeur",
+    "serviceType": "Service type",
+    "modeTrip": "Trip",
+    "modeChauffeur": "Chauffeur service",
+    "departure": "Pick-up address",
+    "departurePlaceholder": "e.g. 1 Avenue des Champs-Élysées, Paris",
+    "arrival": "Drop-off address",
+    "arrivalPlaceholder": "e.g. CDG Airport Terminal 2",
+    "date": "Date",
+    "time": "Time",
+    "timePlaceholder": "Select time",
+    "vehicle": "Vehicle",
+    "priceEstimate": "Price estimate",
+    "airportForfait": "{{name}} flat rate",
+    "madRate": "Rate for 3 hours of chauffeur service",
+    "submit": "Request a quote",
+    "reset": "Reset"
+  },
+  "marquee": {
+    "0": "15,000+ rides completed",
+    "1": "Certified & trained chauffeurs",
+    "2": "Available 24/7",
+    "3": "98% client satisfaction",
+    "4": "Premium service since 2018",
+    "5": "Fully insured vehicles"
+  }
+}

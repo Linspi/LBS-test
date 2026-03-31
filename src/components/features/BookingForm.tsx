@@ -1,4 +1,5 @@
 import { useReducer, useMemo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   MapPin,
   Clock,
@@ -97,13 +98,14 @@ export function BookingForm({
   initialDestination,
   initialMode,
 }: BookingFormProps) {
+  const { t } = useTranslation();
+
   const [state, dispatch] = useReducer(
     bookingReducer,
     undefined,
     () => createInitialState(initialDestination, initialMode),
   );
 
-  // Réagir aux changements de props (navigation entre destinations)
   useEffect(() => {
     dispatch({
       type: "RESET",
@@ -128,7 +130,7 @@ export function BookingForm({
     e.preventDefault();
     if (!isFormValid || !estimate) return;
     alert(
-      `Demande de réservation envoyée !\n\nMode : ${state.mode === "trajet" ? "Trajet" : "Mise à disposition"}\nDépart : ${state.departure}\n${state.mode === "trajet" ? `Arrivée : ${state.arrival}\n` : ""}Véhicule : ${vehicles.find((v) => v.id === state.vehicleClass)?.name}\nEstimation : ${formatPrice(estimate.total)}`,
+      `${t("booking.submit")}\n\n${t("booking.modeTrip")}: ${state.mode === "trajet" ? t("booking.modeTrip") : t("booking.modeChauffeur")}\n${t("booking.departure")}: ${state.departure}\n${state.mode === "trajet" ? `${t("booking.arrival")}: ${state.arrival}\n` : ""}${t("booking.vehicle")}: ${vehicles.find((v) => v.id === state.vehicleClass)?.name}\n${t("booking.priceEstimate")}: ${formatPrice(estimate.total)}`,
     );
   };
 
@@ -137,7 +139,7 @@ export function BookingForm({
       <CardHeader className="pb-4">
         <CardTitle className="text-2xl text-foreground flex items-center gap-3">
           <Car className="h-6 w-6 text-gold" />
-          Réserver votre chauffeur
+          {t("booking.title")}
         </CardTitle>
       </CardHeader>
 
@@ -145,14 +147,14 @@ export function BookingForm({
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Mode toggle */}
           <div className="space-y-2">
-            <Label>Type de service</Label>
+            <Label>{t("booking.serviceType")}</Label>
             <div className="grid grid-cols-2 gap-2">
               {(
                 [
-                  { value: "trajet", label: "Trajet" },
-                  { value: "mise-a-disposition", label: "Mise à disposition" },
+                  { value: "trajet", labelKey: "booking.modeTrip" },
+                  { value: "mise-a-disposition", labelKey: "booking.modeChauffeur" },
                 ] as const
-              ).map(({ value, label }) => (
+              ).map(({ value, labelKey }) => (
                 <button
                   key={value}
                   type="button"
@@ -166,7 +168,7 @@ export function BookingForm({
                       : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-anthracite",
                   )}
                 >
-                  {label}
+                  {t(labelKey)}
                 </button>
               ))}
             </div>
@@ -176,11 +178,11 @@ export function BookingForm({
           <div className="space-y-2">
             <Label htmlFor="departure">
               <MapPin className="inline h-3.5 w-3.5 mr-1 text-gold" />
-              Adresse de départ
+              {t("booking.departure")}
             </Label>
             <AddressInput
               id="departure"
-              placeholder="Ex : 1 Avenue des Champs-Élysées, Paris"
+              placeholder={t("booking.departurePlaceholder")}
               value={state.departure}
               onChange={(value) =>
                 dispatch({ type: "SET_DEPARTURE", payload: value })
@@ -193,11 +195,11 @@ export function BookingForm({
             <div className="space-y-2">
               <Label htmlFor="arrival">
                 <MapPin className="inline h-3.5 w-3.5 mr-1 text-gold" />
-                Adresse d'arrivée
+                {t("booking.arrival")}
               </Label>
               <AddressInput
                 id="arrival"
-                placeholder="Ex : Aéroport CDG Terminal 2"
+                placeholder={t("booking.arrivalPlaceholder")}
                 value={state.arrival}
                 onChange={(value) =>
                   dispatch({ type: "SET_ARRIVAL", payload: value })
@@ -209,7 +211,7 @@ export function BookingForm({
           {/* Date & Time */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Date</Label>
+              <Label>{t("booking.date")}</Label>
               <DatePicker
                 date={state.date}
                 onDateChange={(d) =>
@@ -220,7 +222,7 @@ export function BookingForm({
             <div className="space-y-2">
               <Label>
                 <Clock className="inline h-3.5 w-3.5 mr-1 text-gold" />
-                Heure
+                {t("booking.time")}
               </Label>
               <Select
                 value={state.time}
@@ -229,12 +231,12 @@ export function BookingForm({
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner l'heure" />
+                  <SelectValue placeholder={t("booking.timePlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
-                  {TIME_SLOTS.map((t) => (
-                    <SelectItem key={t} value={t}>
-                      {t}
+                  {TIME_SLOTS.map((slot) => (
+                    <SelectItem key={slot} value={slot}>
+                      {slot}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -244,7 +246,7 @@ export function BookingForm({
 
           {/* Vehicle selection */}
           <div className="space-y-2">
-            <Label>Véhicule</Label>
+            <Label>{t("booking.vehicle")}</Label>
             <div className="grid grid-cols-3 gap-2">
               {vehicles.map((v) => (
                 <button
@@ -272,7 +274,7 @@ export function BookingForm({
             <div className="rounded-lg border border-gold/20 bg-gold/5 p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
-                  Estimation du prix
+                  {t("booking.priceEstimate")}
                 </span>
                 <span className="text-2xl font-bold text-gold">
                   {formatPrice(estimate.total)}
@@ -281,12 +283,12 @@ export function BookingForm({
               {estimate.isAirportTransfer && estimate.airportName && (
                 <div className="flex items-center gap-2 text-xs text-gold/80">
                   <Plane className="h-3.5 w-3.5" />
-                  <span>Forfait {estimate.airportName}</span>
+                  <span>{t("booking.airportForfait", { name: estimate.airportName })}</span>
                 </div>
               )}
               {state.mode === "mise-a-disposition" && (
                 <p className="text-xs text-muted-foreground">
-                  Tarif pour 3 heures de mise à disposition
+                  {t("booking.madRate")}
                 </p>
               )}
             </div>
@@ -300,7 +302,7 @@ export function BookingForm({
               className="flex-1"
               disabled={!isFormValid}
             >
-              Demander un devis
+              {t("booking.submit")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button
@@ -316,7 +318,7 @@ export function BookingForm({
                   },
                 })
               }
-              title="Réinitialiser"
+              title={t("booking.reset")}
             >
               <RotateCcw className="h-4 w-4" />
             </Button>

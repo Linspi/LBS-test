@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Plane, Train, Castle, TreePine, ArrowRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FadeUp } from "@/components/ui/FadeUp";
@@ -7,49 +8,21 @@ import { formatPrice } from "@/lib/pricing";
 import type { Destination, DestinationCategory } from "@/types";
 import type { LucideIcon } from "lucide-react";
 
-/** Données enrichies pour chaque catégorie — icône + texte éditorial */
+/** Catégories avec icône et clé i18n */
 const CATEGORIES: {
   value: DestinationCategory;
-  label: string;
   Icon: LucideIcon;
-  headline: string;
-  editorial: string;
+  key: string;
 }[] = [
-  {
-    value: "aeroports",
-    label: "Aéroports",
-    Icon: Plane,
-    headline: "Transferts Aéroports",
-    editorial:
-      "Préparez vos trajets aéroports avec une solution simple et confortable. Forfaits tout inclus, accueil en zone d'arrivée avec panneau nominatif et suivi de vol en temps réel. Aucune surprise, que du confort.",
-  },
-  {
-    value: "gares",
-    label: "Gares",
-    Icon: Train,
-    headline: "Navettes Gares",
-    editorial:
-      "Rejoignez les grandes gares parisiennes sans stress. Prise en charge à quai possible, aide aux bagages et ponctualité garantie. Un service pensé pour les voyageurs exigeants.",
-  },
-  {
-    value: "chateaux",
-    label: "Châteaux",
-    Icon: Castle,
-    headline: "Excursions Châteaux",
-    editorial:
-      "Découvrez les plus beaux châteaux d'Île-de-France en toute sérénité. Votre chauffeur vous accompagne et vous attend sur place le temps de votre visite. Un voyage dans le temps, en toute élégance.",
-  },
-  {
-    value: "parcs",
-    label: "Parcs",
-    Icon: TreePine,
-    headline: "Transferts Parcs",
-    editorial:
-      "Offrez à votre famille ou votre groupe un transfert sans contrainte vers les parcs de loisirs de la région. Prise en charge aller-retour, véhicule spacieux et chauffeur attentionné.",
-  },
+  { value: "aeroports", Icon: Plane, key: "aeroports" },
+  { value: "gares", Icon: Train, key: "gares" },
+  { value: "chateaux", Icon: Castle, key: "chateaux" },
+  { value: "parcs", Icon: TreePine, key: "parcs" },
 ];
 
 export function Trajets() {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* Hero */}
@@ -57,7 +30,7 @@ export function Trajets() {
         <div className="absolute inset-0">
           <img
             src="/images/trajet.jpg"
-            alt="Transfert premium Paris"
+            alt={t("trips.heroAlt")}
             className="h-full w-full object-cover"
             loading="eager"
             fetchPriority="high"
@@ -69,19 +42,18 @@ export function Trajets() {
           <FadeUp>
             <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-6">
               <div className="h-1.5 w-1.5 bg-gold rotate-45" />
-              <span className="text-xs uppercase tracking-[0.2em]">Transferts Premium</span>
+              <span className="text-xs uppercase tracking-[0.2em]">{t("trips.badge")}</span>
               <div className="h-1.5 w-1.5 bg-gold rotate-45" />
             </div>
           </FadeUp>
           <FadeUp delay={0.1}>
             <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-foreground mb-4">
-              Nos <span className="text-gradient-gold">trajets</span>
+              {t("trips.title")} <span className="text-gradient-gold">{t("trips.titleHighlight")}</span>
             </h1>
           </FadeUp>
           <FadeUp delay={0.15}>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Des transferts premium vers les aéroports, gares, châteaux et parcs
-              d'Île-de-France. Prix fixes, sans surprise.
+              {t("trips.subtitle")}
             </p>
           </FadeUp>
         </div>
@@ -100,7 +72,7 @@ export function Trajets() {
                     className="flex items-center gap-2 data-[state=active]:bg-gold data-[state=active]:text-primary-foreground cursor-pointer"
                   >
                     <cat.Icon className="h-4 w-4" />
-                    {cat.label}
+                    {t(`trips.categories.${cat.key}.label`)}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -117,10 +89,10 @@ export function Trajets() {
                       </div>
                       <div>
                         <h2 className="font-display text-2xl font-semibold text-foreground mb-2 tracking-tight">
-                          {cat.headline}
+                          {t(`trips.categories.${cat.key}.headline`)}
                         </h2>
                         <p className="text-muted-foreground leading-relaxed max-w-2xl">
-                          {cat.editorial}
+                          {t(`trips.categories.${cat.key}.editorial`)}
                         </p>
                       </div>
                     </div>
@@ -128,7 +100,7 @@ export function Trajets() {
                     {/* Bande tarifaire */}
                     <div>
                       <h3 className="text-xs font-semibold uppercase tracking-widest text-gold mb-6">
-                        Tarifs depuis & vers Paris
+                        {t("trips.pricesLabel")}
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                         {destinations.map((dest, i) => (
@@ -159,6 +131,8 @@ function PriceColumn({
   destination: Destination;
   isLast: boolean;
 }) {
+  const { t } = useTranslation();
+
   return (
     <div
       className={`py-6 px-5 text-center ${
@@ -169,7 +143,7 @@ function PriceColumn({
         {destination.name}
       </p>
       <p className="text-xs text-muted-foreground/70 uppercase tracking-wider mb-1">
-        À partir de
+        {t("trips.startingFrom")}
       </p>
       <p className="font-display text-4xl lg:text-5xl font-semibold text-gradient-gold tabular-nums mb-4">
         {formatPrice(destination.startingPrice)}
@@ -178,7 +152,7 @@ function PriceColumn({
         to={`/reservation?destination=${encodeURIComponent(destination.name)}&type=trajet`}
         className="inline-flex items-center gap-1 text-sm text-foreground font-medium hover:text-gold transition-colors cursor-pointer"
       >
-        Réserver
+        {t("trips.book")}
         <ArrowRight className="h-3.5 w-3.5" />
       </Link>
     </div>

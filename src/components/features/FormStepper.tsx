@@ -10,6 +10,7 @@
  * Cliquable pour revenir aux étapes complétées.
  */
 
+import { useTranslation } from "react-i18next";
 import { Check } from "lucide-react";
 import type { StepConfig } from "@/hooks/useFormStepper";
 import type { FieldValues } from "react-hook-form";
@@ -27,6 +28,7 @@ export function FormStepper<T extends FieldValues>({
   completedSteps,
   onStepClick,
 }: FormStepperProps<T>) {
+  const { t } = useTranslation();
   return (
     <div className="w-full py-4">
       <div className="flex items-center justify-between">
@@ -60,7 +62,7 @@ export function FormStepper<T extends FieldValues>({
                     }
                     ${isClickable ? "cursor-pointer hover:border-gold/60" : "cursor-default"}
                   `}
-                  aria-label={`Étape ${index + 1} : ${step.label}`}
+                  aria-label={t("form.steps.stepAriaLabel", { index: index + 1, label: step.label })}
                   aria-current={isActive ? "step" : undefined}
                 >
                   {isCompleted && !isActive ? (

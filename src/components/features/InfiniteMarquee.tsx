@@ -1,15 +1,16 @@
+import { useTranslation } from "react-i18next";
 import { Star, ShieldCheck, Clock, Award } from "lucide-react";
 
-const MARQUEE_ITEMS = [
-    { icon: Star, text: "15 000+ courses réalisées" },
-    { icon: ShieldCheck, text: "Chauffeurs certifiés & formés" },
-    { icon: Clock, text: "Disponible 24h/24 & 7j/7" },
-    { icon: Award, text: "98% de clients satisfaits" },
-    { icon: Star, text: "Service premium depuis 2018" },
-    { icon: ShieldCheck, text: "Véhicules assurés tous risques" },
-];
+const MARQUEE_ICONS = [Star, ShieldCheck, Clock, Award, Star, ShieldCheck];
 
 export function InfiniteMarquee() {
+    const { t } = useTranslation();
+
+    const items = MARQUEE_ICONS.map((icon, i) => ({
+        icon,
+        text: t(`marquee.${i}`),
+    }));
+
     return (
         <div className="relative w-full overflow-hidden py-5 border-y border-white/[0.06] bg-white/[0.02]">
             {/* Fade edges */}
@@ -19,7 +20,7 @@ export function InfiniteMarquee() {
             {/* Scrolling track — will-change:transform légitime ici car l'animation est permanente */}
             <div className="flex animate-marquee whitespace-nowrap" style={{ willChange: "transform" }}>
                 {/* Duplicate items for seamless loop */}
-                {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+                {[...items, ...items].map((item, i) => (
                     <div
                         key={i}
                         className="flex items-center gap-2 mx-8 text-muted-foreground/60"

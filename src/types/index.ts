@@ -50,8 +50,10 @@ export interface Destination {
 }
 
 export interface ServiceBlock {
-  title: string;
-  subtitle: string;
+  /** Clé i18n pour le titre (ex: "home.serviceBlocks.trips.title") */
+  titleKey: string;
+  /** Clé i18n pour le sous-titre */
+  subtitleKey: string;
   image: string;
   href: string;
 }
@@ -59,16 +61,18 @@ export interface ServiceBlock {
 /** Type d'expérience : excursion (journée) ou événement (soirée/occasion) */
 export type ExperienceCategory = "excursion" | "evenement";
 
-/** Données structurées pour une excursion ou un événement */
+/**
+ * Données structurelles d'une excursion ou d'un événement.
+ * Les textes (title, subtitle, description, duration, inclusions)
+ * sont externalisés dans les dictionnaires i18n sous la clé
+ * `experienceData.<id>.*`.
+ */
 export interface Experience {
   id: string;
   category: ExperienceCategory;
-  title: string;
-  subtitle: string;
   image: string;
-  description: string;
-  duration: string;
-  inclusions: string[];
+  /** Nombre d'inclusions — permet de boucler sur les clés i18n `inclusions.0`, `inclusions.1`… */
+  inclusionCount: number;
   /** Prix estimé en euros — null = "Devis sur demande" */
   estimatedPrice: number | null;
 }

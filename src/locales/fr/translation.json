@@ -1,0 +1,645 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "trips": "Trajets",
+    "chauffeur": "Mise à disposition",
+    "excursions": "Excursions",
+    "events": "Événements",
+    "rental": "Location",
+    "corporate": "Entreprise",
+    "book": "Réserver",
+    "bookNow": "Réserver maintenant",
+    "menu": "Menu",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+  "hero": {
+    "badge": "Chauffeurs Privés d'Exception",
+    "titleLine1": "L'art du",
+    "titleLine2": "transport privé",
+    "subtitle": "Là où chaque trajet devient une expérience.<br/>Ponctualité, discrétion et élégance à Paris.",
+    "departure": "Départ",
+    "departurePlaceholder": "Adresse de prise en charge",
+    "arrival": "Arrivée",
+    "arrivalPlaceholder": "Destination souhaitée",
+    "estimate": "Estimer",
+    "tagline": "Paris · Depuis 2018",
+    "taglineMobile": "Paris · Île-de-France · 24/7",
+    "altImage": "Paris la nuit",
+    "stats": {
+      "rides": "Courses",
+      "satisfaction": "Satisfaction",
+      "available": "Disponible"
+    }
+  },
+  "form": {
+    "steps": {
+      "coordinates": "Vos coordonnées",
+      "trip": "Votre trajet",
+      "chauffeur": "Mise à disposition",
+      "finalization": "Finalisation",
+      "stepAriaLabel": "Étape {{index}} : {{label}}"
+    },
+    "labels": {
+      "company": "Nom de l'entreprise",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "emailCorporate": "Email professionnel",
+      "email": "Email",
+      "phone": "Téléphone",
+      "departure": "Adresse de départ",
+      "arrival": "Adresse d'arrivée",
+      "pickupLocation": "Lieu de prise en charge",
+      "vehicleWanted": "Véhicule souhaité",
+      "chooseVehicle": "Choisissez votre véhicule",
+      "duration": "Durée de mise à disposition",
+      "date": "Date de prise en charge",
+      "time": "Heure",
+      "passengers": "Nombre de passagers",
+      "luggage": "Nombre de bagages",
+      "flightTrain": "Numéro de vol ou de train",
+      "volume": "Estimation de courses par mois",
+      "message": "Besoins spécifiques",
+      "optional": "(optionnel)",
+      "required": "*"
+    },
+    "placeholders": {
+      "company": "Votre société",
+      "firstName": "Votre prénom",
+      "lastName": "Votre nom",
+      "emailCorporate": "contact@entreprise.com",
+      "email": "votre@email.com",
+      "phone": "01 23 45 67 89",
+      "departure": "Ex : 1 Avenue des Champs-Élysées, Paris",
+      "arrival": "Ex : Aéroport CDG Terminal 2",
+      "pickupLocation": "Ex : Hôtel Le Bristol, Paris",
+      "selectVehicle": "Sélectionner un véhicule",
+      "selectDuration": "Sélectionner la durée",
+      "selectDate": "Sélectionner une date",
+      "selectTime": "Sélectionner l'heure",
+      "passengers": "Passagers",
+      "luggage": "Bagages",
+      "flightTrain": "Ex : AF1234 ou TGV 6231",
+      "selectVolume": "Sélectionnez une estimation",
+      "messageCorporate": "Décrivez vos besoins : événements réguliers, chauffeurs dédiés, zones géographiques spécifiques...",
+      "message": "Informations supplémentaires, demandes particulières..."
+    },
+    "options": {
+      "passenger_one": "{{count}} passager",
+      "passenger_other": "{{count}} passagers",
+      "luggage_one": "{{count}} bagage",
+      "luggage_other": "{{count}} bagages",
+      "duration4h": "4 heures",
+      "duration8h": "8 heures",
+      "duration12h": "12 heures",
+      "durationMulti": "Plusieurs jours",
+      "volume1_10": "1 à 10 courses",
+      "volume11_50": "11 à 50 courses",
+      "volume50plus": "Plus de 50 courses",
+      "vehicleClasseE": "Mercedes Classe E — Berline",
+      "vehicleClasseV": "Mercedes Classe V — Van / Famille",
+      "vehicleClasseS": "Mercedes Classe S — Prestige"
+    },
+    "vehicles": {
+      "sedan": "Berline",
+      "prestige": "Prestige",
+      "van": "Van",
+      "capacityExceeded": "Capacité dépassée pour ce véhicule"
+    },
+    "estimate": {
+      "tripTitle": "Estimation de votre trajet",
+      "madTitle": "Estimation mise à disposition",
+      "calculating": "Calcul de l'itinéraire en cours…",
+      "distance": "Distance",
+      "duration": "Durée",
+      "estimatedPrice": "Prix estimé",
+      "startingFrom": "À partir de",
+      "estimation": "Estimation",
+      "onQuote": "Sur devis",
+      "airportForfait": "Forfait {{airport}} appliqué",
+      "vehicleTariff": "Tarif {{vehicle}}",
+      "defaultTariff": "Tarif indicatif Classe E — sélectionnez un véhicule pour un prix précis",
+      "quoteDisclaimer": "le devis final sera confirmé par notre équipe",
+      "vehicleLabel": "Véhicule : {{vehicle}}"
+    },
+    "helpers": {
+      "flightTracking": "Nous suivrons votre vol/train en temps réel pour adapter l'heure de prise en charge en cas de retard."
+    },
+    "validation": {
+      "required": "Ce champ est obligatoire",
+      "emailInvalid": "Format d'email invalide",
+      "phoneInvalid": "Numéro de téléphone invalide",
+      "selectDate": "Veuillez sélectionner une date",
+      "selectTime": "Veuillez sélectionner une heure",
+      "selectPassengers": "Veuillez sélectionner le nombre de passagers",
+      "selectLuggage": "Veuillez sélectionner le nombre de bagages",
+      "selectVehicle": "Veuillez sélectionner un véhicule",
+      "selectDuration": "Veuillez sélectionner une durée",
+      "emailEmpty": "Veuillez renseigner une adresse e-mail valide."
+    },
+    "submit": {
+      "transfer": "Demander un devis transfert",
+      "location": "Demander un devis mise à disposition",
+      "corporate": "Envoyer ma demande de devis",
+      "sending": "Envoi en cours...",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "success": {
+      "title": "Demande envoyée avec succès",
+      "description": "Notre équipe vous recontactera sous 24 heures. Un e-mail de confirmation vous a été envoyé.",
+      "reference": "Référence",
+      "backHome": "Retour à l'accueil",
+      "newRequest": "Nouvelle demande"
+    },
+    "toast": {
+      "routeError": "Itinéraire impossible par la route",
+      "routeErrorDesc": "Veuillez vérifier les adresses saisies.",
+      "sendError": "Une erreur est survenue lors de l'envoi",
+      "sendErrorDesc": "Veuillez réessayer ou nous contacter directement."
+    },
+    "stepTitle": {
+      "coordinates": "Vos coordonnées",
+      "tripDetails": "Détails du trajet",
+      "madDetails": "Détails de la mise à disposition",
+      "finalization": "Finalisation"
+    }
+  },
+  "events": {
+    "badge": "Occasions Spéciales",
+    "titleHighlight": "Événements",
+    "titleSuffix": "& occasions spéciales",
+    "heroAlt": "Événement",
+    "subtitle": "Un service de transport d'exception pour vos soirées, galas, mariages et événements d'entreprise.",
+    "prestationsLabel": "Nos prestations",
+    "prestationsTitle": "Nos prestations",
+    "prestationsTitleHighlight": "événementielles",
+    "ctaButton": "Demander un devis événement",
+    "requestQuote": "Demander un devis",
+    "features": {
+      "galas": {
+        "title": "Galas & soirées",
+        "description": "Arrivez avec élégance à vos événements les plus prestigieux. Service de navette aller-retour."
+      },
+      "corporate": {
+        "title": "Événements d'entreprise",
+        "description": "Gestion de flotte pour vos séminaires, team buildings et conférences."
+      },
+      "weddings": {
+        "title": "Mariages",
+        "description": "Un service irréprochable pour le plus beau jour de votre vie. Véhicules décorés sur demande."
+      },
+      "bespoke": {
+        "title": "Sur mesure",
+        "description": "Chaque événement est unique. Contactez-nous pour un devis personnalisé adapté à vos besoins."
+      }
+    }
+  },
+  "excursions": {
+    "badge": "Découvertes",
+    "titleHighlight": "Excursions",
+    "titleSuffix": "en Île-de-France",
+    "heroAlt": "Excursion en Île-de-France",
+    "subtitle": "Découvrez les trésors de la région parisienne avec un chauffeur privé. Châteaux, villages de charme et sites historiques à portée de main.",
+    "destinationsLabel": "Nos destinations",
+    "destinationsTitle": "Nos",
+    "destinationsTitleHighlight": "excursions",
+    "ctaButton": "Planifier une excursion",
+    "contactUs": "Nous contacter",
+    "features": {
+      "itineraries": {
+        "title": "Itinéraires sur mesure",
+        "description": "Créez votre parcours idéal à travers les plus beaux sites d'Île-de-France."
+      },
+      "photos": {
+        "title": "Arrêts photos",
+        "description": "Votre chauffeur connaît les meilleurs points de vue pour immortaliser votre journée."
+      },
+      "fullDay": {
+        "title": "Journée complète",
+        "description": "Profitez de votre excursion sans vous soucier du temps. Nos forfaits sont à la journée."
+      },
+      "premium": {
+        "title": "Expérience premium",
+        "description": "Eau, chargeurs et Wi-Fi à bord. Votre confort est notre priorité."
+      }
+    }
+  },
+  "rental": {
+    "badge": "Nouveau Service",
+    "titleHighlight": "Location",
+    "titleSuffix": "de véhicules premium",
+    "subtitle": "Des véhicules d'exception avec chauffeur, disponibles à la location pour sublimer chacun de vos déplacements.",
+    "passengers": "{{count}} passagers",
+    "suitcases": "{{count}} valises",
+    "requestQuote": "Demander un devis",
+    "vehicles": {
+      "classe-e": {
+        "subtitle": "Berline Business",
+        "description": "L'élégance discrète pour vos déplacements d'affaires et vos sorties en ville."
+      },
+      "classe-s": {
+        "subtitle": "Berline de Luxe",
+        "description": "Le summum du raffinement automobile. Technologie de pointe et confort absolu."
+      },
+      "classe-v": {
+        "subtitle": "Van Premium",
+        "description": "Espace généreux et modularité parfaite pour vos groupes et familles."
+      },
+      "range-rover": {
+        "subtitle": "SUV Prestige",
+        "description": "Puissance et prestance britannique. Le SUV de luxe par excellence pour toutes les occasions."
+      },
+      "classe-g": {
+        "subtitle": "SUV Iconique",
+        "description": "L'icône intemporelle de Mercedes-Benz. Un caractère affirmé, un style incomparable."
+      },
+      "rolls-royce": {
+        "subtitle": "Ultra-Luxe",
+        "description": "Le nec plus ultra de l'automobile. Réservé aux moments les plus exceptionnels de votre vie."
+      },
+      "lamborghini-urus": {
+        "subtitle": "Super SUV",
+        "description": "La puissance et l'adrénaline d'un supercar dans un SUV. Une expérience de conduite hors du commun."
+      },
+      "rr-cullinan": {
+        "subtitle": "Ultra-Luxe SUV",
+        "description": "Le summum du luxe en format SUV. Le Cullinan offre un raffinement inégalé pour vos déplacements les plus prestigieux."
+      }
+    }
+  },
+  "experienceForm": {
+    "badge": "Réservation Premium",
+    "title": "Planifiez votre",
+    "titleHighlight": "expérience",
+    "subtitle": "Excursion ou événement, nous créons un service sur mesure pour chaque occasion.",
+    "steps": {
+      "coordinates": "Vos coordonnées",
+      "booking": "Votre réservation"
+    },
+    "labels": {
+      "experience": "Expérience souhaitée",
+      "date": "Date de prise en charge",
+      "time": "Heure de prise en charge",
+      "departure": "Adresse de départ",
+      "passengers": "Nombre de passagers",
+      "specialRequests": "Demandes spécifiques"
+    },
+    "placeholders": {
+      "experience": "Choisissez une excursion ou un événement",
+      "date": "Sélectionner une date",
+      "time": "Heure",
+      "departure": "Hôtel, adresse parisienne...",
+      "specialRequests": "Guide bilingue, siège enfant, champagne, itinéraire personnalisé..."
+    },
+    "validation": {
+      "selectExperience": "Veuillez sélectionner une expérience",
+      "departureMin": "L'adresse doit contenir au moins 3 caractères"
+    },
+    "categories": {
+      "excursions": "Excursions",
+      "events": "Événements"
+    },
+    "submitLabel": "Demander un devis personnalisé",
+    "summary": {
+      "title": "Votre récapitulatif",
+      "emptyDescription": "Sélectionnez une excursion ou un événement dans le formulaire pour voir le détail de la prestation ici.",
+      "included": "Inclus dans la prestation",
+      "estimateLabel": "Estimation tarifaire",
+      "priceLabel": "Tarif",
+      "startingFrom": "À partir de {{price}}",
+      "onQuote": "Devis sur demande",
+      "excursion": "Excursion",
+      "event": "Événement"
+    }
+  },
+  "experienceData": {
+    "versailles": {
+      "title": "Château de Versailles & Jardins",
+      "subtitle": "Journée royale aux portes de Paris",
+      "description": "Découvrez le château le plus célèbre du monde et ses jardins à la française. Votre chauffeur vous attend sur place le temps de votre visite.",
+      "duration": "Journée complète (~8h)",
+      "inclusions": {
+        "0": "Chauffeur à disposition",
+        "1": "Eau & rafraîchissements",
+        "2": "Wi-Fi à bord",
+        "3": "Attente sur place incluse"
+      }
+    },
+    "chantilly": {
+      "title": "Château de Chantilly",
+      "subtitle": "Art, histoire et nature au nord de Paris",
+      "description": "Visitez le domaine de Chantilly, son musée Condé et ses écuries majestueuses. Un joyau méconnu de l'Île-de-France.",
+      "duration": "Journée complète (~7h)",
+      "inclusions": {
+        "0": "Chauffeur à disposition",
+        "1": "Eau & rafraîchissements",
+        "2": "Wi-Fi à bord",
+        "3": "Attente sur place incluse"
+      }
+    },
+    "fontainebleau": {
+      "title": "Château de Fontainebleau",
+      "subtitle": "Résidence des rois de France",
+      "description": "Explorez huit siècles d'histoire dans ce château classé au patrimoine mondial de l'UNESCO, entouré d'une forêt magnifique.",
+      "duration": "Journée complète (~7h)",
+      "inclusions": {
+        "0": "Chauffeur à disposition",
+        "1": "Eau & rafraîchissements",
+        "2": "Wi-Fi à bord",
+        "3": "Attente sur place incluse"
+      }
+    },
+    "chambord": {
+      "title": "Château de Chambord",
+      "subtitle": "Chef-d'œuvre de la Renaissance en Val de Loire",
+      "description": "Partez à la découverte du plus grand château de la Loire et de son escalier à double révolution conçu par Léonard de Vinci.",
+      "duration": "Journée complète (~10h)",
+      "inclusions": {
+        "0": "Chauffeur à disposition",
+        "1": "Eau & champagne",
+        "2": "Wi-Fi à bord",
+        "3": "Attente sur place incluse",
+        "4": "Arrêts photos en chemin"
+      }
+    },
+    "auvers-sur-oise": {
+      "title": "Auvers-sur-Oise — Sur les pas de Van Gogh",
+      "subtitle": "Balade artistique en bord de rivière",
+      "description": "Marchez dans les pas du célèbre peintre : l'église d'Auvers, la maison du Docteur Gachet et le champ de blé aux corbeaux.",
+      "duration": "Demi-journée (~5h)",
+      "inclusions": {
+        "0": "Chauffeur à disposition",
+        "1": "Eau & rafraîchissements",
+        "2": "Wi-Fi à bord",
+        "3": "Attente sur place incluse"
+      }
+    },
+    "vallee-chevreuse": {
+      "title": "Vallée de Chevreuse",
+      "subtitle": "Escapade nature aux portes de Paris",
+      "description": "Découvrez les villages pittoresques, les abbayes et les châteaux de cette vallée verdoyante à seulement 30 km de Paris.",
+      "duration": "Demi-journée (~5h)",
+      "inclusions": {
+        "0": "Chauffeur à disposition",
+        "1": "Eau & rafraîchissements",
+        "2": "Wi-Fi à bord",
+        "3": "Itinéraire personnalisable"
+      }
+    },
+    "mariage": {
+      "title": "Mariage",
+      "subtitle": "Un service irréprochable pour le plus beau jour",
+      "description": "Transport des mariés et des invités avec des véhicules décorés sur demande. Service de navette aller-retour inclus.",
+      "duration": "Sur mesure",
+      "inclusions": {
+        "0": "Véhicule décoré",
+        "1": "Champagne à bord",
+        "2": "Chauffeur en costume",
+        "3": "Navette invités disponible"
+      }
+    },
+    "gala": {
+      "title": "Galas & Soirées",
+      "subtitle": "Arrivez avec élégance à vos événements",
+      "description": "Service de transport aller-retour pour vos soirées les plus prestigieuses. Ponctualité et discrétion garanties.",
+      "duration": "Soirée (~4-6h)",
+      "inclusions": {
+        "0": "Chauffeur à disposition",
+        "1": "Champagne à bord",
+        "2": "Attente sur place",
+        "3": "Retour garanti"
+      }
+    },
+    "entreprise": {
+      "title": "Événements d'entreprise",
+      "subtitle": "Gestion de flotte pour vos séminaires",
+      "description": "Transport coordonné pour séminaires, team buildings et conférences. Gestion de flotte multi-véhicules sur demande.",
+      "duration": "Sur mesure",
+      "inclusions": {
+        "0": "Flotte dédiée",
+        "1": "Coordination logistique",
+        "2": "Wi-Fi à bord",
+        "3": "Facturation entreprise"
+      }
+    },
+    "sur-mesure": {
+      "title": "Événement sur mesure",
+      "subtitle": "Chaque occasion est unique",
+      "description": "Vous avez un besoin spécifique ? Contactez-nous pour un devis personnalisé adapté à votre événement.",
+      "duration": "Sur mesure",
+      "inclusions": {
+        "0": "Devis personnalisé",
+        "1": "Chauffeur dédié",
+        "2": "Véhicule au choix",
+        "3": "Service adaptable"
+      }
+    }
+  },
+  "footer": {
+    "description": "Service de chauffeur privé haut de gamme à Paris et en Île-de-France. Disponible 24h/24 et 7j/7.",
+    "servicesTitle": "Services",
+    "services": {
+      "trips": "Trajets & transferts",
+      "chauffeur": "Mise à disposition",
+      "excursions": "Excursions",
+      "events": "Événements & soirées",
+      "rental": "Location de véhicules"
+    },
+    "contactTitle": "Contact",
+    "location": "Paris, Île-de-France",
+    "legalTitle": "Légal",
+    "corporate": "Service Corporate",
+    "legalNotices": "Mentions légales",
+    "privacyPolicy": "Politique de confidentialité",
+    "copyright": "BLS — Bedadi Limousine Services. Tous droits réservés."
+  },
+  "home": {
+    "services": {
+      "label": "Ce que nous proposons",
+      "title": "Nos",
+      "titleHighlight": "services",
+      "subtitle": "Une gamme complète de prestations pour répondre à chacun de vos besoins de transport haut de gamme.",
+      "discover": "Découvrir"
+    },
+    "serviceBlocks": {
+      "trips": { "title": "Trajets", "subtitle": "Aéroports, gares & destinations" },
+      "chauffeur": { "title": "Mise à disposition", "subtitle": "Votre chauffeur dédié à l'heure" },
+      "excursions": { "title": "Excursions", "subtitle": "Découvrez l'Île-de-France" },
+      "events": { "title": "Événements", "subtitle": "Soirées, galas & occasions spéciales" }
+    },
+    "commitments": {
+      "label": "Pourquoi nous choisir",
+      "title": "Nos",
+      "titleHighlight": "engagements",
+      "altDesktop": "Chauffeur privé ouvrant la porte",
+      "altMobile": "Chauffeur privé",
+      "bilingual": { "title": "Chauffeurs Bilingues", "description": "Français & Anglais couramment parlés pour un service international." },
+      "punctuality": { "title": "Ponctualité Garantie", "description": "Suivi des vols en temps réel et anticipation du trafic parisien." },
+      "discretion": { "title": "Discrétion Absolue", "description": "Confidentialité et professionnalisme pour tous vos déplacements." },
+      "comfort": { "title": "Confort VIP", "description": "Wi-Fi, presse internationale et rafraîchissements à bord." }
+    },
+    "testimonials": {
+      "label": "Ils nous font confiance",
+      "title": "Ce que disent nos",
+      "titleHighlight": "clients",
+      "subtitle": "La confiance de nos clients est notre plus belle récompense.",
+      "swipe": "Glisser",
+      "testimonialAriaLabel": "Témoignage {{index}}",
+      "0": { "text": "Un service irréprochable, des chauffeurs d'une courtoisie exceptionnelle. Je recommande vivement pour vos déplacements professionnels.", "author": "Marie L.", "role": "Directrice Générale" },
+      "1": { "text": "Ponctualité parfaite, véhicules impeccables. Le service que j'attendais pour mes clients VIP. Une référence à Paris.", "author": "Thomas D.", "role": "Concierge Palace" },
+      "2": { "text": "Discrétion, élégance et professionnalisme. Exactement ce dont nous avions besoin pour nos événements d'entreprise.", "author": "Sophie M.", "role": "Responsable Events" },
+      "3": { "text": "Le meilleur service VTC de Paris, sans hésitation. Chaque trajet est une expérience de voyage unique et agréable.", "author": "Pierre R.", "role": "Entrepreneur" },
+      "4": { "text": "Nos invités internationaux sont toujours impressionnés par la qualité du service. BLS est devenu notre partenaire incontournable.", "author": "Claire B.", "role": "Directrice Hôtelière" }
+    },
+    "corporate": {
+      "badge": "Solutions Professionnelles",
+      "title": "Service",
+      "titleHighlight": "Corporate",
+      "titleSuffix": "& Partenaires",
+      "description": "Facturation mensuelle simplifiée, chauffeurs dédiés et accueil VIP pour vos collaborateurs et invités de marque. Une solution sur mesure pour les entreprises exigeantes.",
+      "cta": "Découvrir l'offre",
+      "ctaSecondary": "Contacter le service commercial",
+      "altImage": "Business district"
+    }
+  },
+  "corporate": {
+    "badge": "Service Corporate",
+    "titlePrefix": "Solutions pour les",
+    "titleHighlight": "Professionnels",
+    "heroAlt": "Business",
+    "subtitle": "Un service de transport premium adapté aux besoins des entreprises exigeantes. Facturation simplifiée, priorité de service et accueil VIP.",
+    "advantagesLabel": "Avantages exclusifs",
+    "advantagesTitle": "Pourquoi nous",
+    "advantagesTitleHighlight": "choisir",
+    "advantagesSubtitle": "Des avantages pensés pour les professionnels et les entreprises.",
+    "advantages": {
+      "billing": { "title": "Facturation Simplifiée", "description": "Relevé mensuel unique regroupant toutes vos courses. Pas d'avance de frais pour vos collaborateurs, règlement à 30 jours." },
+      "vip": { "title": "Accueil VIP", "description": "Pancarte nominative sur tablette iPad aux aéroports et gares. Un accueil professionnel qui valorise votre image de marque." },
+      "priority": { "title": "Priorité de Réservation", "description": "Disponibilité garantie même en période de forte demande (Fashion Week, salons professionnels, événements)." },
+      "fleet": { "title": "Événementiel & Flottes", "description": "Mise à disposition de flottes complètes pour vos séminaires, conventions, Fashion Weeks et événements d'entreprise." }
+    }
+  },
+  "trips": {
+    "badge": "Transferts Premium",
+    "title": "Nos",
+    "titleHighlight": "trajets",
+    "heroAlt": "Transfert premium Paris",
+    "subtitle": "Des transferts premium vers les aéroports, gares, châteaux et parcs d'Île-de-France. Prix fixes, sans surprise.",
+    "pricesLabel": "Tarifs depuis & vers Paris",
+    "startingFrom": "À partir de",
+    "book": "Réserver",
+    "categories": {
+      "aeroports": { "label": "Aéroports", "headline": "Transferts Aéroports", "editorial": "Préparez vos trajets aéroports avec une solution simple et confortable. Forfaits tout inclus, accueil en zone d'arrivée avec panneau nominatif et suivi de vol en temps réel. Aucune surprise, que du confort." },
+      "gares": { "label": "Gares", "headline": "Navettes Gares", "editorial": "Rejoignez les grandes gares parisiennes sans stress. Prise en charge à quai possible, aide aux bagages et ponctualité garantie. Un service pensé pour les voyageurs exigeants." },
+      "chateaux": { "label": "Châteaux", "headline": "Excursions Châteaux", "editorial": "Découvrez les plus beaux châteaux d'Île-de-France en toute sérénité. Votre chauffeur vous accompagne et vous attend sur place le temps de votre visite. Un voyage dans le temps, en toute élégance." },
+      "parcs": { "label": "Parcs", "headline": "Transferts Parcs", "editorial": "Offrez à votre famille ou votre groupe un transfert sans contrainte vers les parcs de loisirs de la région. Prise en charge aller-retour, véhicule spacieux et chauffeur attentionné." }
+    }
+  },
+  "chauffeur": {
+    "badge": "Service Personnalisé",
+    "title": "Mise à",
+    "titleHighlight": "disposition",
+    "heroAlt": "Chauffeur privé",
+    "subtitle": "Un chauffeur privé à votre service, pour la durée de votre choix. L'élégance et la liberté d'un transport sur-mesure.",
+    "features": {
+      "flexibility": { "title": "Flexibilité totale", "description": "Votre chauffeur reste à votre disposition pendant toute la durée souhaitée, sans contrainte d'itinéraire." },
+      "discretion": { "title": "Discrétion assurée", "description": "Nos chauffeurs sont formés aux exigences de confidentialité les plus strictes." },
+      "dedicated": { "title": "Chauffeur dédié", "description": "Un seul interlocuteur pour toute la durée de votre mise à disposition." },
+      "multiStop": { "title": "Multi-arrêts", "description": "Rendez-vous d'affaires, shopping, visites — organisez votre journée comme vous l'entendez." }
+    },
+    "pricing": {
+      "label": "Nos formules",
+      "title": "Tarifs",
+      "titleHighlight": "indicatifs",
+      "minimumHours": "À partir de 3 heures minimum",
+      "book": "Réserver",
+      "exceptionalVehicles": "Véhicules d'exception",
+      "exceptionalList": "Range Rover · Maybach · Rolls Royce",
+      "quoteOnly": "Sur devis uniquement",
+      "requestQuote": "Demander un devis"
+    },
+    "cta": {
+      "title": "Réserver une",
+      "titleHighlight": "mise à disposition",
+      "subtitle": "Renseignez vos informations pour recevoir un devis personnalisé pour votre chauffeur privé.",
+      "button": "Demander un devis"
+    }
+  },
+  "reservation": {
+    "badge": "Réservation",
+    "transfer": { "title": "Réservez votre", "highlight": "transfert", "description": "Obtenez une estimation instantanée et réservez votre véhicule en quelques clics. Forfaits aéroport CDG et Orly disponibles." },
+    "location": { "title": "Réservez votre", "highlight": "mise à disposition", "description": "Véhicule avec chauffeur à votre disposition pour la durée souhaitée. Liberté totale, service sur-mesure." },
+    "corporate": { "title": "Demandez votre", "highlight": "devis corporate", "description": "Un service dédié aux entreprises. Complétez le formulaire et notre équipe commerciale vous recontactera sous 24h." },
+    "reassurance": {
+      "title": "Réservation sécurisée",
+      "subtitle": "Service premium garanti",
+      "confirmation": "Confirmation sous 24h",
+      "payment": "Paiement à bord, pas d'avance",
+      "cancellation": "Annulation flexible",
+      "concierge": "Conciergerie 24/7",
+      "needHelp": "Besoin d'assistance ?",
+      "whatsapp": "Contacter par WhatsApp"
+    },
+    "testimonial": {
+      "text": "Ponctualité irréprochable, véhicule impeccable et chauffeur d'une grande courtoisie. Je recommande sans hésitation.",
+      "author": "Philippe D.",
+      "role": "Client régulier"
+    }
+  },
+  "fleet": {
+    "label": "Showroom",
+    "title": "Notre",
+    "titleHighlight": "flotte",
+    "subtitle": "Des véhicules premium entretenus avec soin pour un confort absolu à chaque trajet.",
+    "passengers": "Passagers",
+    "suitcases": "Valises",
+    "prevAriaLabel": "Véhicule précédent",
+    "nextAriaLabel": "Véhicule suivant",
+    "goToVehicle": "Aller au véhicule {{index}}",
+    "vehicles": {
+      "classe-e": { "name": "Mercedes Classe E", "label": "Berline Business", "description": "L'élégance pour vos déplacements professionnels. Confort et discrétion assurés dans une berline d'exception." },
+      "classe-s": { "name": "Mercedes Classe S", "label": "Berline de Luxe", "description": "Le summum du raffinement. Une expérience de voyage incomparable pour vos occasions les plus prestigieuses." },
+      "classe-v": { "name": "Mercedes Classe V", "label": "Van haut de gamme", "description": "L'espace et le confort pour vos groupes. Idéal pour les transferts en famille ou les événements d'entreprise." }
+    },
+    "services": {
+      "wifiOnboard": "Wi-Fi à bord",
+      "wifiHighSpeed": "Wi-Fi haut débit",
+      "water": "Eau minérale offerte",
+      "chargers": "Chargeurs universels",
+      "press": "Presse du jour",
+      "champagne": "Champagne à disposition",
+      "massageSeats": "Sièges massants",
+      "ambiance": "Ambiance personnalisée",
+      "spacious": "Espace généreux",
+      "usbPorts": "Prises USB individuelles"
+    }
+  },
+  "booking": {
+    "title": "Réserver votre chauffeur",
+    "serviceType": "Type de service",
+    "modeTrip": "Trajet",
+    "modeChauffeur": "Mise à disposition",
+    "departure": "Adresse de départ",
+    "departurePlaceholder": "Ex : 1 Avenue des Champs-Élysées, Paris",
+    "arrival": "Adresse d'arrivée",
+    "arrivalPlaceholder": "Ex : Aéroport CDG Terminal 2",
+    "date": "Date",
+    "time": "Heure",
+    "timePlaceholder": "Sélectionner l'heure",
+    "vehicle": "Véhicule",
+    "priceEstimate": "Estimation du prix",
+    "airportForfait": "Forfait {{name}}",
+    "madRate": "Tarif pour 3 heures de mise à disposition",
+    "submit": "Demander un devis",
+    "reset": "Réinitialiser"
+  },
+  "marquee": {
+    "0": "15 000+ courses réalisées",
+    "1": "Chauffeurs certifiés & formés",
+    "2": "Disponible 24h/24 & 7j/7",
+    "3": "98% de clients satisfaits",
+    "4": "Service premium depuis 2018",
+    "5": "Véhicules assurés tous risques"
+  }
+}

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="relative border-t border-white/[0.06] bg-[#080b14] pt-16 pb-10">
       {/* Ornement Art Déco en haut du footer */}
@@ -35,30 +38,29 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Service de chauffeur privé haut de gamme à Paris et en
-              Île-de-France. Disponible 24h/24 et 7j/7.
+              {t("footer.description")}
             </p>
           </div>
 
           {/* Services */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground mb-5">
-              Services
+              {t("footer.servicesTitle")}
             </h3>
             <ul className="space-y-3 text-sm">
-              {[
-                { label: "Trajets & transferts", href: "/trajets" },
-                { label: "Mise à disposition", href: "/mise-a-disposition" },
-                { label: "Excursions", href: "/excursions" },
-                { label: "Événements & soirées", href: "/evenements" },
-                { label: "Location de véhicules", href: "/location" },
-              ].map((link) => (
+              {([
+                { key: "trips", href: "/trajets" },
+                { key: "chauffeur", href: "/mise-a-disposition" },
+                { key: "excursions", href: "/excursions" },
+                { key: "events", href: "/evenements" },
+                { key: "rental", href: "/location" },
+              ] as const).map((link) => (
                 <li key={link.href}>
                   <Link
                     to={link.href}
                     className="text-muted-foreground hover:text-gold transition-colors duration-300"
                   >
-                    {link.label}
+                    {t(`footer.services.${link.key}`)}
                   </Link>
                 </li>
               ))}
@@ -68,7 +70,7 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground mb-5">
-              Contact
+              {t("footer.contactTitle")}
             </h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
@@ -87,14 +89,14 @@ export function Footer() {
                   bls.transport75@gmail.com
                 </a>
               </li>
-              <li>Paris, Île-de-France</li>
+              <li>{t("footer.location")}</li>
             </ul>
           </div>
 
           {/* Legal */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-widest text-foreground mb-5">
-              Légal
+              {t("footer.legalTitle")}
             </h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
@@ -102,17 +104,17 @@ export function Footer() {
                   to="/entreprise"
                   className="hover:text-gold transition-colors duration-300"
                 >
-                  Service Corporate
+                  {t("footer.corporate")}
                 </Link>
               </li>
               <li>
                 <span className="cursor-default">
-                  Mentions légales
+                  {t("footer.legalNotices")}
                 </span>
               </li>
               <li>
                 <span className="cursor-default">
-                  Politique de confidentialité
+                  {t("footer.privacyPolicy")}
                 </span>
               </li>
             </ul>
@@ -130,7 +132,7 @@ export function Footer() {
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} BLS — Bedadi Limousine Services. Tous droits réservés.
+              &copy; {new Date().getFullYear()} {t("footer.copyright")}
             </p>
 
             {/* Social links */}

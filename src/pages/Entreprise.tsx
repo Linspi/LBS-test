@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   FileText,
   UserCheck,
@@ -8,34 +9,16 @@ import {
 import { QuoteForm } from "@/components/features/QuoteForm";
 import { FadeUp } from "@/components/ui/FadeUp";
 
-const CORPORATE_ADVANTAGES = [
-  {
-    icon: FileText,
-    title: "Facturation Simplifiée",
-    description:
-      "Relevé mensuel unique regroupant toutes vos courses. Pas d'avance de frais pour vos collaborateurs, règlement à 30 jours.",
-  },
-  {
-    icon: UserCheck,
-    title: "Accueil VIP",
-    description:
-      "Pancarte nominative sur tablette iPad aux aéroports et gares. Un accueil professionnel qui valorise votre image de marque.",
-  },
-  {
-    icon: Clock,
-    title: "Priorité de Réservation",
-    description:
-      "Disponibilité garantie même en période de forte demande (Fashion Week, salons professionnels, événements).",
-  },
-  {
-    icon: CalendarCheck,
-    title: "Événementiel & Flottes",
-    description:
-      "Mise à disposition de flottes complètes pour vos séminaires, conventions, Fashion Weeks et événements d'entreprise.",
-  },
-];
+const ADVANTAGE_KEYS = [
+  { icon: FileText, key: "billing" },
+  { icon: UserCheck, key: "vip" },
+  { icon: Clock, key: "priority" },
+  { icon: CalendarCheck, key: "fleet" },
+] as const;
 
 export function Entreprise() {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* Hero */}
@@ -43,7 +26,7 @@ export function Entreprise() {
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"
-            alt="Business"
+            alt={t("corporate.heroAlt")}
             className="h-full w-full object-cover"
             loading="eager"
             fetchPriority="high"
@@ -56,21 +39,19 @@ export function Entreprise() {
             <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full glass text-gold text-sm mb-6">
               <div className="h-1.5 w-1.5 bg-gold rotate-45" />
               <Building className="h-3.5 w-3.5" />
-              <span className="text-xs uppercase tracking-[0.2em]">Service Corporate</span>
+              <span className="text-xs uppercase tracking-[0.2em]">{t("corporate.badge")}</span>
               <div className="h-1.5 w-1.5 bg-gold rotate-45" />
             </div>
           </FadeUp>
           <FadeUp delay={0.1}>
             <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-foreground mb-4">
-              Solutions pour les{" "}
-              <span className="text-gradient-gold">Professionnels</span>
+              {t("corporate.titlePrefix")}{" "}
+              <span className="text-gradient-gold">{t("corporate.titleHighlight")}</span>
             </h1>
           </FadeUp>
           <FadeUp delay={0.15}>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Un service de transport premium adapté aux besoins des entreprises
-              exigeantes. Facturation simplifiée, priorité de service et accueil
-              VIP.
+              {t("corporate.subtitle")}
             </p>
           </FadeUp>
         </div>
@@ -82,30 +63,30 @@ export function Entreprise() {
           <FadeUp>
             <div className="text-center mb-16">
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-3">
-                Avantages exclusifs
+                {t("corporate.advantagesLabel")}
               </p>
               <h2 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight text-foreground mb-4">
-                Pourquoi nous <span className="text-gradient-gold">choisir</span>
+                {t("corporate.advantagesTitle")} <span className="text-gradient-gold">{t("corporate.advantagesTitleHighlight")}</span>
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                Des avantages pensés pour les professionnels et les entreprises.
+                {t("corporate.advantagesSubtitle")}
               </p>
             </div>
           </FadeUp>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {CORPORATE_ADVANTAGES.map((advantage, i) => (
-              <FadeUp key={advantage.title} delay={i * 0.07}>
+            {ADVANTAGE_KEYS.map((advantage, i) => (
+              <FadeUp key={advantage.key} delay={i * 0.07}>
                 <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 flex gap-5 hover:border-gold/[0.15] transition-colors duration-300 cursor-default">
                   <div className="flex-shrink-0 h-12 w-12 rounded-xl bg-gold/[0.08] flex items-center justify-center">
                     <advantage.icon className="h-6 w-6 text-gold" />
                   </div>
                   <div>
                     <h3 className="font-display text-lg font-semibold text-foreground mb-2 tracking-tight">
-                      {advantage.title}
+                      {t(`corporate.advantages.${advantage.key}.title`)}
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      {advantage.description}
+                      {t(`corporate.advantages.${advantage.key}.description`)}
                     </p>
                   </div>
                 </div>

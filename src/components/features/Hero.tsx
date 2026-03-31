@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { ArrowRight, MapPin, Navigation } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation, Trans } from "react-i18next";
 import { Autocomplete } from "@react-google-maps/api";
 import { useGoogleMaps } from "@/providers/GoogleMapsProvider";
 
@@ -12,6 +13,7 @@ const AUTOCOMPLETE_OPTIONS: google.maps.places.AutocompleteOptions = {
 };
 
 export function Hero() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
@@ -32,7 +34,7 @@ export function Hero() {
       <div className="absolute inset-0 w-full h-full">
         <img
           src="/images/Hero.jpg"
-          alt="Paris la nuit"
+          alt={t("hero.altImage")}
           className="w-full h-full object-cover scale-105"
           loading="eager"
           fetchPriority="high"
@@ -60,7 +62,7 @@ export function Hero() {
       >
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
         <p className="text-vertical text-[9px] uppercase tracking-[0.5em] text-gold/50 font-medium">
-          Paris · Depuis 2018
+          {t("hero.tagline")}
         </p>
       </div>
 
@@ -71,7 +73,7 @@ export function Hero() {
         <div className="md:hidden animate-hero-in mb-5" style={{ animationDelay: "0.05s" }}>
           <div className="w-7 h-px bg-gold mb-3" />
           <p className="text-[10px] uppercase tracking-[0.4em] text-gold font-medium">
-            Paris · Île-de-France · 24/7
+            {t("hero.taglineMobile")}
           </p>
         </div>
 
@@ -83,7 +85,7 @@ export function Hero() {
           {/* Mini losange Art Déco */}
           <div className="h-1.5 w-1.5 bg-gold rotate-45" />
           <span className="text-xs uppercase tracking-[0.3em] text-gold/80 font-medium">
-            Chauffeurs Privés d'Exception
+            {t("hero.badge")}
           </span>
           <div className="h-1.5 w-1.5 bg-gold rotate-45" />
         </div>
@@ -93,8 +95,8 @@ export function Hero() {
           className="font-display text-[2.5rem] leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight md:leading-[1.05] mb-5 md:mb-6 animate-hero-in text-left md:text-center"
           style={{ animationDelay: "0.15s" }}
         >
-          <span className="text-foreground/90 font-light italic block">L'art du</span>
-          <span className="text-gradient-gold font-semibold block mt-1 md:mt-2">transport privé</span>
+          <span className="text-foreground/90 font-light italic block">{t("hero.titleLine1")}</span>
+          <span className="text-gradient-gold font-semibold block mt-1 md:mt-2">{t("hero.titleLine2")}</span>
         </h1>
 
         {/* Sous-titre — desktop uniquement */}
@@ -102,9 +104,7 @@ export function Hero() {
           className="hidden md:block text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed animate-hero-in font-light"
           style={{ animationDelay: "0.3s" }}
         >
-          Là où chaque trajet devient une expérience.
-          <br className="hidden lg:block" />
-          Ponctualité, discrétion et élégance à Paris.
+          <Trans i18nKey="hero.subtitle" components={{ br: <br className="hidden lg:block" /> }} />
         </p>
 
         {/* Barre de réservation fonctionnelle
@@ -125,8 +125,8 @@ export function Hero() {
               {/* Départ */}
               <HeroAddressField
                 icon={<MapPin className="h-4 w-4 text-gold shrink-0" />}
-                label="Départ"
-                placeholder="Adresse de prise en charge"
+                label={t("hero.departure")}
+                placeholder={t("hero.departurePlaceholder")}
                 value={departure}
                 onChange={setDeparture}
                 inputId="hero-departure"
@@ -136,8 +136,8 @@ export function Hero() {
               {/* Arrivée */}
               <HeroAddressField
                 icon={<Navigation className="h-4 w-4 text-gold shrink-0" />}
-                label="Arrivée"
-                placeholder="Destination souhaitée"
+                label={t("hero.arrival")}
+                placeholder={t("hero.arrivalPlaceholder")}
                 value={arrival}
                 onChange={setArrival}
                 inputId="hero-arrival"
@@ -149,7 +149,7 @@ export function Hero() {
                   onClick={handleEstimate}
                   className="flex items-center justify-center gap-2 bg-gradient-to-r from-gold to-gold-light text-background font-semibold rounded-full px-6 py-3 sm:px-8 hover:brightness-110 transition-[filter] duration-300 shadow-[0_4px_20px_rgba(212,168,67,0.25)] cursor-pointer w-full sm:w-auto whitespace-nowrap"
                 >
-                  Estimer
+                  {t("hero.estimate")}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
@@ -163,9 +163,9 @@ export function Hero() {
           style={{ animationDelay: "0.45s" }}
         >
           {[
-            { value: "15K+", label: "Courses" },
-            { value: "98%", label: "Satisfaction" },
-            { value: "24/7", label: "Disponible" },
+            { value: "15K+", label: t("hero.stats.rides") },
+            { value: "98%", label: t("hero.stats.satisfaction") },
+            { value: "24/7", label: t("hero.stats.available") },
           ].map((stat, i) => (
             <div
               key={stat.label}
