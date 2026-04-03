@@ -732,5 +732,24 @@
     "3": "98% client satisfaction",
     "4": "Premium service since 2018",
     "5": "Fully insured vehicles"
+  },
+  "checkout": {
+    "title": "Secure payment",
+    "loading": "Preparing secure payment…",
+    "error": "An error occurred while initializing the payment.",
+    "errorTitle": "Payment error",
+    "return": {
+      "seoTitle": "Payment Confirmation | BLS",
+      "seoDescription": "Confirmation of your payment for your BLS private chauffeur booking.",
+      "verifying": "Verifying your payment…",
+      "successTitle": "Payment confirmed",
+      "successDescription": "Thank you for your trust. A confirmation email with your booking details has been sent to you.",
+      "backHome": "Back to home",
+      "pendingTitle": "Payment pending",
+      "pendingDescription": "Your payment has not been completed yet. You can try again or contact us.",
+      "retry": "Try again",
+      "errorTitle": "Verification error",
+      "errorDescription": "Unable to verify your payment status. Please contact us if an amount has been charged."
+    }
   }
 }

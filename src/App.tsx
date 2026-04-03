@@ -12,6 +12,8 @@ import { Entreprise } from "@/pages/Entreprise";
 import { Reservation } from "@/pages/Reservation";
 import { ReservationExperience } from "@/pages/ReservationExperience";
 import { DestinationTemplate } from "@/pages/DestinationTemplate";
+import { CheckoutReturn } from "@/pages/CheckoutReturn";
+import { StripeCheckout } from "@/components/checkout/StripeCheckout";
 import { NotFound } from "@/pages/NotFound";
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/reservation-experience" element={<ReservationExperience />} />
           <Route path="/trajets/:slug" element={<DestinationTemplate />} />
+          <Route path="/return" element={<CheckoutReturn />} />
+          <Route path="/test-paiement" element={<StripeCheckout amount={15000} description="Trajet Test — Paris CDG" />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

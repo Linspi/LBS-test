@@ -732,5 +732,24 @@
     "3": "98% de clients satisfaits",
     "4": "Service premium depuis 2018",
     "5": "Véhicules assurés tous risques"
+  },
+  "checkout": {
+    "title": "Paiement sécurisé",
+    "loading": "Préparation du paiement sécurisé…",
+    "error": "Une erreur est survenue lors de l'initialisation du paiement.",
+    "errorTitle": "Erreur de paiement",
+    "return": {
+      "seoTitle": "Confirmation de paiement | BLS",
+      "seoDescription": "Confirmation de votre paiement pour votre réservation de chauffeur privé BLS.",
+      "verifying": "Vérification de votre paiement…",
+      "successTitle": "Paiement confirmé",
+      "successDescription": "Merci pour votre confiance. Un email de récapitulatif vous a été envoyé avec les détails de votre réservation.",
+      "backHome": "Retour à l'accueil",
+      "pendingTitle": "Paiement en attente",
+      "pendingDescription": "Votre paiement n'a pas encore été finalisé. Vous pouvez réessayer ou nous contacter.",
+      "retry": "Réessayer",
+      "errorTitle": "Erreur de vérification",
+      "errorDescription": "Impossible de vérifier le statut de votre paiement. Veuillez nous contacter si un montant a été débité."
+    }
   }
 }
