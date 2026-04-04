@@ -135,6 +135,8 @@ export function FleetCarousel() {
                       <img
                         src={vehicle.image}
                         alt={t(`fleet.vehicles.${vehicle.id}.name`)}
+                        width={800}
+                        height={450}
                         className="relative w-full aspect-[16/9] object-contain drop-shadow-[0_20px_50px_rgba(212,170,64,0.18)]"
                         loading="lazy"
                       />
@@ -223,20 +225,22 @@ export function FleetCarousel() {
           </Carousel>
 
           {/* Pagination dots */}
-          <div className="flex items-center justify-center gap-2 mt-10">
+          <div className="flex items-center justify-center gap-0.5 mt-10">
             {Array.from({ length: count }).map((_, index) => (
               <button
                 key={index}
                 type="button"
                 aria-label={t("fleet.goToVehicle", { index: index + 1 })}
                 onClick={() => api?.scrollTo(index)}
-                className={cn(
-                  "rounded-full transition-all duration-300",
+                className="relative flex items-center justify-center min-w-[44px] min-h-[44px]"
+              >
+                <span className={cn(
+                  "block rounded-full transition-all duration-300",
                   current === index
                     ? "w-8 h-2.5 bg-gradient-to-r from-gold to-gold-champagne"
                     : "w-2.5 h-2.5 bg-white/15 hover:bg-white/30"
-                )}
-              />
+                )} />
+              </button>
             ))}
           </div>
         </div>

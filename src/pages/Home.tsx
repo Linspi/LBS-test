@@ -106,6 +106,8 @@ export function Home() {
                 <img
                   src="/images/nos-engagements.jpg"
                   alt={t("home.commitments.altDesktop")}
+                  width={600}
+                  height={800}
                   loading="lazy"
                   className="w-full aspect-[3/4] object-cover rounded-2xl"
                 />
@@ -120,6 +122,8 @@ export function Home() {
                   <img
                     src="/images/nos-engagements.jpg"
                     alt={t("home.commitments.altMobile")}
+                    width={64}
+                    height={80}
                     className="lg:hidden w-16 h-20 object-cover rounded-xl shrink-0 mt-1"
                     loading="lazy"
                   />
@@ -218,29 +222,31 @@ export function Home() {
                 <p className="text-sm font-medium text-foreground">
                   — {t(`home.testimonials.${testimonialIdx}.author`)}
                 </p>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold mt-1">
+                <p className="text-[11px] uppercase tracking-[0.3em] text-gold mt-1">
                   {t(`home.testimonials.${testimonialIdx}.role`)}
                 </p>
               </motion.div>
             </AnimatePresence>
 
             <div className="flex items-center gap-3 mt-8">
-              <div className="flex gap-2">
+              <div className="flex gap-1">
                 {Array.from({ length: TESTIMONIAL_COUNT }).map((_, i) => (
                   <button
                     key={i}
                     type="button"
                     onClick={() => setTestimonialIdx(i)}
                     aria-label={t("home.testimonials.testimonialAriaLabel", { index: i + 1 })}
-                    className={`rounded-full transition-all duration-300 ${
+                    className="relative flex items-center justify-center min-w-[44px] min-h-[44px]"
+                  >
+                    <span className={`block rounded-full transition-all duration-300 ${
                       i === testimonialIdx
                         ? "w-5 h-1.5 bg-gold"
                         : "w-1.5 h-1.5 bg-white/20 hover:bg-white/40"
-                    }`}
-                  />
+                    }`} />
+                  </button>
                 ))}
               </div>
-              <span className="text-[9px] text-muted-foreground/40 uppercase tracking-widest">
+              <span className="text-[11px] text-muted-foreground/40 uppercase tracking-widest">
                 {t("home.testimonials.swipe")}
               </span>
             </div>
@@ -279,7 +285,7 @@ export function Home() {
                         className="group rounded-xl p-5 lg:p-6 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-gold/[0.1] transition-colors duration-300 cursor-default"
                       >
                         <div className="flex items-start gap-4">
-                          <span className="text-[10px] text-gold/40 font-light tracking-widest mt-1 shrink-0">
+                          <span className="text-[11px] text-gold/40 font-light tracking-widest mt-1 shrink-0">
                             {String(idx + 1).padStart(2, "0")}
                           </span>
                           <div className="flex-1 min-w-0">
@@ -355,6 +361,8 @@ export function Home() {
                 <img
                   src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
                   alt={t("home.corporate.altImage")}
+                  width={800}
+                  height={600}
                   className="relative w-full aspect-[4/3] object-cover rounded-3xl shadow-2xl"
                   loading="lazy"
                 />

@@ -122,10 +122,12 @@ function ArrowButton({
   direction,
   onClick,
   className,
+  ariaLabel,
 }: {
   direction: "left" | "right";
   onClick: () => void;
   className?: string;
+  ariaLabel: string;
 }) {
   const Icon = direction === "left" ? ChevronLeft : ChevronRight;
 
@@ -133,6 +135,7 @@ function ArrowButton({
     <motion.button
       type="button"
       onClick={onClick}
+      aria-label={ariaLabel}
       className={cn(
         "h-12 w-12 rounded-full flex items-center justify-center",
         "bg-white/[0.06] border border-white/[0.14] backdrop-blur-md",
@@ -289,6 +292,7 @@ export function ServicesCoverflow() {
         <ArrowButton
           direction="left"
           onClick={prev}
+          ariaLabel={t("home.services.prev", { defaultValue: "Service précédent" })}
           className="absolute left-2 md:left-4 lg:-left-4 top-1/2 -translate-y-1/2 z-[60]"
         />
 
@@ -354,25 +358,28 @@ export function ServicesCoverflow() {
         <ArrowButton
           direction="right"
           onClick={next}
+          ariaLabel={t("home.services.next", { defaultValue: "Service suivant" })}
           className="absolute right-2 md:right-4 lg:-right-4 top-1/2 -translate-y-1/2 z-[60]"
         />
       </div>
 
       {/* ── Indicateurs dots ── */}
-      <div className="flex justify-center gap-2.5 mt-8">
+      <div className="flex justify-center gap-0.5 mt-8">
         {Array.from({ length: count }).map((_, i) => (
           <button
             key={i}
             type="button"
             onClick={() => setCurrentIndex(i)}
-            aria-label={`Service ${i + 1}`}
-            className={cn(
-              "rounded-full transition-all duration-300",
+            aria-label={t("home.services.goTo", { defaultValue: `Service ${i + 1}`, index: i + 1 })}
+            className="relative flex items-center justify-center min-w-[44px] min-h-[44px]"
+          >
+            <span className={cn(
+              "block rounded-full transition-all duration-300",
               i === currentIndex
                 ? "w-7 h-2 bg-gold shadow-[0_0_8px_rgba(212,168,67,0.4)]"
                 : "w-2 h-2 bg-white/20 hover:bg-white/40",
-            )}
-          />
+            )} />
+          </button>
         ))}
       </div>
 

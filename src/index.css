@@ -30,7 +30,7 @@
 
   /* ── Typography ── */
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
-  --font-display: "Cormorant Garant", Georgia, serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
 
   /* ── Radii ── */
   --radius-sm: 0.375rem;

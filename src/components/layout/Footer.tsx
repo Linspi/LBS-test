@@ -5,7 +5,7 @@ export function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="relative border-t border-white/[0.06] bg-[#080b14] pt-16 pb-10">
+    <footer className="relative border-t border-white/[0.06] bg-background pt-16 pb-10">
       {/* Ornement Art Déco en haut du footer */}
       <div className="absolute -top-px left-0 right-0 flex justify-center">
         <div className="flex items-center gap-0">
@@ -31,7 +31,7 @@ export function Footer() {
                   <span className="block text-lg font-bold tracking-[0.15em] text-foreground leading-none">
                     BLS
                   </span>
-                  <span className="block text-[8px] uppercase tracking-[0.3em] text-gold/60 mt-0.5">
+                  <span className="block text-[11px] uppercase tracking-[0.3em] text-gold/60 mt-0.5">
                     Limousine Services
                   </span>
                 </div>
@@ -135,16 +135,15 @@ export function Footer() {
               &copy; {new Date().getFullYear()} {t("footer.copyright")}
             </p>
 
-            {/* Social links */}
+            {/* Social links — URLs à remplir quand les comptes sont créés */}
             <div className="flex items-center gap-5">
               {["Instagram", "LinkedIn", "X"].map((name) => (
-                <a
+                <span
                   key={name}
-                  href="#"
-                  className="text-xs text-muted-foreground/60 hover:text-gold transition-colors duration-300 uppercase tracking-wider"
+                  className="text-xs text-muted-foreground/60 uppercase tracking-wider cursor-default"
                 >
                   {name}
-                </a>
+                </span>
               ))}
             </div>
           </div>

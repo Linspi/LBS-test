@@ -35,6 +35,8 @@ export function Hero() {
         <img
           src="/images/Hero.jpg"
           alt={t("hero.altImage")}
+          width={1920}
+          height={1080}
           className="w-full h-full object-cover scale-105"
           loading="eager"
           fetchPriority="high"
@@ -42,9 +44,9 @@ export function Hero() {
       </div>
 
       {/* ── Overlays : gradient plus dense en bas sur mobile pour lisibilité ── */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0c0f1a]/40 via-[#0c0f1a]/65 to-[#0c0f1a]/97 md:from-[#0c0f1a]/80 md:via-[#0c0f1a]/85 md:to-background" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0c0f1a]/40 via-transparent to-[#0c0f1a]/40" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(15,23,42,0.3)_0%,_rgba(12,15,26,0.8)_50%,_rgba(12,15,26,0.95)_100%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/65 to-background/97 md:from-background/80 md:via-background/85 md:to-background" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-background)_0%,_var(--color-background)_50%,_var(--color-background)_100%)] opacity-70" />
 
       {/* ── Glows décoratifs — masqués sur mobile (perf) ── */}
       <div className="absolute inset-0 pointer-events-none hidden md:block">
@@ -61,7 +63,7 @@ export function Hero() {
         style={{ animationDelay: "0.6s" }}
       >
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
-        <p className="text-vertical text-[9px] uppercase tracking-[0.5em] text-gold/50 font-medium">
+        <p className="text-vertical text-[11px] uppercase tracking-[0.5em] text-gold/50 font-medium">
           {t("hero.tagline")}
         </p>
       </div>
@@ -72,7 +74,7 @@ export function Hero() {
         {/* Mobile : ligne dorée + label ville */}
         <div className="md:hidden animate-hero-in mb-5" style={{ animationDelay: "0.05s" }}>
           <div className="w-7 h-px bg-gold mb-3" />
-          <p className="text-[10px] uppercase tracking-[0.4em] text-gold font-medium">
+          <p className="text-[11px] uppercase tracking-[0.4em] text-gold font-medium">
             {t("hero.taglineMobile")}
           </p>
         </div>
@@ -174,7 +176,7 @@ export function Hero() {
               <div className="text-lg sm:text-2xl md:text-3xl font-bold text-gradient-gold">
                 {stat.value}
               </div>
-              <div className="text-[9px] sm:text-xs text-muted-foreground mt-0.5 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs text-muted-foreground mt-0.5 uppercase tracking-wider">
                 {stat.label}
               </div>
             </div>
@@ -269,9 +271,9 @@ function HeroAddressField({
       <div className="flex items-center gap-3 px-5 py-3 flex-1">
         {icon}
         <div className="text-left flex-1 min-w-0">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground leading-none mb-1">
+          <label htmlFor={inputId} className="text-[11px] uppercase tracking-widest text-muted-foreground leading-none mb-1 block">
             {label}
-          </p>
+          </label>
           {isLoaded ? (
             <Autocomplete
               onLoad={handleLoad}

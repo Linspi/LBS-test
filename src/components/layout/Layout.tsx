@@ -25,10 +25,10 @@ export function Layout() {
         duration={4000}
         toastOptions={{
           style: {
-            background: "#1f1f1f",
-            border: "1px solid rgba(200, 168, 78, 0.2)",
-            color: "#f5f5f5",
-            fontFamily: '"Inter", system-ui, -apple-system, sans-serif',
+            background: "var(--color-card)",
+            border: "1px solid rgba(212, 170, 64, 0.2)",
+            color: "var(--color-foreground)",
+            fontFamily: "var(--font-sans)",
           },
         }}
       />
