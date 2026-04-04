@@ -8,19 +8,15 @@ import {
   Star,
   Coffee,
   ArrowRight,
-  MapPin,
-  Calendar,
-  Compass,
-  PartyPopper,
   Quote,
 } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
 import { Hero } from "@/components/features/Hero";
 import { InfiniteMarquee } from "@/components/features/InfiniteMarquee";
 import { FleetCarousel } from "@/components/features/FleetCarousel";
+import { ServicesCoverflow } from "@/components/features/ServicesCoverflow";
 import { Button } from "@/components/ui/button";
 import { FadeUp } from "@/components/ui/FadeUp";
-import { SERVICE_BLOCKS } from "@/data/navigation";
 
 /* ───── Composant ornement Art Déco ───── */
 
@@ -43,8 +39,6 @@ const COMMITMENT_KEYS = [
 
 const TESTIMONIAL_COUNT = 5;
 
-const SERVICE_ICONS = [MapPin, Calendar, Compass, PartyPopper];
-
 /* ───── Component ───── */
 
 export function Home() {
@@ -61,19 +55,20 @@ export function Home() {
       <InfiniteMarquee />
 
       {/* ═══════════════════════════════════════════
-          Section: Services
+          Section: Services — Carrousel 3D Cover Flow
           ═══════════════════════════════════════════ */}
       <section className="py-10 md:py-16 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gold/[0.03] blur-[120px] rounded-full pointer-events-none hidden md:block" />
 
         <div className="container relative">
           <FadeUp>
-            <div className="text-center mb-8 md:mb-16">
+            <div className="text-center mb-8 md:mb-14">
               <p className="text-xs uppercase tracking-[0.3em] text-gold font-medium mb-4">
                 {t("home.services.label")}
               </p>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5">
-                {t("home.services.title")} <span className="text-gradient-gold">{t("home.services.titleHighlight")}</span>
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-5">
+                {t("home.services.title")}{" "}
+                <span className="text-gradient-gold">{t("home.services.titleHighlight")}</span>
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed hidden md:block">
                 {t("home.services.subtitle")}
@@ -81,60 +76,9 @@ export function Home() {
             </div>
           </FadeUp>
 
-          {/* ── Mobile : liste numérotée avec thumbnail ── */}
-          <div className="md:hidden border-t border-white/[0.06]">
-            {SERVICE_BLOCKS.map((block, i) => (
-              <FadeUp key={block.href} delay={i * 0.06}>
-                <Link
-                  to={block.href}
-                  className="flex items-center gap-4 py-4 border-b border-white/[0.06] group"
-                >
-                  <span className="text-[10px] text-gold/70 font-light tracking-widest w-5 shrink-0">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <img
-                    src={block.image}
-                    alt={t(block.titleKey)}
-                    className="w-11 h-11 rounded-lg object-cover shrink-0"
-                    loading="lazy"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display text-[1.1rem] font-semibold text-foreground leading-tight">
-                      {t(block.titleKey)}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                      {t(block.subtitleKey)}
-                    </p>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-gold/30 group-hover:text-gold transition-colors duration-300 shrink-0" />
-                </Link>
-              </FadeUp>
-            ))}
-          </div>
-
-          {/* ── Desktop : Bento Grid ── */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
-            {SERVICE_BLOCKS[1] && (
-              <FadeUp delay={0} className="lg:row-span-2">
-                <BentoCard block={SERVICE_BLOCKS[1]} icon={SERVICE_ICONS[1]} large />
-              </FadeUp>
-            )}
-            {SERVICE_BLOCKS[0] && (
-              <FadeUp delay={0.15}>
-                <BentoCard block={SERVICE_BLOCKS[0]} icon={SERVICE_ICONS[0]} />
-              </FadeUp>
-            )}
-            {SERVICE_BLOCKS[2] && (
-              <FadeUp delay={0.25}>
-                <BentoCard block={SERVICE_BLOCKS[2]} icon={SERVICE_ICONS[2]} />
-              </FadeUp>
-            )}
-            {SERVICE_BLOCKS[3] && (
-              <FadeUp delay={0.35} className="md:col-span-2">
-                <BentoCard block={SERVICE_BLOCKS[3]} icon={SERVICE_ICONS[3]} />
-              </FadeUp>
-            )}
-          </div>
+          <FadeUp delay={0.15}>
+            <ServicesCoverflow />
+          </FadeUp>
         </div>
       </section>
 
@@ -423,51 +367,3 @@ export function Home() {
   );
 }
 
-/* ───── Bento Card (desktop uniquement) ───── */
-
-function BentoCard({
-  block,
-  icon: Icon,
-  large = false,
-}: {
-  block: (typeof SERVICE_BLOCKS)[number];
-  icon: React.ComponentType<{ className?: string }>;
-  large?: boolean;
-}) {
-  const { t } = useTranslation();
-
-  return (
-    <Link
-      to={block.href}
-      className={`group relative block overflow-hidden rounded-2xl border border-white/[0.08] hover:border-gold/[0.12] transition-[border-color] duration-500 ${
-        large ? "h-[450px]" : "h-[215px]"
-      }`}
-    >
-      <img
-        src={block.image}
-        alt={t(block.titleKey)}
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-        loading="lazy"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-gold/5 via-transparent to-transparent" />
-
-      <div className="absolute top-4 right-4 z-10 h-10 w-10 rounded-xl glass flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-        <Icon className="h-4 w-4 text-gold" />
-      </div>
-
-      <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 sm:p-8">
-        <h3 className="text-lg sm:text-xl font-bold uppercase tracking-wider text-white mb-1 transition-transform duration-300 group-hover:-translate-y-1">
-          {t(block.titleKey)}
-        </h3>
-        <p className="text-sm text-white/60 transition-transform duration-300 group-hover:-translate-y-1">
-          {t(block.subtitleKey)}
-        </p>
-        <div className="flex items-center gap-2 mt-3 text-gold text-sm font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,transform] duration-300">
-          {t("home.services.discover")}
-          <ArrowRight className="h-3.5 w-3.5" />
-        </div>
-      </div>
-    </Link>
-  );
-}
