@@ -12,7 +12,6 @@ import {
   Calendar,
   Compass,
   PartyPopper,
-  Quote,
 } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
 import { Hero } from "@/components/features/Hero";
@@ -42,6 +41,18 @@ const COMMITMENT_KEYS = [
 ] as const;
 
 const TESTIMONIAL_COUNT = 5;
+
+/**
+ * Photos de portrait Unsplash pour illustrer les témoignages (desktop).
+ * Indexées dans le même ordre que les clés i18n (0 → 4).
+ */
+const TESTIMONIAL_PHOTOS: string[] = [
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
+  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80",
+];
 
 const SERVICE_ICONS = [MapPin, Calendar, Compass, PartyPopper];
 
@@ -302,66 +313,113 @@ export function Home() {
             </div>
           </div>
 
-          {/* ── Desktop : layout éditorial magazine ── */}
+          {/* ── Desktop : menu vertical interactif (noms + photos) + citation AnimatePresence ── */}
           <FadeUp className="hidden md:block">
             <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 items-start">
-                <div className="lg:col-span-2 relative pt-4 lg:pr-8">
-                  <Quote className="h-10 w-10 text-gold/20 mb-6" />
-                  <blockquote className="font-display text-2xl lg:text-3xl italic leading-snug text-foreground/90 mb-8">
-                    {t("home.testimonials.0.text")}
-                  </blockquote>
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="h-4 w-4 fill-gold text-gold" />
-                    ))}
-                  </div>
-                  <p className="font-semibold text-foreground">
-                    {t("home.testimonials.0.author")}
-                  </p>
-                  <p className="text-xs uppercase tracking-[0.25em] text-gold/70 mt-1">
-                    {t("home.testimonials.0.role")}
-                  </p>
-                  <div className="hidden lg:block absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-gold/15 to-transparent" />
-                  <div className="lg:hidden h-px w-full mt-8 bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+              <div className="grid grid-cols-5 min-h-[420px] rounded-3xl overflow-hidden border border-white/[0.06]">
+
+                {/* Colonne gauche : liste cliquable des 5 témoins */}
+                <div className="col-span-2 bg-white/[0.02] border-r border-white/[0.06] flex flex-col">
+                  {Array.from({ length: TESTIMONIAL_COUNT }).map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setTestimonialIdx(i)}
+                      className={`flex-1 flex items-center gap-4 px-6 py-0 text-left transition-all duration-300 group border-b border-white/[0.04] last:border-b-0 border-l-2 ${
+                        i === testimonialIdx
+                          ? "bg-gold/[0.08] border-l-gold"
+                          : "hover:bg-white/[0.03] border-l-transparent"
+                      }`}
+                    >
+                      <img
+                        src={TESTIMONIAL_PHOTOS[i]}
+                        alt={t(`home.testimonials.${i}.author`)}
+                        width={40}
+                        height={40}
+                        className={`w-10 h-10 rounded-full object-cover shrink-0 transition-all duration-300 ${
+                          i === testimonialIdx
+                            ? "ring-2 ring-gold/50"
+                            : "ring-1 ring-white/10 grayscale group-hover:grayscale-0"
+                        }`}
+                        loading="lazy"
+                      />
+                      <div className="min-w-0">
+                        <p className={`text-sm font-medium truncate transition-colors duration-300 ${
+                          i === testimonialIdx
+                            ? "text-foreground"
+                            : "text-muted-foreground group-hover:text-foreground/80"
+                        }`}>
+                          {t(`home.testimonials.${i}.author`)}
+                        </p>
+                        <p className={`text-[11px] uppercase tracking-wider truncate transition-colors duration-300 ${
+                          i === testimonialIdx ? "text-gold" : "text-muted-foreground/40"
+                        }`}>
+                          {t(`home.testimonials.${i}.role`)}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
                 </div>
 
-                <div className="lg:col-span-3 space-y-4">
-                  {Array.from({ length: TESTIMONIAL_COUNT - 1 }).map((_, i) => {
-                    const idx = i + 1;
-                    return (
-                      <div
-                        key={idx}
-                        className="group rounded-xl p-5 lg:p-6 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-gold/[0.1] transition-colors duration-300 cursor-default"
-                      >
-                        <div className="flex items-start gap-4">
-                          <span className="text-[10px] text-gold/40 font-light tracking-widest mt-1 shrink-0">
-                            {String(idx + 1).padStart(2, "0")}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm text-muted-foreground leading-relaxed mb-3 group-hover:text-foreground/80 transition-colors duration-300">
-                              &ldquo;{t(`home.testimonials.${idx}.text`)}&rdquo;
+                {/* Colonne droite : citation + photo de fond — transition AnimatePresence */}
+                <div className="col-span-3 relative overflow-hidden bg-background">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={testimonialIdx}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -24 }}
+                      transition={{ duration: 0.38, ease: "easeOut" }}
+                      className="absolute inset-0 flex flex-col justify-center px-8 py-8"
+                    >
+                      {/* Photo de fond floutée — ambiance */}
+                      <div className="absolute inset-0 overflow-hidden">
+                        <img
+                          src={TESTIMONIAL_PHOTOS[testimonialIdx]}
+                          alt=""
+                          aria-hidden="true"
+                          width={600}
+                          height={420}
+                          className="w-full h-full object-cover scale-110 blur-xl opacity-[0.08]"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/30 to-transparent" />
+                      </div>
+
+                      {/* Contenu éditorial */}
+                      <div className="relative z-10">
+                        <div className="font-display text-[5.5rem] leading-none text-gold/12 -mb-3 select-none">
+                          &ldquo;
+                        </div>
+                        <blockquote className="font-display text-xl lg:text-2xl italic leading-snug text-foreground/90 mb-6 max-w-sm">
+                          {t(`home.testimonials.${testimonialIdx}.text`)}
+                        </blockquote>
+                        <div className="flex gap-1 mb-5">
+                          {[...Array(5)].map((_, j) => (
+                            <Star key={j} className="h-4 w-4 fill-gold text-gold" />
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={TESTIMONIAL_PHOTOS[testimonialIdx]}
+                            alt={t(`home.testimonials.${testimonialIdx}.author`)}
+                            width={44}
+                            height={44}
+                            className="w-11 h-11 rounded-full object-cover ring-2 ring-gold/40"
+                            loading="lazy"
+                          />
+                          <div>
+                            <p className="font-semibold text-foreground text-sm">
+                              {t(`home.testimonials.${testimonialIdx}.author`)}
                             </p>
-                            <div className="flex items-center justify-between gap-2">
-                              <div className="min-w-0">
-                                <span className="text-sm font-medium text-foreground">
-                                  {t(`home.testimonials.${idx}.author`)}
-                                </span>
-                                <span className="text-xs text-muted-foreground/60 ml-2">
-                                  {t(`home.testimonials.${idx}.role`)}
-                                </span>
-                              </div>
-                              <div className="flex gap-0.5 shrink-0">
-                                {[...Array(5)].map((_, j) => (
-                                  <Star key={j} className="h-3 w-3 fill-gold/60 text-gold/60" />
-                                ))}
-                              </div>
-                            </div>
+                            <p className="text-xs uppercase tracking-[0.25em] text-gold/70 mt-0.5">
+                              {t(`home.testimonials.${testimonialIdx}.role`)}
+                            </p>
                           </div>
                         </div>
                       </div>
-                    );
-                  })}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
