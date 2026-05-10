@@ -9,7 +9,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
-import { Hero } from "@/components/features/Hero";
+import { ScrollExpandHero } from "@/components/features/ScrollExpandHero";
 import { InfiniteMarquee } from "@/components/features/InfiniteMarquee";
 import { FleetCarousel } from "@/components/features/FleetCarousel";
 import { SkewServiceCards } from "@/components/features/SkewServiceCards";
@@ -70,10 +70,13 @@ export function Home() {
         title={t("seo.home.title")}
         description={t("seo.home.description")}
       />
-      <SectionReveal index={0}>
-        <Hero />
+      <ScrollExpandHero
+        mediaType="video"
+        mediaSrc="/images/hero.mp4"
+        bgImageSrc="/images/hero_nocar.png"
+      >
         <InfiniteMarquee />
-      </SectionReveal>
+      </ScrollExpandHero>
 
       {/* ═══════════════════════════════════════════
           Section: Services
