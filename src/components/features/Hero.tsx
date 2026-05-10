@@ -4,6 +4,66 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
 import { Autocomplete } from "@react-google-maps/api";
 import { useGoogleMaps } from "@/providers/GoogleMapsProvider";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { HoverButton } from "@/components/ui/hover-button";
+
+/* ─────────────────────────────────────────────────────────────
+   ElegantShape — Forme géométrique ovale flottante animée
+   Apparition : chute depuis le haut + rotation + fade
+   Loop       : flottement vertical infini (y: 0 → 15 → 0)
+   Couleurs   : palette gold/champagne BLS (pas d'indigo ni de rose)
+───────────────────────────────────────────────────────────── */
+
+function ElegantShape({
+  className,
+  delay = 0,
+  width = 400,
+  height = 100,
+  rotate = 0,
+  gradient = "from-gold/[0.10]",
+}: {
+  className?: string;
+  delay?: number;
+  width?: number;
+  height?: number;
+  rotate?: number;
+  gradient?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -150, rotate: rotate - 15 }}
+      animate={{ opacity: 1, y: 0, rotate }}
+      transition={{
+        duration: 2.4,
+        delay,
+        ease: [0.23, 0.86, 0.39, 0.96],
+        opacity: { duration: 1.2 },
+      }}
+      className={cn("absolute pointer-events-none", className)}
+    >
+      {/* Flottement vertical continu */}
+      <motion.div
+        animate={{ y: [0, 15, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        style={{ width, height }}
+        className="relative"
+      >
+        <div
+          className={cn(
+            "absolute inset-0 rounded-full",
+            "bg-gradient-to-r to-transparent",
+            gradient,
+            "backdrop-blur-[2px] border border-gold/[0.18]",
+            "shadow-[0_8px_32px_0_rgba(212,168,67,0.08)]",
+            "after:absolute after:inset-0 after:rounded-full",
+            "after:bg-[radial-gradient(circle_at_50%_50%,rgba(212,168,67,0.12),transparent_70%)]"
+          )}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
 
 /** Options partagées pour les deux champs du Hero */
 const AUTOCOMPLETE_OPTIONS: google.maps.places.AutocompleteOptions = {
@@ -50,6 +110,40 @@ export function Hero() {
       <div className="absolute inset-0 pointer-events-none hidden md:block">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-gold/[0.04] blur-[120px]" />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-amber-glow/[0.03] blur-[80px]" />
+      </div>
+
+      {/* ── Formes géométriques flottantes — apparition au chargement (desktop) ── */}
+      <div className="hidden md:block absolute inset-0 overflow-hidden z-[2]">
+        {/* Grande forme haut-gauche — or principal */}
+        <ElegantShape
+          delay={0.3} width={580} height={130} rotate={12}
+          gradient="from-gold/[0.10]"
+          className="left-[-8%] top-[18%]"
+        />
+        {/* Grande forme bas-droite — champagne */}
+        <ElegantShape
+          delay={0.5} width={480} height={110} rotate={-14}
+          gradient="from-gold-champagne/[0.08]"
+          className="right-[-4%] bottom-[18%]"
+        />
+        {/* Forme moyenne bas-gauche — or sombre */}
+        <ElegantShape
+          delay={0.4} width={280} height={72} rotate={-8}
+          gradient="from-amber-glow/[0.10]"
+          className="left-[6%] bottom-[12%]"
+        />
+        {/* Petite forme haut-droite — champagne clair */}
+        <ElegantShape
+          delay={0.6} width={190} height={55} rotate={22}
+          gradient="from-gold-light/[0.12]"
+          className="right-[18%] top-[12%]"
+        />
+        {/* Très petite forme haut-centre — or subtil */}
+        <ElegantShape
+          delay={0.7} width={140} height={38} rotate={-22}
+          gradient="from-gold/[0.08]"
+          className="left-[24%] top-[8%]"
+        />
       </div>
 
       {/* ── Cadre Art Déco — bordure fine dorée desktop ── */}
@@ -142,16 +236,17 @@ export function Hero() {
                 onChange={setArrival}
                 inputId="hero-arrival"
               />
-              {/* Bouton Estimer */}
+              {/* Bouton Estimer — HoverButton liquid glass BLS gold */}
               <div className="sm:ml-auto flex items-center px-2 py-2">
-                <button
-                  type="button"
+                <HoverButton
                   onClick={handleEstimate}
-                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-gold to-gold-light text-background font-semibold rounded-full px-6 py-3 sm:px-8 hover:brightness-110 transition-[filter] duration-300 shadow-[0_4px_20px_rgba(212,168,67,0.25)] cursor-pointer w-full sm:w-auto whitespace-nowrap"
+                  circleStart="#d4aa40"
+                  circleEnd="#f5d78a"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 text-foreground/90"
                 >
                   {t("hero.estimate")}
                   <ArrowRight className="h-4 w-4" />
-                </button>
+                </HoverButton>
               </div>
             </div>
           </div>
