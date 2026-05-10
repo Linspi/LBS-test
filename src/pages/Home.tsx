@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Shield,
   Clock,
@@ -13,9 +12,11 @@ import { SEO } from "@/components/seo/SEO";
 import { Hero } from "@/components/features/Hero";
 import { InfiniteMarquee } from "@/components/features/InfiniteMarquee";
 import { FleetCarousel } from "@/components/features/FleetCarousel";
-import { ServicesCoverflow } from "@/components/features/ServicesCoverflow";
+import { SkewServiceCards } from "@/components/features/SkewServiceCards";
 import { Button } from "@/components/ui/button";
 import { FadeUp } from "@/components/ui/FadeUp";
+import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+import { SectionReveal } from "@/components/ui/section-reveal";
 
 /* ───── Composant ornement Art Déco ───── */
 
@@ -36,12 +37,7 @@ const COMMITMENT_KEYS = [
   { icon: Coffee, key: "comfort" },
 ] as const;
 
-const TESTIMONIAL_COUNT = 5;
-
-/**
- * Photos de portrait Unsplash pour illustrer les témoignages (desktop).
- * Indexées dans le même ordre que les clés i18n (0 → 4).
- */
+/** Photos portraits Unsplash — dans le même ordre que les clés i18n (0 → 4) */
 const TESTIMONIAL_PHOTOS: string[] = [
   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
@@ -54,7 +50,19 @@ const TESTIMONIAL_PHOTOS: string[] = [
 
 export function Home() {
   const { t } = useTranslation();
-  const [testimonialIdx, setTestimonialIdx] = useState(0);
+
+  /** Données des témoignages construites depuis i18n + photos Unsplash */
+  const testimonials = TESTIMONIAL_PHOTOS.map((image, i) => ({
+    text: t(`home.testimonials.${i}.text`),
+    image,
+    name: t(`home.testimonials.${i}.author`),
+    role: t(`home.testimonials.${i}.role`),
+  }));
+
+  // Répartition en 3 colonnes (avec overlap léger pour varier les vitesses)
+  const firstColumn  = [testimonials[0], testimonials[1], testimonials[2]];
+  const secondColumn = [testimonials[2], testimonials[3], testimonials[4]];
+  const thirdColumn  = [testimonials[1], testimonials[3], testimonials[4]];
 
   return (
     <>
@@ -62,12 +70,15 @@ export function Home() {
         title={t("seo.home.title")}
         description={t("seo.home.description")}
       />
-      <Hero />
-      <InfiniteMarquee />
+      <SectionReveal index={0}>
+        <Hero />
+        <InfiniteMarquee />
+      </SectionReveal>
 
       {/* ═══════════════════════════════════════════
           Section: Services
           ═══════════════════════════════════════════ */}
+      <SectionReveal index={1}>
       <section className="py-10 md:py-16 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gold/[0.03] blur-[120px] rounded-full pointer-events-none hidden md:block" />
 
@@ -86,24 +97,28 @@ export function Home() {
             </div>
           </FadeUp>
 
-          <ServicesCoverflow />
+          <SkewServiceCards />
         </div>
       </section>
+      </SectionReveal>
 
       <ArtDecoDivider />
 
       {/* ═══════════════════════════════════════════
           Section: Fleet Showroom
           ═══════════════════════════════════════════ */}
-      <FadeUp>
-        <FleetCarousel />
-      </FadeUp>
+      <SectionReveal index={2}>
+        <FadeUp>
+          <FleetCarousel />
+        </FadeUp>
+      </SectionReveal>
 
       <ArtDecoDivider />
 
       {/* ═══════════════════════════════════════════
           Section: Engagements
           ═══════════════════════════════════════════ */}
+      <SectionReveal index={3}>
       <section className="py-12 md:py-20 relative overflow-hidden">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gold/[0.02] blur-[100px] rounded-full pointer-events-none hidden md:block" />
 
@@ -169,13 +184,18 @@ export function Home() {
           </div>
         </div>
       </section>
+      </SectionReveal>
 
       <ArtDecoDivider />
 
       {/* ═══════════════════════════════════════════
-          Section: Témoignages — style éditorial
+          Section: Témoignages — colonnes défilantes
           ═══════════════════════════════════════════ */}
+      <SectionReveal index={4}>
       <section className="py-12 md:py-20 relative overflow-hidden">
+        {/* Halo décoratif en arrière-plan */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gold/[0.03] blur-[120px] rounded-full pointer-events-none" />
+
         <div className="container relative">
           <FadeUp>
             <div className="text-center mb-12 md:mb-16">
@@ -183,7 +203,10 @@ export function Home() {
                 {t("home.testimonials.label")}
               </p>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5">
-                {t("home.testimonials.title")} <span className="text-gradient-gold">{t("home.testimonials.titleHighlight")}</span>
+                {t("home.testimonials.title")}{" "}
+                <span className="text-gradient-gold">
+                  {t("home.testimonials.titleHighlight")}
+                </span>
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed hidden md:block">
                 {t("home.testimonials.subtitle")}
@@ -191,188 +214,36 @@ export function Home() {
             </div>
           </FadeUp>
 
-          {/* ── Mobile : pullquote éditorial swipeable ── */}
-          <div className="md:hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={testimonialIdx}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.28, ease: "easeOut" }}
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.12}
-                onDragEnd={(_, info) => {
-                  if (info.offset.x < -55 && testimonialIdx < TESTIMONIAL_COUNT - 1) {
-                    setTestimonialIdx((i) => i + 1);
-                  } else if (info.offset.x > 55 && testimonialIdx > 0) {
-                    setTestimonialIdx((i) => i - 1);
-                  }
-                }}
-                className="touch-pan-y cursor-grab active:cursor-grabbing select-none"
-              >
-                <div className="font-display text-[6rem] leading-none text-gold/10 -mb-4 select-none">
-                  &ldquo;
-                </div>
-                <p className="font-display text-[1.25rem] italic leading-relaxed text-foreground/90">
-                  {t(`home.testimonials.${testimonialIdx}.text`)}
-                </p>
-                <div className="flex gap-1 mt-6 mb-4">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="h-3.5 w-3.5 fill-gold text-gold" />
-                  ))}
-                </div>
-                <p className="text-sm font-medium text-foreground">
-                  — {t(`home.testimonials.${testimonialIdx}.author`)}
-                </p>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold mt-1">
-                  {t(`home.testimonials.${testimonialIdx}.role`)}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex items-center gap-3 mt-8">
-              <div className="flex gap-2">
-                {Array.from({ length: TESTIMONIAL_COUNT }).map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setTestimonialIdx(i)}
-                    aria-label={t("home.testimonials.testimonialAriaLabel", { index: i + 1 })}
-                    className={`rounded-full transition-all duration-300 ${
-                      i === testimonialIdx
-                        ? "w-5 h-1.5 bg-gold"
-                        : "w-1.5 h-1.5 bg-white/20 hover:bg-white/40"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-[9px] text-muted-foreground/40 uppercase tracking-widest">
-                {t("home.testimonials.swipe")}
-              </span>
-            </div>
-          </div>
-
-          {/* ── Desktop : menu vertical interactif (noms + photos) + citation AnimatePresence ── */}
-          <FadeUp className="hidden md:block">
-            <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-5 min-h-[420px] rounded-3xl overflow-hidden border border-white/[0.06]">
-
-                {/* Colonne gauche : liste cliquable des 5 témoins */}
-                <div className="col-span-2 bg-white/[0.02] border-r border-white/[0.06] flex flex-col">
-                  {Array.from({ length: TESTIMONIAL_COUNT }).map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setTestimonialIdx(i)}
-                      className={`flex-1 flex items-center gap-4 px-6 py-0 text-left transition-all duration-300 group border-b border-white/[0.04] last:border-b-0 border-l-2 ${
-                        i === testimonialIdx
-                          ? "bg-gold/[0.08] border-l-gold"
-                          : "hover:bg-white/[0.03] border-l-transparent"
-                      }`}
-                    >
-                      <img
-                        src={TESTIMONIAL_PHOTOS[i]}
-                        alt={t(`home.testimonials.${i}.author`)}
-                        width={40}
-                        height={40}
-                        className={`w-10 h-10 rounded-full object-cover shrink-0 transition-all duration-300 ${
-                          i === testimonialIdx
-                            ? "ring-2 ring-gold/50"
-                            : "ring-1 ring-white/10 grayscale group-hover:grayscale-0"
-                        }`}
-                        loading="lazy"
-                      />
-                      <div className="min-w-0">
-                        <p className={`text-sm font-medium truncate transition-colors duration-300 ${
-                          i === testimonialIdx
-                            ? "text-foreground"
-                            : "text-muted-foreground group-hover:text-foreground/80"
-                        }`}>
-                          {t(`home.testimonials.${i}.author`)}
-                        </p>
-                        <p className={`text-[11px] uppercase tracking-wider truncate transition-colors duration-300 ${
-                          i === testimonialIdx ? "text-gold" : "text-muted-foreground/40"
-                        }`}>
-                          {t(`home.testimonials.${i}.role`)}
-                        </p>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Colonne droite : citation + photo de fond — transition AnimatePresence */}
-                <div className="col-span-3 relative overflow-hidden bg-background">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={testimonialIdx}
-                      initial={{ opacity: 0, y: 24 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -24 }}
-                      transition={{ duration: 0.38, ease: "easeOut" }}
-                      className="absolute inset-0 flex flex-col justify-center px-8 py-8"
-                    >
-                      {/* Photo de fond floutée — ambiance */}
-                      <div className="absolute inset-0 overflow-hidden">
-                        <img
-                          src={TESTIMONIAL_PHOTOS[testimonialIdx]}
-                          alt=""
-                          aria-hidden="true"
-                          width={600}
-                          height={420}
-                          className="w-full h-full object-cover scale-110 blur-xl opacity-[0.08]"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/30 to-transparent" />
-                      </div>
-
-                      {/* Contenu éditorial */}
-                      <div className="relative z-10">
-                        <div className="font-display text-[5.5rem] leading-none text-gold/12 -mb-3 select-none">
-                          &ldquo;
-                        </div>
-                        <blockquote className="font-display text-xl lg:text-2xl italic leading-snug text-foreground/90 mb-6 max-w-sm">
-                          {t(`home.testimonials.${testimonialIdx}.text`)}
-                        </blockquote>
-                        <div className="flex gap-1 mb-5">
-                          {[...Array(5)].map((_, j) => (
-                            <Star key={j} className="h-4 w-4 fill-gold text-gold" />
-                          ))}
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={TESTIMONIAL_PHOTOS[testimonialIdx]}
-                            alt={t(`home.testimonials.${testimonialIdx}.author`)}
-                            width={44}
-                            height={44}
-                            className="w-11 h-11 rounded-full object-cover ring-2 ring-gold/40"
-                            loading="lazy"
-                          />
-                          <div>
-                            <p className="font-semibold text-foreground text-sm">
-                              {t(`home.testimonials.${testimonialIdx}.author`)}
-                            </p>
-                            <p className="text-xs uppercase tracking-[0.25em] text-gold/70 mt-0.5">
-                              {t(`home.testimonials.${testimonialIdx}.role`)}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
-          </FadeUp>
+          {/* Colonnes défilantes — masque vertical pour l'effet de fondu */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="flex justify-center gap-4 [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_82%,transparent)] max-h-[620px] overflow-hidden"
+          >
+            <TestimonialsColumn testimonials={firstColumn} duration={18} />
+            <TestimonialsColumn
+              testimonials={secondColumn}
+              duration={23}
+              className="hidden md:block"
+            />
+            <TestimonialsColumn
+              testimonials={thirdColumn}
+              duration={20}
+              className="hidden lg:block"
+            />
+          </motion.div>
         </div>
       </section>
+      </SectionReveal>
 
       <ArtDecoDivider />
 
       {/* ═══════════════════════════════════════════
           Section: Corporate & B2B
           ═══════════════════════════════════════════ */}
+      <SectionReveal index={5}>
       <section className="py-12 md:py-20 relative overflow-hidden">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
@@ -418,7 +289,7 @@ export function Home() {
           </div>
         </div>
       </section>
+      </SectionReveal>
     </>
   );
 }
-
