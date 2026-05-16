@@ -13,7 +13,9 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
+  ArrowRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   Carousel,
   CarouselContent,
@@ -65,6 +67,162 @@ const FLEET = [
   },
 ];
 
+/* ── Vue mobile Apple-style ─────────────────────────────────────────────── */
+
+function MobileFleetCarousel() {
+  const { t } = useTranslation();
+  const [idx, setIdx] = useState(0);
+  const v = FLEET[idx];
+
+  const PRICE_FROM: Record<string, string> = {
+    "classe-e": "2,50 € / km",
+    "classe-v": "3,50 € / km",
+    "classe-s": "4,00 € / km",
+  };
+
+  return (
+    <div>
+      {/* Image en focus avec halo bleu */}
+      <div className="relative h-[200px] flex items-center justify-center mb-4">
+        {/* Halo décoratif */}
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[180px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(90,122,156,0.15), transparent 65%)",
+            filter: "blur(20px)",
+          }}
+        />
+        {/* Images avec slide 3D */}
+        {FLEET.map((veh, i) => (
+          <img
+            key={veh.id}
+            src={veh.image}
+            alt={t(`fleet.vehicles.${veh.id}.name`)}
+            loading="lazy"
+            className="absolute object-contain"
+            style={{
+              width: "80%",
+              height: "100%",
+              transform: `translateX(${(i - idx) * 110}%) scale(${i === idx ? 1 : 0.82})`,
+              opacity: i === idx ? 1 : 0.28,
+              transition: "all 0.55s cubic-bezier(0.22,1,0.36,1)",
+              filter: i === idx ? "drop-shadow(0 24px 32px rgba(0,0,0,0.5))" : "none",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Info véhicule */}
+      <div className="px-4">
+        {/* Badge catégorie */}
+        <div
+          className="inline-block mb-3 px-3 py-1 rounded-full text-[9px] uppercase tracking-[0.2em] font-semibold"
+          style={{
+            border: "1px solid rgba(90,122,156,0.3)",
+            background: "rgba(90,122,156,0.08)",
+            color: "var(--color-gold-light)",
+          }}
+        >
+          {t(`fleet.vehicles.${v.id}.label`)}
+        </div>
+
+        <h3 className="font-display text-[28px] font-semibold tracking-tight text-foreground mb-2">
+          {t(`fleet.vehicles.${v.id}.name`)}
+        </h3>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+          {t(`fleet.vehicles.${v.id}.description`)}
+        </p>
+
+        {/* Specs passagers / valises */}
+        <div className="flex items-center gap-5 mb-4">
+          {[
+            { icon: Users, value: v.passengers, label: t("fleet.passengers") },
+            { icon: Briefcase, value: v.luggage, label: t("fleet.suitcases") },
+          ].map(({ icon: Icon, value, label }) => (
+            <div key={label} className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-gold/[0.1] flex items-center justify-center">
+                <Icon className="h-4 w-4 text-gold" />
+              </div>
+              <div>
+                <div className="text-base font-semibold text-foreground">{value}</div>
+                <div className="text-[10px] text-muted-foreground">{label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Services badges */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {v.serviceKeys.map((sk) => {
+            const IconComp = SERVICE_ICON_MAP[sk] || Sparkles;
+            return (
+              <span
+                key={sk}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[10px] text-muted-foreground glass"
+              >
+                <IconComp className="h-2.5 w-2.5 text-gold/70" />
+                {t(`fleet.services.${sk}`)}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Prix + CTA */}
+        <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
+          <div>
+            <div className="text-[9px] uppercase tracking-[0.18em] text-muted-foreground">
+              À partir de
+            </div>
+            <div className="font-display text-xl font-semibold text-gold-light">
+              {PRICE_FROM[v.id]}
+            </div>
+          </div>
+          <Link
+            to="/reservation"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-gold-champagne via-gold to-[#3d5f7e] no-underline hover:brightness-110 transition-all active:scale-95"
+          >
+            Réserver <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Navigation prev / dots / next */}
+      <div className="flex items-center justify-center gap-3 mt-5">
+        <button
+          onClick={() => setIdx((idx - 1 + FLEET.length) % FLEET.length)}
+          className="h-9 w-9 rounded-full glass flex items-center justify-center text-gold hover:bg-white/[0.08] transition-colors"
+          aria-label="Véhicule précédent"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <div className="flex gap-1.5">
+          {FLEET.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              aria-label={`Véhicule ${i + 1}`}
+              className="h-1 rounded-full transition-all duration-300"
+              style={{
+                width: i === idx ? 20 : 6,
+                background: i === idx ? "var(--color-gold)" : "rgba(255,255,255,0.15)",
+              }}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setIdx((idx + 1) % FLEET.length)}
+          className="h-9 w-9 rounded-full glass flex items-center justify-center text-gold hover:bg-white/[0.08] transition-colors"
+          aria-label="Véhicule suivant"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ── Vue principale ─────────────────────────────────────────────────────── */
+
 export function FleetCarousel() {
   const { t } = useTranslation();
   const [api, setApi] = useState<CarouselApi>();
@@ -105,8 +263,13 @@ export function FleetCarousel() {
           </p>
         </div>
 
-        {/* Carousel */}
-        <div className="max-w-6xl mx-auto relative">
+        {/* ── Mobile : Apple-style focus (< md) ── */}
+        <div className="md:hidden">
+          <MobileFleetCarousel />
+        </div>
+
+        {/* ── Desktop : carousel plein largeur (≥ md) ── */}
+        <div className="hidden md:block max-w-6xl mx-auto relative">
           <Carousel
             opts={{ align: "center", loop: true }}
             setApi={setApi}

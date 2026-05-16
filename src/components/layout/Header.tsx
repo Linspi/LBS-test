@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Phone, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/features/LanguageSwitcher";
+import { MobileMenu } from "@/components/features/MobileMenu";
 import { NAV_LINKS } from "@/data/navigation";
 import { cn } from "@/lib/utils";
 
@@ -17,12 +18,12 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { pathname } = useLocation();
 
-  // Fermer le menu mobile à chaque changement de route
+  // Fermer le menu à chaque changement de route
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Détecter le scroll pour changer l'apparence du header
+  // Détecter le scroll
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY > 20);
   }, []);
@@ -32,18 +33,10 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  // Notifier le parent de l'état du menu mobile
+  // Notifier le parent
   useEffect(() => {
     onMobileMenuChange?.(mobileOpen);
   }, [mobileOpen, onMobileMenuChange]);
-
-  // Bloquer le scroll du body quand le menu mobile est ouvert
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
 
   return (
     <>
@@ -51,13 +44,52 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-[background-color,border-color,box-shadow] duration-300",
           scrolled
-            ? "bg-background/95 md:bg-background/90 md:backdrop-blur-md border-b border-border/50 shadow-lg shadow-black/10"
-            : "bg-transparent",
+            ? "bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg shadow-black/10"
+            : "bg-transparent"
         )}
       >
-        <div className="w-full flex h-16 items-center px-6 md:px-12 lg:px-16">
-          {/* Partie Gauche — Logo + Language Switcher */}
-          <div className="flex-1 flex justify-start items-center gap-4">
+        <div className="w-full flex h-16 items-center px-4 sm:px-6 md:px-12 lg:px-16">
+
+          {/* ── Mobile : brand BLS + actions (phone + menu) ── */}
+          <div className="flex flex-1 items-center justify-between lg:hidden">
+            {/* Brand "BLs PARIS" */}
+            <Link to="/" className="flex items-baseline gap-1.5">
+              <span
+                className="font-display text-xl font-semibold tracking-wide"
+                style={{ color: "var(--color-gold)" }}
+              >
+                <span className="italic">B</span>L<span className="italic">s</span>
+              </span>
+              <span
+                className="font-sans text-[9px] tracking-[0.3em] opacity-60 mt-0.5"
+                style={{ color: "var(--color-gold)" }}
+              >
+                PARIS
+              </span>
+            </Link>
+
+            {/* Boutons icônes */}
+            <div className="flex items-center gap-2">
+              <a
+                href="tel:+33652868946"
+                aria-label="Appeler BLS"
+                className="h-9 w-9 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center text-gold hover:bg-white/[0.08] transition-colors"
+              >
+                <Phone className="h-3.5 w-3.5" />
+              </a>
+              <button
+                type="button"
+                onClick={() => setMobileOpen(true)}
+                className="h-9 w-9 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center text-foreground hover:bg-white/[0.08] transition-colors"
+                aria-label={t("nav.openMenu")}
+              >
+                <Menu className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* ── Desktop : Logo gauche ── */}
+          <div className="hidden lg:flex flex-1 justify-start items-center gap-4">
             <Link to="/" className="flex items-center">
               <img
                 src="/images/BSL_logo.jpeg"
@@ -66,12 +98,10 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
                 style={{ filter: "invert(1) sepia(0.1) saturate(1.2)" }}
               />
             </Link>
-            <div className="hidden lg:block">
-              <LanguageSwitcher />
-            </div>
+            <LanguageSwitcher />
           </div>
 
-          {/* Partie Centrale — Navigation desktop */}
+          {/* ── Desktop : Navigation centrale ── */}
           <nav className="hidden lg:flex justify-center items-center gap-5 xl:gap-8">
             {NAV_LINKS.map((link) => (
               <Link
@@ -81,7 +111,7 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
                   "text-sm font-medium transition-colors",
                   pathname === link.href
                     ? "text-gold"
-                    : "text-muted-foreground hover:text-foreground",
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {t(link.label)}
@@ -89,8 +119,8 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
             ))}
           </nav>
 
-          {/* Partie Droite — Actions desktop + Hamburger mobile */}
-          <div className="flex-1 flex justify-end items-center gap-4">
+          {/* ── Desktop : Actions droite ── */}
+          <div className="hidden lg:flex flex-1 justify-end items-center gap-4">
             <a
               href="tel:+33652868946"
               className="hidden xl:flex text-sm text-muted-foreground hover:text-foreground transition-colors items-center gap-1.5"
@@ -98,87 +128,15 @@ export function Header({ onMobileMenuChange }: HeaderProps) {
               <Phone className="h-3.5 w-3.5" />
               06 52 86 89 46
             </a>
-            <Button asChild variant="gold" size="sm" className="hidden lg:inline-flex">
+            <Button asChild variant="gold" size="sm">
               <Link to="/reservation">{t("nav.book")}</Link>
             </Button>
-
-            {/* Bouton hamburger mobile */}
-            <button
-              type="button"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 text-foreground"
-              aria-label={mobileOpen ? t("nav.closeMenu") : t("nav.openMenu")}
-            >
-              {mobileOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </button>
           </div>
         </div>
       </header>
 
-      {/* Overlay mobile */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-
-      {/* Menu mobile slide-out */}
-      <div
-        className={cn(
-          "fixed top-0 right-0 z-50 h-[100dvh] max-h-[100dvh] w-72 bg-background border-l border-border transform transition-transform duration-300 lg:hidden flex flex-col",
-          mobileOpen ? "translate-x-0" : "translate-x-full",
-        )}
-      >
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <span className="text-lg font-semibold text-foreground">{t("nav.menu")}</span>
-          <button
-            type="button"
-            onClick={() => setMobileOpen(false)}
-            className="p-2 text-muted-foreground hover:text-foreground"
-            aria-label={t("nav.closeMenu")}
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        <nav className="flex flex-col p-4 gap-1 flex-1 overflow-y-auto">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              to={link.href}
-              className={cn(
-                "px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-                pathname === link.href
-                  ? "text-gold bg-gold/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary",
-              )}
-            >
-              {t(link.label)}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex-shrink-0 p-4 border-t border-border space-y-3">
-          <div className="flex items-center justify-between">
-            <a
-              href="tel:+33652868946"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Phone className="h-4 w-4" />
-              06 52 86 89 46
-            </a>
-            <LanguageSwitcher />
-          </div>
-          <Button asChild className="w-full">
-            <Link to="/reservation">{t("nav.bookNow")}</Link>
-          </Button>
-        </div>
-      </div>
+      {/* Menu mobile plein écran */}
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   );
 }
