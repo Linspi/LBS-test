@@ -9,7 +9,7 @@
  * - CTA "Découvrir" slide-up au hover
  *
  * Données : SERVICE_BLOCKS de /data/navigation.ts (photos + clés i18n)
- * Palette  : gold BLS (#d4aa40) avec variations champagne / ambre / dark-gold
+ * Palette  : steel blue BLS (#5A7A9C) avec variations powder blue / icy blue / deep blue
  */
 
 import { Link } from "react-router-dom";
@@ -17,12 +17,12 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { SERVICE_BLOCKS } from "@/data/navigation";
 
-/** Gradient doré unique par service — reste dans la palette BLS */
+/** Gradient bleu acier unique par service — palette BLS steel blue */
 const CARD_GRADIENTS: { from: string; to: string }[] = [
-  { from: "#d4aa40", to: "#8B6914" },   // Trajets     : or riche → or sombre
-  { from: "#e8c56d", to: "#d4aa40" },   // Chauffeur   : champagne → or
-  { from: "#d4aa40", to: "#f59e0b" },   // Excursions  : or → ambre chaud
-  { from: "#8B6914", to: "#e8c56d" },   // Évènements  : or sombre → champagne
+  { from: "#5A7A9C", to: "#3d5f7e" },   // Trajets     : bleu acier → bleu profond
+  { from: "#A3C0DC", to: "#5A7A9C" },   // Chauffeur   : bleu glacé → bleu acier
+  { from: "#5A7A9C", to: "#7EA0C4" },   // Excursions  : bleu acier → bleu poudré
+  { from: "#3d5f7e", to: "#A3C0DC" },   // Évènements  : bleu profond → bleu glacé
 ];
 
 export function SkewServiceCards() {

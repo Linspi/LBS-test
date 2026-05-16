@@ -55,9 +55,9 @@ function ElegantShape({
             "bg-gradient-to-r to-transparent",
             gradient,
             "backdrop-blur-[2px] border border-gold/[0.18]",
-            "shadow-[0_8px_32px_0_rgba(212,168,67,0.08)]",
+            "shadow-[0_8px_32px_0_rgba(90,122,156,0.08)]",
             "after:absolute after:inset-0 after:rounded-full",
-            "after:bg-[radial-gradient(circle_at_50%_50%,rgba(212,168,67,0.12),transparent_70%)]"
+            "after:bg-[radial-gradient(circle_at_50%_50%,rgba(90,122,156,0.12),transparent_70%)]"
           )}
         />
       </motion.div>
@@ -240,8 +240,8 @@ export function Hero() {
               <div className="sm:ml-auto flex items-center px-2 py-2">
                 <HoverButton
                   onClick={handleEstimate}
-                  circleStart="#d4aa40"
-                  circleEnd="#f5d78a"
+                  circleStart="#5A7A9C"
+                  circleEnd="#A3C0DC"
                   className="w-full sm:w-auto flex items-center justify-center gap-2 text-foreground/90"
                 >
                   {t("hero.estimate")}

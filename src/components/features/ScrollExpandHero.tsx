@@ -51,6 +51,7 @@ export function ScrollExpandHero({
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
   const [touchStartY, setTouchStartY]               = useState(0);
   const [isMobile, setIsMobile]                     = useState(false);
+  const [videoOpacity, setVideoOpacity]             = useState(1);
 
   /* Champs de réservation */
   const [departure, setDeparture] = useState("");
@@ -78,12 +79,34 @@ export function ScrollExpandHero({
     const video = videoRef.current;
     if (!video) return;
     if (scrollProgress > 0) {
-      video.playbackRate = 0.4; // ralenti cinématique — allonge la durée visuelle ×2.5
+      video.playbackRate = 0.65; // cinématique sans être trop lent
       video.play().catch(() => {});
     } else {
       video.pause();
     }
   }, [scrollProgress]);
+
+  /* Boucle invisible : fondu sortant → reset → fondu entrant */
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleEnded = () => {
+      /* 1. Fondu vers noir (600ms via transition CSS) */
+      setVideoOpacity(0);
+      setTimeout(() => {
+        /* 2. Retour au début + relance */
+        video.currentTime = 0;
+        video.playbackRate = 0.65;
+        video.play().catch(() => {});
+        /* 3. Fondu retour (léger délai pour que le frame 0 soit chargé) */
+        setTimeout(() => setVideoOpacity(1), 80);
+      }, 620);
+    };
+
+    video.addEventListener("ended", handleEnded);
+    return () => video.removeEventListener("ended", handleEnded);
+  }, []);
 
   /* Détection mobile / resize */
   useEffect(() => {
@@ -215,11 +238,14 @@ export function ScrollExpandHero({
                       src={mediaSrc}
                       poster={posterSrc}
                       muted
-                      loop
                       playsInline
                       preload="auto"
                       className="w-full h-full object-cover"
-                      style={{ objectPosition: "center 55%" }}
+                      style={{
+                        objectPosition: "center 55%",
+                        opacity:    videoOpacity,
+                        transition: "opacity 0.6s ease",
+                      }}
                       disablePictureInPicture
                     />
                   </div>
@@ -365,8 +391,8 @@ export function ScrollExpandHero({
                             <div className="sm:ml-auto flex items-center px-2 py-2">
                               <HoverButton
                                 onClick={handleEstimate}
-                                circleStart="#d4aa40"
-                                circleEnd="#f5d78a"
+                                circleStart="#5A7A9C"
+                                circleEnd="#A3C0DC"
                                 className="w-full sm:w-auto flex items-center justify-center gap-2 text-foreground/90"
                               >
                                 {t("hero.estimate")}

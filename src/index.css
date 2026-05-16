@@ -16,16 +16,16 @@
   --color-input: #1e293b;
   --color-destructive: #dc2626;
 
-  /* ── Premium gold / champagne / amber ── */
-  --color-primary: #d4aa40;
+  /* ── Premium steel blue / powder blue / icy blue ── */
+  --color-primary: #5A7A9C;
   --color-primary-foreground: #0c0f1a;
-  --color-accent: #d4aa40;
-  --color-accent-foreground: #0c0f1a;
-  --color-ring: #d4aa40;
-  --color-gold: #d4aa40;
-  --color-gold-light: #e8c56d;
-  --color-gold-champagne: #f0d78c;
-  --color-amber-glow: #f59e0b;
+  --color-accent: #5A7A9C;
+  --color-accent-foreground: #f0f0f5;
+  --color-ring: #5A7A9C;
+  --color-gold: #5A7A9C;
+  --color-gold-light: #7EA0C4;
+  --color-gold-champagne: #A3C0DC;
+  --color-amber-glow: #5A7A9C;
   --color-anthracite: #1e293b;
 
   /* ── Typography ── */
@@ -121,7 +121,7 @@ body::after {
 
 /* ── Text Gradient Utility ── */
 @utility text-gradient-gold {
-  background: linear-gradient(135deg, #f5e6b8 0%, #d4aa40 40%, #c7943a 70%, #a67c2e 100%);
+  background: linear-gradient(135deg, #A3C0DC 0%, #7EA0C4 40%, #5A7A9C 70%, #3d5f7e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -131,8 +131,8 @@ body::after {
 
 /* ── Glow Shadow Utility ── */
 @utility shadow-gold-glow {
-  box-shadow: 0 0 30px rgba(212, 168, 67, 0.15),
-    0 0 60px rgba(212, 168, 67, 0.05);
+  box-shadow: 0 0 30px rgba(90, 122, 156, 0.15),
+    0 0 60px rgba(90, 122, 156, 0.05);
 }
 
 /* ── Hero entrance — CSS pur pour éviter le flash pré-JavaScript ── */
@@ -223,16 +223,16 @@ body::after {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(212, 170, 64, 0.3),
-    rgba(212, 170, 64, 0.5)
+    rgba(90, 122, 156, 0.3),
+    rgba(90, 122, 156, 0.5)
   );
 }
 
 .art-deco-divider::after {
   background: linear-gradient(
     90deg,
-    rgba(212, 170, 64, 0.5),
-    rgba(212, 170, 64, 0.3),
+    rgba(90, 122, 156, 0.5),
+    rgba(90, 122, 156, 0.3),
     transparent
   );
 }
@@ -241,11 +241,11 @@ body::after {
 .art-deco-diamond {
   width: 8px;
   height: 8px;
-  background: linear-gradient(135deg, #d4aa40, #f0d78c);
+  background: linear-gradient(135deg, #5A7A9C, #A3C0DC);
   transform: rotate(45deg);
   flex-shrink: 0;
   margin: 0 12px;
-  box-shadow: 0 0 8px rgba(212, 170, 64, 0.3);
+  box-shadow: 0 0 8px rgba(90, 122, 156, 0.3);
 }
 
 /* ── Texte vertical décoratif (style éditorial magazine) ── */
@@ -256,14 +256,14 @@ body::after {
 
 /* ── Bordure fine dorée (signature BLS) ── */
 @utility border-gold-fine {
-  border-color: rgba(212, 170, 64, 0.15);
+  border-color: rgba(90, 122, 156, 0.15);
 }
 
 /* ── Effet de lueur ambiante pour images ── */
 @utility glow-ambient {
   box-shadow:
-    0 8px 40px rgba(212, 170, 64, 0.08),
-    0 0 80px rgba(212, 170, 64, 0.04);
+    0 8px 40px rgba(90, 122, 156, 0.08),
+    0 0 80px rgba(90, 122, 156, 0.04);
 }
 
 /* ==========================================================================
@@ -281,13 +281,13 @@ body::after {
   left: var(--pac-left, auto) !important;
 
   background-color: var(--color-card) !important;          /* #111827 — fond carte site */
-  border: 1px solid rgba(212, 170, 64, 0.18) !important;   /* Bordure dorée subtile BLS */
-  border-top: 2px solid rgba(212, 170, 64, 0.35) !important; /* Accent doré en haut */
+  border: 1px solid rgba(90, 122, 156, 0.18) !important;   /* Bordure dorée subtile BLS */
+  border-top: 2px solid rgba(90, 122, 156, 0.35) !important; /* Accent doré en haut */
   border-radius: var(--radius-lg) !important;               /* 0.75rem — cohérent avec les cards */
   box-shadow:
     0 24px 48px -8px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(212, 170, 64, 0.06),
-    0 0 40px rgba(212, 170, 64, 0.04) !important;           /* Glow doré très subtil */
+    0 0 0 1px rgba(90, 122, 156, 0.06),
+    0 0 40px rgba(90, 122, 156, 0.04) !important;           /* Glow doré très subtil */
   font-family: var(--font-sans) !important;                 /* Montserrat */
   z-index: 10000 !important;                                /* Au-dessus du grain body::after */
   margin-top: 6px !important;
@@ -314,13 +314,13 @@ body::after {
 /* ── Survol souris ── */
 .pac-item:hover,
 .pac-item-selected {
-  background-color: rgba(212, 170, 64, 0.07) !important;   /* Fond or très transparent */
+  background-color: rgba(90, 122, 156, 0.07) !important;   /* Fond or très transparent */
   color: var(--color-foreground) !important;                 /* Texte plus clair */
 }
 
 /* ── Texte principal de l'adresse (rue, lieu) ── */
 .pac-item-query {
-  color: var(--color-gold) !important;                       /* #d4aa40 — or BLS */
+  color: var(--color-gold) !important;                       /* #5A7A9C — bleu acier BLS */
   font-size: 0.9375rem !important;
   font-weight: 500 !important;
   padding-right: 6px !important;
@@ -329,7 +329,7 @@ body::after {
 /* ── Partie qui correspond à la frappe (match) ── */
 .pac-matched {
   font-weight: 700 !important;
-  color: var(--color-gold-light) !important;                 /* #e8c56d — or clair */
+  color: var(--color-gold-light) !important;                 /* #7EA0C4 — bleu poudré */
 }
 
 /* ── Icône de localisation — colorée en doré via filtre CSS ── */

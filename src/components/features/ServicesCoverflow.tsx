@@ -305,7 +305,7 @@ export function ServicesCoverflow() {
           asChild
           variant="gold"
           size="lg"
-          className="rounded-full shadow-[0_0_24px_rgba(212,175,55,0.25)] hover:shadow-[0_0_32px_rgba(212,175,55,0.40)] transition-shadow duration-300"
+          className="rounded-full shadow-[0_0_24px_rgba(90,122,156,0.25)] hover:shadow-[0_0_32px_rgba(90,122,156,0.40)] transition-shadow duration-300"
         >
           <Link to={SERVICE_BLOCKS[currentIndex]?.href ?? "/trajets"}>
             {t("home.services.discover")}

@@ -122,20 +122,20 @@ export function FleetCarousel() {
                         className="absolute inset-0 blur-3xl"
                         style={{
                           background:
-                            "radial-gradient(ellipse 55% 40% at 50% 12%, rgba(212,170,64,0.08) 0%, rgba(212,170,64,0.03) 35%, transparent 65%)",
+                            "radial-gradient(ellipse 55% 40% at 50% 12%, rgba(90,122,156,0.08) 0%, rgba(90,122,156,0.03) 35%, transparent 65%)",
                         }}
                       />
                       <div
                         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[2px]"
                         style={{
                           background:
-                            "linear-gradient(90deg, transparent, rgba(212,168,67,0.15), transparent)",
+                            "linear-gradient(90deg, transparent, rgba(90,122,156,0.15), transparent)",
                         }}
                       />
                       <img
                         src={vehicle.image}
                         alt={t(`fleet.vehicles.${vehicle.id}.name`)}
-                        className="relative w-full aspect-[16/9] object-contain drop-shadow-[0_20px_50px_rgba(212,170,64,0.18)]"
+                        className="relative w-full aspect-[16/9] object-contain drop-shadow-[0_20px_50px_rgba(90,122,156,0.18)]"
                         loading="lazy"
                       />
                       <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 h-4 w-3/4 bg-black blur-xl opacity-60 rounded-[100%]" />

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Plane, Train, Castle, TreePine, ArrowRight } from "lucide-react";
+import { Plane, Train, Castle, TreePine, ArrowRight, Car } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FadeUp } from "@/components/ui/FadeUp";
+import { PricingCard } from "@/components/features/PricingCard";
 import { getDestinationsByCategory } from "@/data/destinations";
 import { formatPrice } from "@/lib/pricing";
 import type { Destination, DestinationCategory } from "@/types";
@@ -102,17 +103,30 @@ export function Trajets() {
                       </div>
                     </div>
 
-                    {/* Bande tarifaire */}
+                    {/* Bande tarifaire — Pricing Cards */}
                     <div>
                       <h3 className="text-xs font-semibold uppercase tracking-widest text-gold mb-6">
                         {t("trips.pricesLabel")}
                       </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                         {destinations.map((dest, i) => (
-                          <PriceColumn
+                          <PricingCard
                             key={dest.id}
-                            destination={dest}
-                            isLast={i === destinations.length - 1}
+                            planName={dest.name}
+                            description={t("trips.startingFrom")}
+                            price={formatPrice(dest.startingPrice)}
+                            priceDescription={t("trips.book")}
+                            features={[
+                              t("fleet.services.wifiOnboard"),
+                              t("fleet.services.water"),
+                              t("fleet.services.chargers"),
+                              "Classe E, S ou V",
+                            ]}
+                            icon={<Car className="h-5 w-5 text-gold" />}
+                            iconBgClass="from-gold/20 to-amber-500/10"
+                            isPopular={i === 0}
+                            buttonText={t("trips.book")}
+                            buttonHref={`/reservation?destination=${encodeURIComponent(dest.name)}&type=trajet`}
                           />
                         ))}
                       </div>
@@ -128,38 +142,3 @@ export function Trajets() {
   );
 }
 
-/** Colonne tarifaire individuelle */
-function PriceColumn({
-  destination,
-  isLast,
-}: {
-  destination: Destination;
-  isLast: boolean;
-}) {
-  const { t } = useTranslation();
-
-  return (
-    <div
-      className={`py-6 px-5 text-center ${
-        isLast ? "" : "lg:border-r lg:border-border/30"
-      }`}
-    >
-      <p className="text-sm text-muted-foreground mb-3">
-        {destination.name}
-      </p>
-      <p className="text-xs text-muted-foreground/70 uppercase tracking-wider mb-1">
-        {t("trips.startingFrom")}
-      </p>
-      <p className="font-display text-4xl lg:text-5xl font-semibold text-gradient-gold tabular-nums mb-4">
-        {formatPrice(destination.startingPrice)}
-      </p>
-      <Link
-        to={`/reservation?destination=${encodeURIComponent(destination.name)}&type=trajet`}
-        className="inline-flex items-center gap-1 text-sm text-foreground font-medium hover:text-gold transition-colors cursor-pointer"
-      >
-        {t("trips.book")}
-        <ArrowRight className="h-3.5 w-3.5" />
-      </Link>
-    </div>
-  );
-}
